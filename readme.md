@@ -9,3 +9,26 @@
     </i><br>
     Be free to collaborate!<br>
 </p>
+
+<h3 align="center">How use</h3>
+
+You can use Docker
+
+```
+sudo docker pull xandouglas/switchsetup:v1.1
+sudo docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.1
+```
+
+After creating the image, use for login:
+```
+Username: admin
+Password: 123
+```
+
+
+<h3 align="center">Version</h3>
+
+| Version   |            |  Date |
+|----------|:-------------:|------:|
+| 1.1 |  Fixed login form | 14/07/2023 |
+| 1.0 |    Up version 1.0   |   14/07/2023 |
