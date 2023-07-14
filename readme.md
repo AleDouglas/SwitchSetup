@@ -10,9 +10,16 @@
     Be free to collaborate!<br>
 </p>
 
-<h3 align="center">How use</h3>
+## Table of Contents
 
-You can use Docker
+- [Setup](#setup)
+- [Secret Key](#secretkey)
+- [Version](#version)
+
+
+## Setup
+
+You can use Docker Image
 
 ```
 sudo docker pull xandouglas/switchsetup:v1.1
@@ -25,8 +32,43 @@ Username: admin
 Password: 123
 ```
 
+To set up the project locally, please follow these steps:
 
-<h3 align="center">Version</h3>
+1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
+2. Install the for ansible and Django in requirements.txt .
+3. You need generate your own [Secret Key](#SecretKey).
+4. Configure your .env
+5. You can run it in your terminal or dockerfile
+
+Terminal:
+```
+cd WebApi
+python manage.py runserver
+```
+
+Dockerfile:
+```
+docker build -t image_name
+docker run -p 8000:8000 image_name
+```
+
+
+## SecretKey
+
+Start the Python interpreter
+```
+import secrets
+secrets.token_hex(32)
+```
+
+After that, create an .env file in the /core directory:
+```
+SECRET_KEY=YOU SECRET KEY
+DEBUG=True
+```
+Use DEBUG=TRUE only when in development.
+
+## Version
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|

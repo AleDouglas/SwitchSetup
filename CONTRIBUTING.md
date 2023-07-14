@@ -6,6 +6,8 @@ Welcome to the project! We appreciate your interest in contributing. Please take
 
 - [Purpose](#purpose)
 - [Setup](#setup)
+- [Secret Key](#SecretKey)
+- [Configure your .env](#configure-.env)
 - [Creating Issues](#creating-issues)
 - [Submitting Pull Requests](#submitting-pull-requests)
 - [Code Style](#code-style)
@@ -24,7 +26,37 @@ To set up the project locally, please follow these steps:
 
 1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
 2. Install the for ansible and Django in requirements.txt .
-3. At the moment I'm writing this file, I haven't uploaded the environment variables, but they are accessible in [Docker](https://hub.docker.com/r/xandouglas/switchsetup).
+3. You need generate your own [Secret Key](#SecretKey).
+4. [Configure your .env](#configure-.env)
+5. You can run it in your terminal or dockerfile
+
+Terminal:
+```
+cd WebApi
+python manage.py runserver
+```
+
+Dockerfile:
+```
+docker build -t image_name
+docker run -p 8000:8000 image_name
+```
+## SecretKey
+
+Start the Python interpreter
+```
+import secrets
+secrets.token_hex(32)
+```
+
+## Configure .env
+
+Create an .env file in the /core directory:
+```
+SECRET_KEY=YOU SECRET KEY
+DEBUG=True
+```
+Use DEBUG=TRUE only when in development.
 ## Creating Issues
 
 If you encounter any issues or have feature requests, please create an Issue using the following guidelines:
