@@ -1,0 +1,95 @@
+{% extends '_base.html' %}
+{% block title %}SwitchSetupAPI - Log{% endblock %}
+{% block content %}
+
+<h1>User List</h1>
+
+<form method="post">
+{% csrf_token %}
+<label class="form-label">Username</label>
+<div class="input-group">
+<div class="form-outline">
+<input type="search" class="form-control" placeholder="Username" name="username">
+
+</div>
+<button type="submit" class="btn btn-primary">
+    <i class='bx bx-search-alt'></i>
+    Search
+</button>
+</div>
+</form>
+
+
+
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                    <th></th>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>User Type</th>
+                    <th>Option</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for user in users %}
+                    <tr data-toggle="collapse" data-target="#demo{{user.id}}" class="accordion-toggle">
+                        <td><button class="btn btn-default btn-xs"><i class='bx bxs-user-pin'></i></button></td>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        {% if user.is_staff %}
+                        <td>Admin</td>
+                        {% else %}
+                        <td>User</td>
+                        {% endif %}
+                        <td><a href="{% url 'userEdit' user.pk %}">Edit</a> | <a href="{% url 'userDelete' user.pk %}">Delete</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="accordian-body collapse" id="demo{{user.id}}" style="width: 100%;"> 
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        </tr>
+                                    </thead>	
+                                    <tbody>
+                                        <tr data-toggle="collapse"  class="accordion-toggle">
+                                        <td>{{ user.first_name }}</td>
+                                        <td>{{ user.last_name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> 
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div> 
+</div>
+
+
+<style>
+.hiddenRow {
+    padding: 0 !important;
+}
+</style>
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[5].classList.add("active");
+</script>
+{% endblock content %}

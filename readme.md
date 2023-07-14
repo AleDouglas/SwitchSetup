@@ -7,7 +7,7 @@
         For now it works in a very simple way, but I plan to improve security and new features.<br>
         For more information, diagrams and project architecture, see our documentation.<br>
     </i><br>
-    Be free to collaborate!<br>
+    Be free to <a href="https://github.com/AleDouglas/SwitchSetup/blob/master/CONTRIBUTING.md">collaborate</a>!
 </p>
 
 ## Table of Contents
@@ -15,6 +15,7 @@
 - [Setup](#setup)
 - [Secret Key](#secretkey)
 - [Version](#version)
+- [Configure your .env](#configure-.env)
 
 
 ## Setup
@@ -37,16 +38,16 @@ To set up the project locally, please follow these steps:
 1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
 2. Install the for ansible and Django in requirements.txt .
 3. You need generate your own [Secret Key](#SecretKey).
-4. Configure your .env
+4. [Configure your .env](#configure-.env)
 5. You can run it in your terminal or dockerfile
 
-Terminal:
+Terminal: **(before run [Configure your .env](#configure-.env))**
 ```
 cd WebApi
 python manage.py runserver
 ```
 
-Dockerfile:
+Dockerfile: **(before run [Configure your .env](#configure-.env))**
 ```
 docker build -t image_name
 docker run -p 8000:8000 image_name
@@ -61,16 +62,28 @@ import secrets
 secrets.token_hex(32)
 ```
 
-After that, create an .env file in the /core directory:
+## Configure .env
+
+Create an .env file in the /core directory:
 ```
 SECRET_KEY=YOU SECRET KEY
 DEBUG=True
 ```
 Use DEBUG=TRUE only when in development.
 
+
+## Video
+
+#### First impression
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5jByei5CKC8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+
+
 ## Version
+
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |
 | 1.0 |    Up version 1.0   |   14/07/2023 |
