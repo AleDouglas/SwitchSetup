@@ -1,0 +1,12 @@
+ansible 
+ansible-core 
+ncclient 
+jxmlease 
+xmltodict 
+ansible-pylibssh
+django 
+django-allauth 
+django-compat 
+django-environ 
+Pillow
+psycopg2-binary
