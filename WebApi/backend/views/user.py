@@ -5,8 +5,8 @@ from backend.DAL.models.user import CustomUser
 from backend.forms import CustomUserCreationForm, CustomUserChangeForm
 from django.urls import reverse_lazy
 from django.db.models import Q
-
-class UserPageView(LoginRequiredMixin, TemplateView):
+from backend.views.utils import AdminRequired
+class UserPageView(AdminRequired, TemplateView):
     template_name = 'tableUser.html'
 
 
@@ -21,7 +21,7 @@ class UserPageView(LoginRequiredMixin, TemplateView):
         users = CustomUser.objects.filter(Q(username__icontains=username))
         return render(request, self.template_name, {'users': users})
 
-class CreateUserView(LoginRequiredMixin, TemplateView):
+class CreateUserView(AdminRequired, TemplateView):
     template_name = 'addUser.html'
 
     def get_context_data(self, **kwargs):
@@ -39,10 +39,11 @@ class CreateUserView(LoginRequiredMixin, TemplateView):
             result = "Error in creating user"
             return render(request, self.template_name, {'result': result})
 
-class UpdateUserView(LoginRequiredMixin, UpdateView):
+class UpdateUserView(AdminRequired, UpdateView):
     template_name = 'updateUser.html'
     model = CustomUser
     fields = ['first_name','last_name','username','email','is_staff']
+    success_url = reverse_lazy("userList")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,7 +52,7 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class DeleteUserView(LoginRequiredMixin, DeleteView):
+class DeleteUserView(AdminRequired, DeleteView):
     template_name = 'updateUser.html'
     model = CustomUser
     success_url = reverse_lazy("userList")

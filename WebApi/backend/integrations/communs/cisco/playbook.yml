@@ -1,5 +1,5 @@
 ---
-- name: Automatização de dispositivos Cisco - Comandos personalizados
+- name: Cisco Device Automation - Custom Commands
   hosts: all
   gather_facts: yes
 
@@ -11,12 +11,12 @@
       transport: cli
 
   tasks:
-    - name: Comandos personalizados
+    - name: Custom Commands
       ce_command:
         commands: |
 
       register: display_output
 
-    - name: Exibir saída do comando
+    - name: Command Output
       debug:
         var: display_output.stdout_lines

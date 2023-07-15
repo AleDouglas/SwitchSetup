@@ -30,9 +30,10 @@
                 </div>
             </div>
             <div>
-
-                <a href="{% url 'userList' %}" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a> 
-                <a href="{% url 'userCreate' %}" class="nav_link"> <i class='bx bx-user-plus nav_icon' style='color:#24bf22'></i> <span class="nav_name">Add User</span> </a> 
+                {% if user.is_staff %}
+                <a href="{% url 'userList' %}" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">List Users</span> </a> 
+                <a href="{% url 'userCreate' %}" class="nav_link"> <i class='bx bx-user-plus nav_icon'></i> <span class="nav_name">Create User</span> </a> 
+                {% endif %}
                 <a href="{% url 'account_logout' %}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span></a>
 
             </div>

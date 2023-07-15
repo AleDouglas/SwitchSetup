@@ -59,6 +59,14 @@ class AnsibleSwitchConnector:
         try:
             command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost]
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
+            self.clear_data()
             return output
         except subprocess.CalledProcessError as e:
             return e.output
+
+    def clear_data(self):
+        new_data = ""
+        with open(self.ansibleHost, 'w') as arquivo:
+                arquivo.writelines(new_data)
+        with open(self.ansiblePlaybook, 'w') as arquivo:
+                arquivo.writelines(new_data)

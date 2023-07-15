@@ -42,7 +42,7 @@
                 <tbody>
                     {% for user in users %}
                     <tr data-toggle="collapse" data-target="#demo{{user.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bxs-user-pin'></i></button></td>
+                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i></button></td>
                         <td>{{ user.id }}</td>
                         <td>{{ user.username }}</td>
                         {% if user.is_staff %}
