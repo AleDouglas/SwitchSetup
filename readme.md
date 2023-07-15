@@ -72,13 +72,6 @@ DEBUG=True
 Use DEBUG=TRUE only when in development.
 
 
-## Video
-
-#### First impression
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5jByei5CKC8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-
-
 ## Version
 
 
@@ -87,3 +80,9 @@ Use DEBUG=TRUE only when in development.
 | 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |
 | 1.0 |    Up version 1.0   |   14/07/2023 |
+
+
+## Videos
+
+
+[First impression ( 14/07/2023 )](https://www.youtube.com/watch?v=5jByei5CKC8)
