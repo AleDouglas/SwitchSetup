@@ -15,6 +15,7 @@
 - [Setup](#setup)
 - [Secret Key](#secretkey)
 - [Configure your .env](#configure-env)
+- [DataBase](#database)
 - [Version](#version)
 - [Videos](#videos)
 
@@ -23,9 +24,11 @@
 
 You can use Docker Image
 
+The current version of the project is 1.2, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
+
 ```
-sudo docker pull xandouglas/switchsetup:v1.1
-sudo docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.1
+sudo docker pull xandouglas/switchsetup:v1.2
+sudo docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.2
 ```
 
 After creating the image, use for login:
@@ -45,12 +48,14 @@ To set up the project locally, please follow these steps:
 5. You can run it in your terminal or dockerfile
 
 ### Terminal: **(Before starting run [Configure your .env](#configure-env))**
+
 ```
 cd WebApi
 python manage.py runserver
 ```
 
 ### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
+
 ```
 docker build -t image_name
 docker run -p 8000:8000 image_name
@@ -59,7 +64,7 @@ docker run -p 8000:8000 image_name
 
 ## SecretKey
 
-Start the Python interpreter
+Start the **Python interpreter**
 ```
 import secrets
 secrets.token_hex(32)
@@ -77,6 +82,27 @@ DEBUG=True
 ```
 **Use DEBUG=TRUE only when in development.**
 
+## Database
+
+We use SQLite at first, but it is possible to manage other databases.
+
+Use [Django's](https://docs.djangoproject.com/en/4.2/ref/databases/) own reference.
+
+If you lose the database file or decide to switch to a different one, you will need to follow these steps:
+
+1. Generate a new migration ( **Inside the WebApi file** )
+
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+2. Create a new user ( **Inside the WebApi file** )
+
+```
+python manage.py createsuperuser
+```
 
 ## Version
 

@@ -62,11 +62,12 @@ class AnsibleSwitchConnector:
             self.clear_data()
             return output
         except subprocess.CalledProcessError as e:
+            self.clear_data()
             return e.output
 
     def clear_data(self):
-        new_data = ""
-        with open(self.ansibleHost, 'w') as arquivo:
-                arquivo.writelines(new_data)
-        with open(self.ansiblePlaybook, 'w') as arquivo:
-                arquivo.writelines(new_data)
+        playbook_file = open(self.ansiblePlaybook, 'w')
+        playbook_file.close()
+        host_file = open(self.ansibleHost, 'w')
+        host_file.close()
+        return True

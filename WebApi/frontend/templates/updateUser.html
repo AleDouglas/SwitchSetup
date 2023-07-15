@@ -3,9 +3,9 @@
 
 
 <h3>{{page}}</h3>
+
 <form method="post">
     {% csrf_token %}
-
     {% if settings == 0 %}
     <div class="form-group">
         <label>Username</label>
@@ -45,10 +45,6 @@
         <button type="submit" class="btn btn-danger px-5 mb-5 w-100">Confirm</button>
     </div>
     {% endif %}
-
-
-
-    
 </form>
 
 
