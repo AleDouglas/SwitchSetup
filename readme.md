@@ -14,8 +14,9 @@
 
 - [Setup](#setup)
 - [Secret Key](#secretkey)
+- [Configure your .env](#configure-env)
 - [Version](#version)
-- [Configure your .env](#configure-.env)
+- [Videos](#videos)
 
 
 ## Setup
@@ -33,6 +34,8 @@ Username: admin
 Password: 123
 ```
 
+Once inside the system, you have the capability to manage your users and their credentials effectively.
+
 To set up the project locally, please follow these steps:
 
 1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
@@ -41,13 +44,13 @@ To set up the project locally, please follow these steps:
 4. [Configure your .env](#configure-.env)
 5. You can run it in your terminal or dockerfile
 
-Terminal: **(before run [Configure your .env](#configure-.env))**
+### Terminal: **(Before starting run [Configure your .env](#configure-env))**
 ```
 cd WebApi
 python manage.py runserver
 ```
 
-Dockerfile: **(before run [Configure your .env](#configure-.env))**
+### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
 ```
 docker build -t image_name
 docker run -p 8000:8000 image_name
@@ -60,7 +63,10 @@ Start the Python interpreter
 ```
 import secrets
 secrets.token_hex(32)
+Copy the key
 ```
+Be mindful that you can generate a new key whenever necessary. 
+However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
 ## Configure .env
 
@@ -69,7 +75,7 @@ Create an .env file in the /core directory:
 SECRET_KEY=YOU SECRET KEY
 DEBUG=True
 ```
-Use DEBUG=TRUE only when in development.
+**Use DEBUG=TRUE only when in development.**
 
 
 ## Version

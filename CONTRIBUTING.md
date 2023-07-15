@@ -1,13 +1,13 @@
 # Contributing Guidelines
 
-Welcome to the project! We appreciate your interest in contributing. Please take a moment to review the following guidelines to ensure a smooth and collaborative contribution process.
+Welcome! We appreciate your interest in contributing. Please take a moment to review the following guidelines to ensure a smooth and collaborative contribution process.
 
 ## Table of Contents
 
 - [Purpose](#purpose)
 - [Setup](#setup)
 - [Secret Key](#SecretKey)
-- [Configure your .env](#configure-.env)
+- [Configure your .env](#configure-env)
 - [Creating Issues](#creating-issues)
 - [Submitting Pull Requests](#submitting-pull-requests)
 - [Code Style](#code-style)
@@ -27,27 +27,39 @@ To set up the project locally, please follow these steps:
 1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
 2. Install the for ansible and Django in requirements.txt .
 3. You need generate your own [Secret Key](#SecretKey).
-4. [Configure your .env](#configure-.env)
+4. [Configure your .env](#configure-env)
 5. You can run it in your terminal or dockerfile
 
-Terminal:
+### Terminal: **(Before starting run [Configure your .env](#configure-env))**
 ```
 cd WebApi
 python manage.py runserver
 ```
 
-Dockerfile:
+### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
 ```
 docker build -t image_name
 docker run -p 8000:8000 image_name
 ```
+
+After this, use for login:
+```
+Username: admin
+Password: 123
+```
+
+Once inside the system, you have the capability to manage your users and their credentials effectively.
+
 ## SecretKey
 
 Start the Python interpreter
 ```
 import secrets
 secrets.token_hex(32)
+Copy the key
 ```
+Be mindful that you can generate a new key whenever necessary. 
+However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
 ## Configure .env
 
