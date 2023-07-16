@@ -24,11 +24,11 @@
 
 You can use Docker Image
 
-The current version of the project is 1.2, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
+The current version of the project is 1.3, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
 
 ```
-docker pull xandouglas/switchsetup:v1.2
-docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.2
+docker pull xandouglas/switchsetup:v1.3
+docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.3
 ```
 
 After creating the image, use for login:
@@ -105,7 +105,7 @@ After this, a new admin user with the username "admin" and password "123" is aut
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
-| 1.3 |  SSH Save Credentiasl | 16/07/2023 |
+| 1.3 |  SSH Save Credentials | 16/07/2023 |
 | 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |
 | 1.0 |    Up version 1.0   |   14/07/2023 |
