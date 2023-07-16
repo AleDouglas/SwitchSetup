@@ -27,8 +27,8 @@ You can use Docker Image
 The current version of the project is 1.2, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
 
 ```
-sudo docker pull xandouglas/switchsetup:v1.2
-sudo docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.2
+docker pull xandouglas/switchsetup:v1.2
+docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.2
 ```
 
 After creating the image, use for login:
@@ -45,21 +45,7 @@ To set up the project locally, please follow these steps:
 2. Install the for ansible and Django in requirements.txt .
 3. You need generate your own [Secret Key](#SecretKey).
 4. [Configure your .env](#configure-.env)
-5. You can run it in your terminal or dockerfile
-
-### Terminal: **(Before starting run [Configure your .env](#configure-env))**
-
-```
-cd WebApi
-python manage.py runserver
-```
-
-### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
-
-```
-docker build -t image_name
-docker run -p 8000:8000 image_name
-```
+5. You can run it in [your terminal or dockerfile](#run-switchsetup)
 
 
 ## SecretKey
@@ -68,7 +54,7 @@ Start the **Python interpreter**
 ```
 import secrets
 secrets.token_hex(32)
-Copy the key
+Copy the key in .env
 ```
 Be mindful that you can generate a new key whenever necessary. 
 However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
@@ -77,11 +63,26 @@ However, it is crucial to remember that if you are using our project, you should
 
 Create an .env file in the /core directory:
 ```
-SECRET_KEY=YOU SECRET KEY
+SECRET_KEY=SECRET KEY
 DEBUG=True
 ```
 **Use DEBUG=TRUE only when in development.**
 
+## Run SwitchSetup
+
+#### Terminal Local:
+
+```
+cd WebApi
+python manage.py runserver
+```
+
+#### Dockerfile:
+
+```
+docker build -t image_name
+docker run -p 8000:8000 image_name
+```
 ## Database
 
 We use SQLite at first, but it is possible to manage other databases.
@@ -90,19 +91,14 @@ Use [Django's](https://docs.djangoproject.com/en/4.2/ref/databases/) own referen
 
 If you lose the database file or decide to switch to a different one, you will need to follow these steps:
 
-1. Generate a new migration ( **Inside the WebApi file** )
+1. Migration ( **Inside the WebApi file** )
 
 
 ```
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-2. Create a new user ( **Inside the WebApi file** )
-
-```
-python manage.py createsuperuser
-```
+After this, a new admin user with the username "admin" and password "123" is automatically created.
 
 ## Version
 
