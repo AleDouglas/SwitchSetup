@@ -74,12 +74,16 @@ DEBUG=True
 
 ```
 cd WebApi
+python manage.py migrate
 python manage.py runserver
 ```
 
 #### Dockerfile:
 
 ```
+cd WebApi
+python manage.py migrate
+cd ..
 docker build -t image_name
 docker run -p 8000:8000 image_name
 ```

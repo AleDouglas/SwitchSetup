@@ -33,11 +33,15 @@ To set up the project locally, please follow these steps:
 ### Terminal: **(Before starting run [Configure your .env](#configure-env))**
 ```
 cd WebApi
+python manage.py migrate
 python manage.py runserver
 ```
 
 ### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
 ```
+cd WebApi
+python manage.py migrate
+cd ..
 docker build -t image_name
 docker run -p 8000:8000 image_name
 ```
