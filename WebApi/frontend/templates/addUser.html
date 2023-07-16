@@ -46,7 +46,16 @@
     <small class="form-text text-muted">
         Your password can't be entirely numeric.
     </small></div>
-
+    
+    <div class="form-group">
+        <label>Administrator</label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="is_staff">
+            <label class="form-check-label" for="flexCheckDefault">
+                True
+            </label>
+        </div>
+    </div>
     <div class="form-group">
     <label for="id_password2">Confirm Password</label>
     <input class="form-control" type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
@@ -63,6 +72,6 @@
 
 <script>
     var navLinks = document.getElementsByClassName("nav_link");
-    navLinks[5].classList.add("active");
+    navLinks[6].classList.add("active");
 </script>
 {% endblock content %}

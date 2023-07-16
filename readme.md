@@ -105,6 +105,7 @@ After this, a new admin user with the username "admin" and password "123" is aut
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.3 |  SSH Save Credentiasl | 16/07/2023 |
 | 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |
 | 1.0 |    Up version 1.0   |   14/07/2023 |

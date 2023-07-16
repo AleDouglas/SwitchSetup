@@ -8,13 +8,23 @@
 
 <form method="POST">
 {% csrf_token %}
+
+<div class="form-group">
+    <label for="exampleFormControlInput1">Saved Credentials</label>
+    <select class="custom-select" style="width: 100%;" id="credential" name="credential">
+        <option value="none" selected>None</option>
+        {% for credential in credentials %}
+        <option value="{{ credential.id }}">{{credential.title}}</option>
+        {% endfor %}
+    </select>
+</div>
 <div class="form-group">
     <label for="exampleFormControlInput1">Switch SSH Username</label>
-    <input class="form-control" type="text" name="username" placeholder="Username" >
+    <input class="form-control" type="text" name="username" placeholder="Username" id="username">
 </div>
 <div class="form-group">
     <label for="exampleFormControlInput1">Switch SSH Password</label>
-    <input class="form-control" type="password" name="password" placeholder="Password">
+    <input class="form-control" type="password" name="password" placeholder="Password" id="password">
 </div>
 <div class="form-group">
     <label for="exampleFormControlSelect1">Select Switch</label>
@@ -28,16 +38,16 @@
     <small class="form-text text-muted">
         Each host must be separated by a line
     </small>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="host"></textarea>
+    <textarea class="form-control" rows="3" name="host"></textarea>
 </div>
 <div class="form-group">
     <label for="exampleFormControlTextarea1">Commands List</label>
     <small class="form-text text-muted">
         Each command must be separated by a line
     </small>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="playbook"></textarea>
+    <textarea class="form-control" rows="3" name="playbook"></textarea>
 </div>
-<button class="btn btn-primary" type="submit" style="margin-top: 5px;">Enviar</button>
+<button class="btn btn-primary" type="submit" style="margin-top: 5px;">Confirm</button>
 </form>
 
 {% if output %}
@@ -48,9 +58,26 @@
 {% endif %}
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     var navLinks = document.getElementsByClassName("nav_link");
     navLinks[1].classList.add("active");
+
+    $(document).ready(function() {
+        var selectField = $('#credential');
+
+        var campo1 = $('#username');
+        var campo2 = $('#password');
+
+        selectField.on('change', function() {
+            if (selectField.val() != 'none') {
+                campo1.prop('disabled', true);
+                campo2.prop('disabled', true);
+            } else {
+                campo1.prop('disabled', false);
+                campo2.prop('disabled', false);
+            }
+        });
+        });
 </script>
 {% endblock content %}

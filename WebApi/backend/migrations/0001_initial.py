@@ -13,7 +13,6 @@ def create_admin_user(apps, schema_editor):
     if not User.objects.filter(is_staff=True).exists():
         User.objects.create_superuser(admin_username, '', admin_password)
 
-
 class Migration(migrations.Migration):
 
     initial = True
@@ -63,6 +62,15 @@ class Migration(migrations.Migration):
             },
             managers=[
                 ('objects', django.contrib.auth.models.UserManager()),
+            ],
+        ),
+        migrations.CreateModel(
+            name='DeviceCredential',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=60, verbose_name='Title')),
+                ('username', models.CharField(max_length=30, verbose_name='Username')),
+                ('password', models.CharField(max_length=30, verbose_name='Password')),
             ],
         ),
         migrations.RunPython(create_admin_user),

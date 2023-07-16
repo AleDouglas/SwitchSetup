@@ -3,11 +3,18 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from backend.DAL.DAO.logDAO import *
+from backend.DAL.DAO.deviceDAO import *
 from backend.integrations.ansible import *
 
 class AnsibleView(LoginRequiredMixin, TemplateView):
     template_name = 'ansible.html'
     ansible = AnsibleSwitchConnector()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        credentials = getAllDeviceCredential()
+        context['credentials'] = credentials
+        return context
 
     def execute_command(self, playbook, host, switch, username, password):
         # Adicionar verificações de segurança aqui
@@ -25,7 +32,11 @@ class AnsibleView(LoginRequiredMixin, TemplateView):
         switch = request.POST.get('switch')
         username = request.POST.get('username')
         password = request.POST.get('password')
-        output = self.execute_command(playbook, host, switch, username, password)
+        if request.POST.get('credential') == "none":
+            output = self.execute_command(playbook, host, switch, username, password)
+        else:
+            credential = getDeviceCredential(request.POST.get('credential'))
+            output = self.execute_command(playbook, host, switch, credential.username, credential.password)
         createLog(
             user=f"{request.user}",
             date=datetime.now().strftime("%d-%m-%Y"),
@@ -36,3 +47,6 @@ class AnsibleView(LoginRequiredMixin, TemplateView):
             output=output,
         )
         return self.render_to_response(self.get_context_data(output = output))
+
+
+
