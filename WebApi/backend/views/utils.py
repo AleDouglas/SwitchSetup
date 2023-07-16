@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.http import Http404, HttpResponse, HttpResponseForbidden
 
 class AdminRequired(LoginRequiredMixin, UserPassesTestMixin):
 

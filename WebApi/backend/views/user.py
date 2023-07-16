@@ -6,6 +6,8 @@ from backend.forms import CustomUserCreationForm, CustomUserChangeForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from backend.views.utils import AdminRequired
+
+
 class UserPageView(AdminRequired, TemplateView):
     template_name = 'tableUser.html'
 
@@ -20,6 +22,7 @@ class UserPageView(AdminRequired, TemplateView):
         username = request.POST['username']
         users = CustomUser.objects.filter(Q(username__icontains=username))
         return render(request, self.template_name, {'users': users})
+
 
 class CreateUserView(AdminRequired, TemplateView):
     template_name = 'addUser.html'
@@ -38,6 +41,7 @@ class CreateUserView(AdminRequired, TemplateView):
         else:
             result = "Error in creating user"
             return render(request, self.template_name, {'result': result})
+
 
 class UpdateUserView(AdminRequired, UpdateView):
     template_name = 'updateUser.html'
