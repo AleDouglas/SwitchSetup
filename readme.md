@@ -22,13 +22,11 @@
 
 ## Setup
 
-You can use Docker Image
-
-The current version of the project is 1.4, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
+#### You can use Docker Image
 
 ```
-docker pull xandouglas/switchsetup:v1.4
-docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.4
+docker pull xandouglas/switchsetup:latest
+docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:latest
 If dont work:
 sudo docker run -p 8000:8000 xandouglas/switchsetup:latest
 ```
@@ -40,6 +38,8 @@ Password: 123
 ```
 
 Once inside the system, you have the capability to manage your users and their credentials effectively.
+
+#### You can use Git Clone
 
 To set up the project locally, please follow these steps:
 
