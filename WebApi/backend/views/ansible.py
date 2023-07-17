@@ -20,7 +20,7 @@ class AnsibleView(LoginRequiredMixin, TemplateView):
         # Adicionar verificações de segurança aqui
         try:
             self.ansible.write_ansible_playbook(playbook, str(switch))
-            self.ansible.write_ansible_host(host, str(switch), username, password)
+            self.ansible.write_ansible_host(host, switch = str(switch), username = username, password = password)
             output = self.ansible.run_ansible()
             return output
         except:

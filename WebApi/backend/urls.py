@@ -9,7 +9,6 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('ansible/', AnsibleView.as_view(), name='ansible'),
     path('ansible/credential/', CredentialPageView.as_view(), name='credentialList'),
-    path('ansible/credential/create/', CreateCredentialView.as_view(), name='credentialCreate'),
     path('ansible/credential/<int:pk>/edit/', UpdateCredentialView.as_view(), name='credentialEdit'),
     path('ansible/credential/<int:pk>/delete/', DeleteCredentialView.as_view(), name='credentialDelete'),
     path('log/', LogView.as_view(), name='log'),

@@ -24,11 +24,13 @@
 
 You can use Docker Image
 
-The current version of the project is 1.3, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
+The current version of the project is 1.4, which is considered the most stable and reliable release available. This version has undergone extensive testing and debugging to ensure a high level of stability and performance.
 
 ```
-docker pull xandouglas/switchsetup:v1.3
-docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.3
+docker pull xandouglas/switchsetup:v1.4
+docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:v1.4
+If dont work:
+sudo docker run -p 8000:8000 xandouglas/switchsetup:latest
 ```
 
 After creating the image, use for login:
@@ -86,6 +88,7 @@ python manage.py migrate
 cd ..
 docker build -t image_name
 docker run -p 8000:8000 image_name
+
 ```
 ## Database
 
@@ -109,6 +112,7 @@ After this, a new admin user with the username "admin" and password "123" is aut
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.4 |  Fixed ansible conection | 17/07/2023 |
 | 1.3 |  SSH Save Credentials | 16/07/2023 |
 | 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |

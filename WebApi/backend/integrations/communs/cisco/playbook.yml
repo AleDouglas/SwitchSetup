@@ -13,8 +13,7 @@
   tasks:
     - name: Custom Commands
       ce_command:
-        commands: |
-
+        commands:
       register: display_output
 
     - name: Command Output

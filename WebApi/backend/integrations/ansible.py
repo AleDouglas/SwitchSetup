@@ -5,10 +5,11 @@ class AnsibleSwitchConnector:
     def __init__(self):
         self.huaweiHost = 'backend/integrations/communs/huawei/hosts.yml'
         self.ciscoHost = 'backend/integrations/communs/cisco/hosts.yml'
-        self.huaweiPlaybook = 'backend/integrations/communs/cisco/playbook.yml'
+        self.huaweiPlaybook = 'backend/integrations/communs/huawei/playbook.yml'
         self.ciscoPlaybook = 'backend/integrations/communs/cisco/playbook.yml'
         self.ansibleHost = 'backend/integrations/communs/ansible/hosts.yml'
         self.ansiblePlaybook = 'backend/integrations/communs/ansible/playbook.yml'
+        self.ansibleCFG = 'backend/integrations/communs/ansible/ansible.cfg'
 
     def write_ansible_host(self, string, switch, password, username):
         user_str = f"        ansible_user: {username}\n"
@@ -37,18 +38,23 @@ class AnsibleSwitchConnector:
             return False
 
     def write_ansible_playbook(self, string, switch):
-        try:
-            command_list = string.split('\n')
-            command_str = ''
+        command_list = string.split('\n')
+        if len(command_list) == 1:
+            command_str = f'        commands: {command_list[0]}\n'
+
+        else:
+            command_str = '        commands: |\n'
             for item in command_list:
-                command_str += '         '+item+'\n'
+                command_str += '          '+item+'\n'
+
+        try:
             if switch == 'Huawei':
                 with open(self.huaweiPlaybook, 'r') as arquivo:
                     linhas = arquivo.readlines()
             if switch == 'Cisco':
                 with open(self.ciscoPlaybook, 'r') as arquivo:
                     linhas = arquivo.readlines()
-            linhas[16] = command_str
+            linhas[15] = command_str
             with open(self.ansiblePlaybook, 'w') as arquivo:
                 arquivo.writelines(linhas)
             return True

@@ -17,16 +17,6 @@ class CredentialPageView(AdminRequired, TemplateView):
         context['page'] = "Credentials"
         return context
 
-
-class CreateCredentialView(AdminRequired, TemplateView):
-    template_name = "credential.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['settings'] = 1
-        context['page'] = "Create Credentials"
-        return context
-
     def post(self, request ,*args, **kwargs):
         createCredential(
             title = request.POST.get('title'),
@@ -34,7 +24,7 @@ class CreateCredentialView(AdminRequired, TemplateView):
             password = request.POST.get('password'),
         )
         result = "The credentials have been successfully upgraded."
-        return render(request, self.template_name, {'result': result, 'sucess': 1})
+        return self.render_to_response(self.get_context_data(result = result))
 
 
 class UpdateCredentialView(AdminRequired, UpdateView):
@@ -45,7 +35,7 @@ class UpdateCredentialView(AdminRequired, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['settings'] = 2
+        context['settings'] = 1
         context['page'] = "Manage Credentials"
         return context
 
@@ -57,6 +47,6 @@ class DeleteCredentialView(AdminRequired, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['settings'] = 3
+        context['settings'] = 2
         context['page'] = "Delete Credentials"
         return context
