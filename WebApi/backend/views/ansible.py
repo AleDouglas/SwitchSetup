@@ -2,11 +2,12 @@ from datetime import datetime
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from backend.views.utils import AdminRequired
 from backend.DAL.DAO.logDAO import *
 from backend.DAL.DAO.deviceDAO import *
 from backend.integrations.ansible import *
 
-class AnsibleView(LoginRequiredMixin, TemplateView):
+class AnsibleView(AdminRequired, TemplateView):
     template_name = 'ansible.html'
     ansible = AnsibleSwitchConnector()
 

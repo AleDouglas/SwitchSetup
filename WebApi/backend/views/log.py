@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from backend.DAL.DAO.logDAO import filterLog
+from backend.views.utils import AdminRequired
 
-class LogView(LoginRequiredMixin, TemplateView):
+class LogView(AdminRequired, TemplateView):
     template_name = 'log.html'
 
     def post(self, request ,*args, **kwargs):
