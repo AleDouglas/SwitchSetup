@@ -4,6 +4,7 @@ from .views.ansible import AnsibleView
 from .views.log import LogView
 from .views.user import *
 from .views.credential import *
+from .views.api import *
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -16,4 +17,6 @@ urlpatterns = [
     path('user/create/', CreateUserView.as_view(), name='userCreate'),
     path('user/<int:pk>/edit/', UpdateUserView.as_view(), name='userEdit'),
     path('user/<int:pk>/delete/', DeleteUserView.as_view(), name='userDelete'),
+    path('api/', ApiPageView.as_view(), name='apiKey'),
+    path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
 ]
