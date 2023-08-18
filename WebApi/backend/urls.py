@@ -18,5 +18,6 @@ urlpatterns = [
     path('user/<int:pk>/edit/', UpdateUserView.as_view(), name='userEdit'),
     path('user/<int:pk>/delete/', DeleteUserView.as_view(), name='userDelete'),
     path('api/', ApiPageView.as_view(), name='apiKey'),
+    path('api/v1/', ApiResponseView.as_view(), name='apiResponse'),
     path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
 ]

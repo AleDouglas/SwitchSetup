@@ -6,6 +6,7 @@ from backend.forms import CustomUserCreationForm, CustomUserChangeForm
 from django.urls import reverse_lazy
 from django.db.models import Q
 from backend.views.utils import AdminRequired
+from backend.DAL.DAO.logDAO import *
 
 
 class UserPageView(AdminRequired, TemplateView):
@@ -37,9 +38,27 @@ class CreateUserView(AdminRequired, TemplateView):
         if form.is_valid():
             user = form.save()
             result = "Success in creating user"
+            createLog(
+            user=f"{request.user}",
+            date=datetime.now().strftime("%d-%m-%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            switch="Unused function",
+            playbook="Unused function",
+            host="Unused function",
+            output="A new user has been created",
+            )
             return render(request, self.template_name, {'result': result})
         else:
             result = "Error in creating user"
+            createLog(
+            user=f"{request.user}",
+            date=datetime.now().strftime("%d-%m-%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            switch="Unused function",
+            playbook="Unused function",
+            host="Unused function",
+            output="Attempted to generate a new user, but an error occurred.",
+            )
             return render(request, self.template_name, {'result': result})
 
 

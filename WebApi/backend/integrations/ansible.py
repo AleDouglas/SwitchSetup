@@ -9,7 +9,7 @@ class AnsibleSwitchConnector:
         self.ciscoPlaybook = 'backend/integrations/communs/cisco/playbook.yml'
         self.ansibleHost = 'backend/integrations/communs/ansible/hosts.yml'
         self.ansiblePlaybook = 'backend/integrations/communs/ansible/playbook.yml'
-        self.ansibleCFG = 'backend/integrations/communs/ansible/ansible.cfg'
+        self.ansibleCFG = 'ansible_cfg=backend/integrations/communs/ansible/ansible.cfg'
 
     def write_ansible_host(self, string, switch, password, username):
         user_str = f"        ansible_user: {username}\n"
@@ -61,9 +61,16 @@ class AnsibleSwitchConnector:
         except:
             return False
 
-    def run_ansible(self):
+    def run_ansible(self, ansible_level):
         try:
-            command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost]
+            if int(ansible_level) == 0:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost, '-e', self.ansibleCFG]
+            elif int(ansible_level) == 1:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost, '-e', self.ansibleCFG, '-v']
+            elif int(ansible_level) == 2:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost, '-e', self.ansibleCFG, '-vvv']
+            else:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', self.ansibleHost, '-e', self.ansibleCFG, '-vvvvv']
             output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
             self.clear_data()
             return output

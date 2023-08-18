@@ -8,6 +8,12 @@ def getAllApi():
 def getApi(id):
     return ApiKey.objects.get(id=int(id))
 
+def searchApi(key):
+    try:
+        return ApiKey.objects.get(key=key)
+    except:
+        return False
+
 def createKey(title):
     credential = ApiKey(
         title=title,

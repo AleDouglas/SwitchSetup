@@ -18,6 +18,17 @@
         {% endfor %}
     </select>
 </div>
+
+<div class="form-group">
+    <label for="exampleFormControlInput1">Ansible information level</label>
+    <select class="custom-select" style="width: 100%;" id="ansible_level" name="ansible_level">
+        <option value="0" selected>Standard</option>
+        <option value="1">Basic</option>
+        <option value="2">Intermediary</option>
+        <option value="3">Advanced</option>
+    </select>
+</div>
+
 <div class="form-group">
     <label for="exampleFormControlInput1">Switch SSH Username</label>
     <input class="form-control" type="text" name="username" placeholder="Username" id="username">

@@ -6,10 +6,10 @@
 
 {% if settings == 0 %}
 <h1>Manage Api</h1>
-
+<hr>
 <form method="post">
 {% csrf_token %}
-<label class="form-label">Generate Key</label>
+<h3 class="form-label">Create Key</h3>
 <div class="input-group">
 <div class="form-outline">
 <input type="search" class="form-control" placeholder="Key Title" name="title">
@@ -24,7 +24,7 @@
 
 
 
-
+<h4 style="margin-top: 30px;margin-bottom: 15px;">List of generated keys</h4>
 <div class="col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -73,11 +73,46 @@
         </div>
     </div> 
 </div>
+<hr>
+<h1 style="margin-top: 30px;margin-bottom: 15px;">Examples of <span style="color: #4723D9">API requests</span></h1>
+<h3>Python</h3>
+<pre>
+    <code>
+        import requests
+
+        def run_request():
+            url = 'http://127.0.0.1:8000/api/v1/'
+            data = {
+                'key': 'testekeypass',
+                'switch': 'huawei'
+                'host': '10.0.0.0'
+                'username': 'testeuser',
+                'password': 'testepass',
+                'command': 'display vlan',
+            }
+
+            response = requests.post(url, data=data)
+
+            if response.status_code == 200:
+                # Successful request, handle the response here
+                result = response.json()
+                print(result)
+            else:
+                # Error
+                print('Error:', response.status_code)
+
+        if __name__ == '__main__':
+            run_request()
+    </code>
+</pre>
 {% else %}
 <p>Are you sure you want to delete "{{ object }}"?</p>
+<form method="POST">
+    {% csrf_token %}
 <div class="text-center">
     <button type="submit" class="btn btn-danger px-5 mb-5 w-100">Confirm</button>
 </div>
+</form>
 {% endif %}
 
 <style>

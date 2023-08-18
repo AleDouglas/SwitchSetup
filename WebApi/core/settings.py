@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'backend.apps.BackendConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

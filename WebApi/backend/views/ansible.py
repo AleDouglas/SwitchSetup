@@ -2,12 +2,11 @@ from datetime import datetime
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
-from backend.views.utils import AdminRequired
 from backend.DAL.DAO.logDAO import *
 from backend.DAL.DAO.deviceDAO import *
 from backend.integrations.ansible import *
 
-class AnsibleView(AdminRequired, TemplateView):
+class AnsibleView(LoginRequiredMixin, TemplateView):
     template_name = 'ansible.html'
     ansible = AnsibleSwitchConnector()
 
@@ -17,27 +16,28 @@ class AnsibleView(AdminRequired, TemplateView):
         context['credentials'] = credentials
         return context
 
-    def execute_command(self, playbook, host, switch, username, password):
+    def execute_command(self, playbook, host, switch, username, password, ansible_level):
         # Adicionar verificações de segurança aqui
         try:
             self.ansible.write_ansible_playbook(playbook, str(switch))
             self.ansible.write_ansible_host(host, switch = str(switch), username = username, password = password)
-            output = self.ansible.run_ansible()
+            output = self.ansible.run_ansible(ansible_level)
             return output
         except:
             return "Error when trying to run ansible"
 
     def post(self, request ,*args, **kwargs):
         playbook = request.POST.get('playbook')
+        ansible_level = request.POST.get('ansible_level')
         host = request.POST.get('host')
         switch = request.POST.get('switch')
         username = request.POST.get('username')
         password = request.POST.get('password')
         if request.POST.get('credential') == "none":
-            output = self.execute_command(playbook, host, switch, username, password)
+            output = self.execute_command(playbook, host, switch, username, password, ansible_level)
         else:
             credential = getDeviceCredential(request.POST.get('credential'))
-            output = self.execute_command(playbook, host, switch, credential.username, credential.password)
+            output = self.execute_command(playbook, host, switch, credential.username, credential.password, ansible_level)
         createLog(
             user=f"{request.user}",
             date=datetime.now().strftime("%d-%m-%Y"),
