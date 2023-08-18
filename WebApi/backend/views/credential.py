@@ -4,6 +4,8 @@ from backend.DAL.DAO.deviceDAO import *
 from backend.views.utils import AdminRequired
 from backend.DAL.models.device import DeviceCredential
 from django.urls import reverse_lazy
+from datetime import datetime
+from backend.DAL.DAO.logDAO import *
 
 
 class CredentialPageView(AdminRequired, TemplateView):
@@ -24,6 +26,15 @@ class CredentialPageView(AdminRequired, TemplateView):
             password = request.POST.get('password'),
         )
         result = "The credentials have been successfully upgraded."
+        createLog(
+            user=f"{request.user}",
+            date=datetime.now().strftime("%d-%m-%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            switch="Unused function",
+            playbook="Unused function",
+            host="Unused function",
+            output="The user created an credentials.",
+        )
         return self.render_to_response(self.get_context_data(result = result))
 
 
