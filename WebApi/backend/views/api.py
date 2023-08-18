@@ -52,12 +52,12 @@ class ApiDeleteView(AdminRequired, DeleteView):
 
 class ApiResponseView(APIView):
 
-    def execute_command(self, playbook, host, switch, username, password):
+    def execute_command(self, playbook, host, switch, username, password, ansible_level):
         # Adicionar verificações de segurança aqui
         try:
             self.ansible.write_ansible_playbook(string = playbook, switch = str(switch))
             self.ansible.write_ansible_host(string = host, switch = str(switch), username = username, password = password)
-            output = self.ansible.run_ansible()
+            output = self.ansible.run_ansible(ansible_level)
             return output
         except:
             return "Error when trying to run ansible"
@@ -68,7 +68,7 @@ class ApiResponseView(APIView):
         if key == False:
             return Response("Key not found, access denied")
         try:
-            output = execute_command(playbook = data['command'], host = data['host'], switch = data['switch'], username = data['username'], password = data['password'])
+            output = execute_command(playbook = data['command'], host = data['host'], switch = data['switch'], username = data['username'], password = data['password'], ansible_level = data['ansible_level'])
             return Response(output)
         except:
             return Response("Please verify the variables used, remembering that the following fields are required: key, command, host, switch, username, password.")
