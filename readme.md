@@ -16,38 +16,23 @@
 - [Secret Key](#secretkey)
 - [Configure your .env](#configure-env)
 - [DataBase](#database)
+- [FAQ](#faq)
 - [Version](#version)
 - [Videos](#videos)
 
 
 ## Setup
 
-#### You can use Docker Image
 
-```
-docker pull xandouglas/switchsetup:latest
-docker run -p 8000:8000 --name switchsetup -d xandouglas/switchsetup:latest
-If dont work:
-sudo docker run -p 8000:8000 xandouglas/switchsetup:latest
-```
-
-After creating the image, use for login:
-```
-Username: admin
-Password: 123
-```
-
-Once inside the system, you have the capability to manage your users and their credentials effectively.
-
-#### You can use Git Clone
+#### Git Clone
 
 To set up the project locally, please follow these steps:
 
-1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
-2. Install the for ansible and Django in requirements.txt .
-3. You need generate your own [Secret Key](#SecretKey).
-4. [Configure your .env](#configure-.env)
-5. You can run it in [your terminal or dockerfile](#run-switchsetup)
+1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git` .
+2. Install the packages from the requirements.txt file in your Virtual Environment or use the Dockerfile .
+3. You need generate your own [Secret Key](#SecretKey) .
+4. [Configure your .env](#configure-.env) .
+5. You can run it in [your terminal or dockerfile](#run-switchsetup) .
 
 
 ## SecretKey
@@ -72,6 +57,12 @@ DEBUG=True
 
 ## Run SwitchSetup
 
+Use for login:
+```
+Username: admin
+Password: 123
+```
+
 #### Terminal Local:
 
 ```
@@ -86,8 +77,8 @@ python manage.py runserver
 cd WebApi
 python manage.py migrate
 cd ..
-docker build -t image_name
-docker run -p 8000:8000 image_name
+docker build -t image_name .
+docker run -p 8000:8000 imagename
 
 ```
 ## Database
@@ -107,11 +98,26 @@ python manage.py migrate
 
 After this, a new admin user with the username "admin" and password "123" is automatically created.
 
+
+I recommend using MySQL or PostgreSQL to avoid the use of a physical database within the documents. Simply follow the Django reference for the necessary modifications.
+
+
+## FAQ
+
+
+##### Problems for login authentication in Ansible-Docker
+We have identified an issue regarding Ansible authentication. This might be caused by the required keys. Simply copy the keys from the ~/.ssh/ file to the 'sshkeys' folder within the project. We will work on resolving this problem in the upcoming updates.
+
+
+
 ## Version
 
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.5.2 | Resolved logging issue in certain system tasks | 18/08/2023
+| 1.5.1 | Added ansible execution information control system | 18/08/2023 |
+| 1.5 | Possible solution for connecting via docker-ansible and adding level of information when running ansible | 17/08/2023 |
 | 1.4 |  Fixed ansible conection | 17/07/2023 |
 | 1.3 |  SSH Save Credentials | 16/07/2023 |
 | 1.2 |  User Options | 14/07/2023 |
