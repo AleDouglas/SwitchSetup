@@ -10,3 +10,4 @@ django-compat
 django-environ 
 Pillow
 psycopg2-binary
+djangorestframework

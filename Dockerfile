@@ -9,10 +9,10 @@ RUN apt-get update \
 # Install Ansible, Ansible Core, ncclient, jxmlease, xmltodict e ansible-pylibssh
 RUN pip install ansible ansible-core ncclient jxmlease xmltodict ansible-pylibssh
 # Install Docker and dependencies
-RUN pip install django django-allauth django-compat django-environ Pillow psycopg2-binary
+RUN pip install django django-allauth django-compat django-environ Pillow psycopg2-binary djangorestframework
 # Copy files
 COPY /WebApi /WebApi
-
+COPY /sshkeys /root/.ssh
 # Set working directory
 WORKDIR /WebApi
 
