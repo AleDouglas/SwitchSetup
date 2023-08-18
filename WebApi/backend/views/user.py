@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 from backend.views.utils import AdminRequired
 from backend.DAL.DAO.logDAO import *
+from datetime import datetime
 
 
 class UserPageView(AdminRequired, TemplateView):

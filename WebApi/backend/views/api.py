@@ -69,6 +69,15 @@ class ApiResponseView(APIView):
             return Response("Key not found, access denied")
         try:
             output = execute_command(playbook = data['command'], host = data['host'], switch = data['switch'], username = data['username'], password = data['password'], ansible_level = data['ansible_level'])
+            createLog(
+            user=f"Api Key",
+            date=datetime.now().strftime("%d-%m-%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            switch=f"{data['switch']}",
+            playbook=f"{data['command']}",
+            host=f"{data['host']}",
+            output=output,
+            )
             return Response(output)
         except:
             return Response("Please verify the variables used, remembering that the following fields are required: key, command, host, switch, username, password.")
