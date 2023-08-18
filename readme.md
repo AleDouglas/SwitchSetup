@@ -79,13 +79,12 @@ python manage.py migrate
 cd ..
 docker build -t image_name .
 docker run -p 8000:8000 imagename
-
 ```
 ## Database
 
 We use SQLite at first, but it is possible to manage other databases.
 
-Use [Django's](https://docs.djangoproject.com/en/4.2/ref/databases/) own reference.
+Use [Django's](https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATABASES) own reference.
 
 If you lose the database file or decide to switch to a different one, you will need to follow these steps:
 
@@ -95,11 +94,16 @@ If you lose the database file or decide to switch to a different one, you will n
 ```
 python manage.py migrate
 ```
+After this, you just need to either use Docker or run it on your local machine.
 
-After this, a new admin user with the username "admin" and password "123" is automatically created.
+Use for login:
+```
+Username: admin
+Password: 123
+```
 
 
-I recommend using MySQL or PostgreSQL to avoid the use of a physical database within the documents. Simply follow the Django reference for the necessary modifications.
+I recommend using MySQL or PostgreSQL to avoid the use of a physical database within the documents. Simply follow the [Django]((https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATABASES) ) reference for the necessary modifications.
 
 
 ## FAQ
@@ -115,6 +119,7 @@ We have identified an issue regarding Ansible authentication. This might be caus
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.5.3 | Resolved Datetime Import and finish tests | 18/08/2023
 | 1.5.2 | Resolved logging issue in certain system tasks | 18/08/2023
 | 1.5.1 | Added ansible execution information control system | 18/08/2023 |
 | 1.5 | Possible solution for connecting via docker-ansible and adding level of information when running ansible | 17/08/2023 |
