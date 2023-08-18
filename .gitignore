@@ -5,7 +5,9 @@
 __pycache__
 db.sqlite3
 media
-sshkeys/*
+id_rsa
+id_rsa.pub
+known_hosts
 # Backup files # 
 *.bak 
 
