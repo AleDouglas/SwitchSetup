@@ -128,21 +128,18 @@ class AnsibleCustomView(LoginRequiredMixin, TemplateView):
         return context
 
     def execute_command(self, path_playbook, path_host, ansible_level):
-        # Adicionar verificações de segurança aqui
-        try:
-            output = self.ansible.run_ansible_custom(path_playbook, path_host, ansible_level)
-            return output
-        except:
-            return "Error when trying to run ansible"
+        output = self.ansible.run_ansible_custom(path_playbook=path_playbook, path_host=path_host, ansible_level=ansible_level)
+        return output
 
     def post(self, request ,*args, **kwargs):
+        ansible_level = request.POST.get('ansible_level')
         playbook_file = request.POST.get('playbook_file')
         host_file = request.POST.get('host_file')
 
         path_playbook = PlaybookCustom.objects.get(id=int(playbook_file))
         path_host = HostCustom.objects.get(id=int(host_file))
 
-        output = f"Playbook: {path_playbook.playbook_file.url}"
+        output = self.execute_command(path_playbook=str(path_playbook.playbook_file.url), path_host=str(path_host.host_file.url), ansible_level=ansible_level)
 
         return self.render_to_response(self.get_context_data(output = output))
 
