@@ -45,7 +45,6 @@ secrets.token_hex(32)
 Copy the key in .env
 ```
 
-
 #### Configure .env
 
 

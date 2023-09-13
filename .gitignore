@@ -1,3 +1,7 @@
+# Local Files #
+WebApi/backend/integrations/communs/custom/
+
+
 # Django #
 *.log
 *.pot
