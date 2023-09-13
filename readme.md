@@ -1,7 +1,7 @@
 <h1 align="center">Hi, guys! 👋</h1>
 
 <p align="center">
-    <b>What is SwitchSetupApi?</b><br><br>
+    <b>What is SwitchSetup?</b><br><br>
     <i>
         This software is designed to configure network devices using <span color="blue">Ansible</span><br>
         For now it works in a very simple way, but I plan to improve security and new features.<br>
@@ -16,6 +16,7 @@
 - [Secret Key](#secretkey)
 - [Configure your .env](#configure-env)
 - [DataBase](#database)
+- [Run SwitchSetup](#run-switchsetup)
 - [FAQ](#faq)
 - [Version](#version)
 - [Videos](#videos)
@@ -43,10 +44,10 @@ import secrets
 secrets.token_hex(32)
 Copy the key in .env
 ```
-Be mindful that you can generate a new key whenever necessary. 
-However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
-## Configure .env
+
+#### Configure .env
+
 
 Create an .env file in the /core directory:
 ```
@@ -54,6 +55,10 @@ SECRET_KEY=SECRET KEY
 DEBUG=True
 ```
 **Use DEBUG=TRUE only when in development.**
+
+
+Be mindful that you can generate a new key whenever necessary. 
+However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
 ## Run SwitchSetup
 
@@ -80,6 +85,8 @@ cd ..
 docker build -t image_name .
 docker run -p 8000:8000 imagename
 ```
+
+
 ## Database
 
 We use SQLite at first, but it is possible to manage other databases.
@@ -113,12 +120,19 @@ I recommend using MySQL or PostgreSQL to avoid the use of a physical database wi
 We have identified an issue regarding Ansible authentication. This might be caused by the required keys. Simply copy the keys from the ~/.ssh/ file to the 'sshkeys' folder within the project. We will work on resolving this problem in the upcoming updates.
 
 
+##### Issue when trying to run the server, indicating something related to allauth
+We've identified some issues on certain machines. You just need to add the:
+```
+'allauth.account.middleware.AccountMiddleware', 
+ ```
+to the MIDDLEWARE list in the settings.py file.
 
 ## Version
 
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.6 | Added a system for customized playbooks and hosts ( TEST ) | 13/09/2023
 | 1.5.3 | Resolved Datetime Import and finish tests | 18/08/2023
 | 1.5.2 | Resolved logging issue in certain system tasks | 18/08/2023
 | 1.5.1 | Added ansible execution information control system | 18/08/2023 |

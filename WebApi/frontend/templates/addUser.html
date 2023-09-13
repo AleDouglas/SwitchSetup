@@ -3,10 +3,23 @@
 {% block content %}
 
 {% if result %}
-<h1>{{ result }}</h1>
-
+<div class="toast-container position-static">
+    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+        <strong class="me-auto">System Alert</strong>
+        <small class="text-body-secondary"></small>
+        <a href="{% url 'userList' %}"><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" action></button></a>
+      </div>
+      <div class="toast-body">
+        {{result}}
+      </div>
+    </div>
+</div>
 {% else %}
+
 <h1>Create a new user</h1>
+
 <form method="POST">
     {% csrf_token %}
 

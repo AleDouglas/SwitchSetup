@@ -8,6 +8,8 @@ Welcome! We appreciate your interest in contributing. Please take a moment to re
 - [Setup](#setup)
 - [Secret Key](#SecretKey)
 - [Configure your .env](#configure-env)
+- [Run SwitchSetup](#run-switchsetup)
+- [DataBase](#database)
 - [Creating Issues](#creating-issues)
 - [Submitting Pull Requests](#submitting-pull-requests)
 - [Code Style](#code-style)
@@ -22,57 +24,92 @@ This document provides guidelines and instructions for contributing to our proje
 
 ## Setup
 
+#### Git Clone
+
 To set up the project locally, please follow these steps:
 
-1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git`
-2. Install the for ansible and Django in requirements.txt .
-3. You need generate your own [Secret Key](#SecretKey).
-4. [Configure your .env](#configure-env)
-5. You can run it in your terminal or dockerfile
+1. Clone the repository: `git clone https://github.com/AleDouglas/SwitchSetup.git` .
+2. Install the packages from the requirements.txt file in your Virtual Environment or use the Dockerfile .
+3. You need generate your own [Secret Key](#SecretKey) .
+4. [Configure your .env](#configure-.env) .
+5. You can run it in [your terminal or dockerfile](#run-switchsetup) .
 
-### Terminal: **(Before starting run [Configure your .env](#configure-env))**
+
+## SecretKey
+
+Start the **Python interpreter**
+```
+import secrets
+secrets.token_hex(32)
+Copy the key in .env
+```
+Be mindful that you can generate a new key whenever necessary. 
+However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
+
+
+## Configure .env
+
+Create an .env file in the /core directory:
+```
+SECRET_KEY=SECRET KEY
+DEBUG=True
+```
+**Use DEBUG=TRUE only when in development.**
+
+## Run SwitchSetup
+
+Use for login:
+```
+Username: admin
+Password: 123
+```
+
+#### Terminal Local:
+
 ```
 cd WebApi
 python manage.py migrate
 python manage.py runserver
 ```
 
-### Dockerfile: **(Before starting run [Configure your .env](#configure-env))**
+#### Dockerfile:
+
 ```
 cd WebApi
 python manage.py migrate
 cd ..
-docker build -t image_name
-docker run -p 8000:8000 image_name
+docker build -t image_name .
+docker run -p 8000:8000 imagename
 ```
 
-After this, use for login:
+
+## Database
+
+We use SQLite at first, but it is possible to manage other databases.
+
+Use [Django's](https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATABASES) own reference.
+
+If you lose the database file or decide to switch to a different one, you will need to follow these steps:
+
+1. Migration ( **Inside the WebApi file** )
+
+
+```
+python manage.py migrate
+```
+After this, you just need to either use Docker or run it on your local machine.
+
+Use for login:
 ```
 Username: admin
 Password: 123
 ```
 
-Once inside the system, you have the capability to manage your users and their credentials effectively.
 
-## SecretKey
+I recommend using MySQL or PostgreSQL to avoid the use of a physical database within the documents. Simply follow the [Django]((https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATABASES) ) reference for the necessary modifications.
 
-Start the Python interpreter
-```
-import secrets
-secrets.token_hex(32)
-Copy the key
-```
-Be mindful that you can generate a new key whenever necessary. 
-However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
-## Configure .env
 
-Create an .env file in the /core directory:
-```
-SECRET_KEY=YOU SECRET KEY
-DEBUG=True
-```
-Use DEBUG=TRUE only when in development.
 ## Creating Issues
 
 If you encounter any issues or have feature requests, please create an Issue using the following guidelines:

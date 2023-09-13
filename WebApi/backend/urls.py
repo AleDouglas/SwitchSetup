@@ -1,14 +1,20 @@
 from django.urls import path, include
 from .views.home import HomeView
-from .views.ansible import AnsibleView
+from .views.ansible import *
 from .views.log import LogView
 from .views.user import *
 from .views.credential import *
 from .views.api import *
+from .views.doc import *
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+    path('doc', DocView.as_view(), name='doc'),
     path('ansible/', AnsibleView.as_view(), name='ansible'),
+    path('ansible/default/', AnsibleDefaultView.as_view(), name='ansibleDefault'),
+    path('ansible/custom/', AnsibleCustomView.as_view(), name='ansibleCustom'),
+    path('ansible/custom/playbook/new', PlaybookCustomView.as_view(), name='playbookCustom'),
+    path('ansible/custom/host/new', HostCustomView.as_view(), name='hostCustom'),
     path('ansible/credential/', CredentialPageView.as_view(), name='credentialList'),
     path('ansible/credential/<int:pk>/edit/', UpdateCredentialView.as_view(), name='credentialEdit'),
     path('ansible/credential/<int:pk>/delete/', DeleteCredentialView.as_view(), name='credentialDelete'),

@@ -1,0 +1,69 @@
+{% extends '_base.html' %}
+{% block title %}SwitchSetup{% endblock %}
+{% block content %}
+
+
+{% if result %}
+<div class="toast-container position-static">
+    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+        <strong class="me-auto">System Alert</strong>
+        <small class="text-body-secondary"></small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" action></button>
+      </div>
+      <div class="toast-body">
+        {{result}}
+      </div>
+    </div>
+</div>
+{% endif %}
+
+{{ form.errors }}
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+
+<div class="form-group" style="margin-top: 15px;">
+    <label for="exampleFormControlInput1">Title</label>
+    <input class="form-control" type="text" name="title" placeholder="Title">
+</div>
+
+<div class="form-group" style="margin-top: 15px;">
+    <label for="exampleFormControlInput1">Description</label>
+    <input class="form-control" type="text" name="about" placeholder="Description">
+</div>
+
+{% if page == '1' %}
+<div class="form-group" style="margin-top: 15px;">
+    <label class="form-label" for="customFile">Pĺaybook file</label>
+    <input type="file" name="playbook_file" class="form-control" accept=".yml"/>
+    <small class="form-text text-muted">
+        The file extension must be in YAML
+    </small>
+</div>
+{% else %}
+<div class="form-group" style="margin-top: 15px;">
+    <label class="form-label" for="customFile">Host file</label>
+    <input type="file" name="host_file" class="form-control" accept=".yml"/>
+    <small class="form-text text-muted">
+        The file extension must be in YAML
+    </small>
+</div>
+{% endif %}
+
+<button class="btn btn-primary" type="submit" style="margin-top: 25px;">Confirm</button>
+</form>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[1].classList.add("active");
+</script>
+{% endblock content %}

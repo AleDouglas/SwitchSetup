@@ -78,6 +78,24 @@ class AnsibleSwitchConnector:
             self.clear_data()
             return e.output
 
+
+    def run_ansible_custom(self, path_playbook, path_host, ansible_level):
+        try:
+            if int(ansible_level) == 0:
+                command = ['ansible-playbook', path_playbook, '-i', path_host, '-e', self.ansibleCFG]
+            elif int(ansible_level) == 1:
+                command = ['ansible-playbook', path_playbook, '-i', path_host, '-e', self.ansibleCFG, '-v']
+            elif int(ansible_level) == 2:
+                command = ['ansible-playbook', path_playbook, '-i', path_host, '-e', self.ansibleCFG, '-vvv']
+            else:
+                command = ['ansible-playbook', path_playbook, '-i', path_host, '-e', self.ansibleCFG, '-vvvvv']
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
+            self.clear_data()
+            return output
+        except subprocess.CalledProcessError as e:
+            self.clear_data()
+            return e.output
+
     def clear_data(self):
         playbook_file = open(self.ansiblePlaybook, 'w')
         playbook_file.close()
