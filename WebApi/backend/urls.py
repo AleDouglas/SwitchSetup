@@ -6,6 +6,7 @@ from .views.user import *
 from .views.credential import *
 from .views.api import *
 from .views.doc import *
+from .views.utils import media_access
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -36,4 +37,7 @@ urlpatterns = [
     path('api/', ApiPageView.as_view(), name='apiKey'),
     path('api/v1/', ApiResponseView.as_view(), name='apiResponse'),
     path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
+
+    #Security Area
+    path('backend/integrations/communs/custom/<str:path>', media_access, name='media'),
 ]
