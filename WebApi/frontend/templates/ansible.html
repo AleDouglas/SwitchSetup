@@ -8,26 +8,42 @@
             <h3 class="card-title text-center">Ansible</h5>
             <ol>
                 <li><a href="{% url 'ansibleDefault' %}">Run default Ansible</a></li>
-                <li><a href="{% url 'ansibleCustom' %}">Run Custom Ansible</a></li>
-                <li><a href="{% url 'playbookCustom' %}">Customize a new Playbook file</a></li>
-                <li><a href="{% url 'hostCustom' %}">Customize a new Host file</a></li>
+                <li><a href="{% url 'ansibleCustom' %}">Run custom Ansible</a></li>
             </ol>
         </div>
       </div>
     </div>
+
+    {% if user.is_staff %}
     <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-            <h3 class="card-title text-center">Playbook Settings</h5>
-            <ol>
-                <!-- Aqui ficará a lista dos playbooks customizados-->
-                <li><a href="#">Server settings</a></li>
-                <li><a href="#">Switches settings</a></li>
-                <li><a href="#">Example 03</a></li>
-            </ol>
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-center">Playbook Settings</h5>
+                <ol>
+                    <!-- Aqui ficará a lista dos playbooks customizados-->
+                    <li><a href="{% url 'playbookCustom' %}">Customize a new Playbook file</a></li>
+                    <li><a href="{% url 'playbookCustomList' %}">List of all Playbooks</a></li>
+                </ol>
+            </div>
         </div>
-      </div>
     </div>
+
+
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title text-center">Host Settings</h5>
+                <ol>
+                    <!-- Aqui ficará a lista dos playbooks customizados-->
+                    <li><a href="{% url 'hostCustom' %}">Customize a new Host file</a></li>
+                    <li><a href="{% url 'hostCustomList' %}">List of all Hosts</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
 </div>
 
 
@@ -35,22 +51,5 @@
 <script>
     var navLinks = document.getElementsByClassName("nav_link");
     navLinks[1].classList.add("active");
-
-    $(document).ready(function() {
-        var selectField = $('#credential');
-
-        var campo1 = $('#username');
-        var campo2 = $('#password');
-
-        selectField.on('change', function() {
-            if (selectField.val() != 'none') {
-                campo1.prop('disabled', true);
-                campo2.prop('disabled', true);
-            } else {
-                campo1.prop('disabled', false);
-                campo2.prop('disabled', false);
-            }
-        });
-        });
 </script>
 {% endblock content %}

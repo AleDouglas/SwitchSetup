@@ -1,5 +1,5 @@
 # Local Files #
-WebApi/backend/integrations/communs/custom/
+WebApi/backend/integrations/communs/custom/*
 
 
 # Django #

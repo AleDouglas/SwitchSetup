@@ -131,6 +131,7 @@ to the MIDDLEWARE list in the settings.py file.
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| 1.6.1 | Fixing and Update system for customized playbooks and hosts | 13/09/2023
 | 1.6 | Added a system for customized playbooks and hosts ( TEST ) | 13/09/2023
 | 1.5.3 | Resolved Datetime Import and finish tests | 18/08/2023
 | 1.5.2 | Resolved logging issue in certain system tasks | 18/08/2023

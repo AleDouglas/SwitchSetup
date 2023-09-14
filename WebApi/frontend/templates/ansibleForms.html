@@ -21,39 +21,47 @@
 
 {{ form.errors }}
 
+
+
+
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 
+{% if type_page != 'delete' %}
+    <div class="form-group" style="margin-top: 15px;">
+        <label for="exampleFormControlInput1">Title</label>
+        <input class="form-control" type="text" name="title" placeholder="Title" value="{{ form.title.value }}">
+    </div>
 
-<div class="form-group" style="margin-top: 15px;">
-    <label for="exampleFormControlInput1">Title</label>
-    <input class="form-control" type="text" name="title" placeholder="Title">
-</div>
+    <div class="form-group" style="margin-top: 15px;">
+        <label for="exampleFormControlInput1">Description</label>
+        <input class="form-control" type="text" name="about" placeholder="Description" value="{{ form.about.value }}">
+    </div>
 
-<div class="form-group" style="margin-top: 15px;">
-    <label for="exampleFormControlInput1">Description</label>
-    <input class="form-control" type="text" name="about" placeholder="Description">
-</div>
-
-{% if page == '1' %}
-<div class="form-group" style="margin-top: 15px;">
-    <label class="form-label" for="customFile">Pĺaybook file</label>
-    <input type="file" name="playbook_file" class="form-control" accept=".yml"/>
-    <small class="form-text text-muted">
-        The file extension must be in YAML
-    </small>
-</div>
-{% else %}
-<div class="form-group" style="margin-top: 15px;">
-    <label class="form-label" for="customFile">Host file</label>
-    <input type="file" name="host_file" class="form-control" accept=".yml"/>
-    <small class="form-text text-muted">
-        The file extension must be in YAML
-    </small>
-</div>
-{% endif %}
+    {% if page == '1' %}
+    <div class="form-group" style="margin-top: 15px;">
+        <label class="form-label" for="customFile">Pĺaybook file</label>
+        {{ form.playbook_file }}
+        <small class="form-text text-muted">
+            The file extension must be in YAML
+        </small>
+    </div>
+    {% else %}
+    <div class="form-group" style="margin-top: 15px;">
+        <label class="form-label" for="customFile">Host file</label>
+        {{ form.host_file }}
+        <small class="form-text text-muted">
+            The file extension must be in YAML
+        </small>
+    </div>
+    {% endif %}
 
 <button class="btn btn-primary" type="submit" style="margin-top: 25px;">Confirm</button>
+{% else %}
+<h3 style="color: red;">Are you sure you want to delete "{{ object }}"?</h3>
+<button type="submit" class="btn btn-danger px-5 mb-5 w-100">Confirm</button>
+{% endif %}
+
 </form>
 
 

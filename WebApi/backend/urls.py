@@ -15,6 +15,16 @@ urlpatterns = [
     path('ansible/custom/', AnsibleCustomView.as_view(), name='ansibleCustom'),
     path('ansible/custom/playbook/new', PlaybookCustomView.as_view(), name='playbookCustom'),
     path('ansible/custom/host/new', HostCustomView.as_view(), name='hostCustom'),
+
+    path('ansible/custom/playbook/list/', PlaybookCustomListView.as_view(), name='playbookCustomList'),
+    path('ansible/custom/playbook/<int:pk>/edit/', PlaybookCustomEditView.as_view(), name='playbookCustomEdit'),
+    path('ansible/custom/playbook/<int:pk>/delete/', PlaybookCustomDeleteView.as_view(), name='playbookCustomDelete'),
+
+    path('ansible/custom/host/list/', HostCustomListView.as_view(), name='hostCustomList'),
+    path('ansible/custom/host/<int:pk>/edit/', HostCustomEditView.as_view(), name='hostCustomEdit'),
+    path('ansible/custom/host/<int:pk>/delete/', HostCustomDeleteView.as_view(), name='hostCustomDelete'),
+
+
     path('ansible/credential/', CredentialPageView.as_view(), name='credentialList'),
     path('ansible/credential/<int:pk>/edit/', UpdateCredentialView.as_view(), name='credentialEdit'),
     path('ansible/credential/<int:pk>/delete/', DeleteCredentialView.as_view(), name='credentialDelete'),
