@@ -3,12 +3,13 @@
 {% block content %}
 <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
-      <div class="card h-100">
+      <div class="card h-100 cardselect">
         <div class="card-body">
-            <h3 class="card-title text-center">Ansible</h5>
+            <h3 class="card-title text-center">Ansible</h3>
+            <hr>
             <ol>
-                <li><a href="{% url 'ansibleDefault' %}">Run default Ansible</a></li>
-                <li><a href="{% url 'ansibleCustom' %}">Run custom Ansible</a></li>
+                <li><a class="linkselect" href="{% url 'ansibleDefault' %}">Run default Ansible</a></li>
+                <li><a class="linkselect" href="{% url 'ansibleCustom' %}">Run custom Ansible</a></li>
             </ol>
         </div>
       </div>
@@ -16,13 +17,14 @@
 
     {% if user.is_staff %}
     <div class="col">
-        <div class="card h-100">
-            <div class="card-body">
-                <h3 class="card-title text-center">Playbook Settings</h5>
+        <div class="card h-100 cardselect">
+            <div class="card-body ">
+                <h3 class="card-title text-center">Playbook Settings</h3>
+                <hr>
                 <ol>
                     <!-- Aqui ficará a lista dos playbooks customizados-->
-                    <li><a href="{% url 'playbookCustom' %}">Customize a new Playbook file</a></li>
-                    <li><a href="{% url 'playbookCustomList' %}">List of all Playbooks</a></li>
+                    <li><a class="linkselect" href="{% url 'playbookCustom' %}">Customize a new Playbook file</a></li>
+                    <li><a class="linkselect" href="{% url 'playbookCustomList' %}">List of all Playbooks</a></li>
                 </ol>
             </div>
         </div>
@@ -30,13 +32,14 @@
 
 
     <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 cardselect">
             <div class="card-body">
-                <h3 class="card-title text-center">Host Settings</h5>
+                <h3 class="card-title text-center">Host Settings</h3>
+                <hr>
                 <ol>
                     <!-- Aqui ficará a lista dos playbooks customizados-->
-                    <li><a href="{% url 'hostCustom' %}">Customize a new Host file</a></li>
-                    <li><a href="{% url 'hostCustomList' %}">List of all Hosts</a></li>
+                    <li><a class="linkselect" href="{% url 'hostCustom' %}">Customize a new Host file</a></li>
+                    <li><a class="linkselect" href="{% url 'hostCustomList' %}">List of all Hosts</a></li>
                 </ol>
             </div>
         </div>
@@ -46,6 +49,24 @@
 
 </div>
 
+
+<style>
+
+    li{
+        margin-top: 10px;
+    }
+
+    .linkselect{
+        color: black;
+        font-size: 18px;
+        letter-spacing: 1.3px;
+    }
+
+    .linkselect:hover{
+        color: #4723D9;
+    }
+
+</style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
