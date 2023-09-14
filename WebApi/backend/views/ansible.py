@@ -68,6 +68,7 @@ class PlaybookCustomView(AdminRequired, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page'] = '1'
+        context['type_page'] = 'create'
         return context
 
     def form_valid(self, form):
@@ -176,6 +177,7 @@ class HostCustomView(AdminRequired, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page'] = '2'
+        context['type_page'] = 'create'
         return context
 
     def form_valid(self, form):

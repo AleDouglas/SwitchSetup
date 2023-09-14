@@ -30,26 +30,43 @@
 {% if type_page != 'delete' %}
     <div class="form-group" style="margin-top: 15px;">
         <label for="exampleFormControlInput1">Title</label>
+        {% if type_page == 'create' %}
+        <input class="form-control" type="text" name="title" placeholder="Title">
+
+        {% else %}
         <input class="form-control" type="text" name="title" placeholder="Title" value="{{ form.title.value }}">
+        {% endif %}
     </div>
 
     <div class="form-group" style="margin-top: 15px;">
         <label for="exampleFormControlInput1">Description</label>
+        {% if type_page == 'create' %}
+        <input class="form-control" type="text" name="about" placeholder="Description">
+        {% else %}
         <input class="form-control" type="text" name="about" placeholder="Description" value="{{ form.about.value }}">
+        {% endif %}
     </div>
 
     {% if page == '1' %}
     <div class="form-group" style="margin-top: 15px;">
-        <label class="form-label" for="customFile">Pĺaybook file</label>
+        <label class="form-label" for="customFile">Pĺaybook file: </label>
+        {% if type_page == 'create' %}
+        <input class="form-control form-control-lg" id="formFileLg" type="file" name="playbook_file" accept=".yml"/>
+        {% else %}
         {{ form.playbook_file }}
+        {% endif %}
         <small class="form-text text-muted">
             The file extension must be in YAML
         </small>
     </div>
     {% else %}
     <div class="form-group" style="margin-top: 15px;">
-        <label class="form-label" for="customFile">Host file</label>
+        <label class="form-label" for="customFile">Host file: </label>
+        {% if type_page == 'create' %}
+        <input class="form-control form-control-lg" id="formFileLg" type="file" name="host_file" accept=".yml"/>
+        {% else %}
         {{ form.host_file }}
+        {% endif %}
         <small class="form-text text-muted">
             The file extension must be in YAML
         </small>
