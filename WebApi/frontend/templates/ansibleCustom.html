@@ -2,8 +2,8 @@
 {% block title %}SwitchSetup{% endblock %}
 {% block content %}
 
-<h1>Ansible Configuration</h1>
-
+<h1>Ansible Custom Settings</h1>
+<p>Select the playbook you want to run along with the target hosts file.</p>
 
 
 <form method="POST">
@@ -22,7 +22,7 @@
 <div class="form-group">
     <label for="exampleFormControlInput1">Playbook</label>
     <select class="custom-select" style="width: 100%;" name="playbook_file">
-        <option value="0" selected>None</option>
+        <option selected>Select the Playbook</option>
         {% for playbook in playbook_list %}
         <option value="{{ playbook.id }}">{{ playbook.title }}</option>
 
@@ -33,7 +33,7 @@
 <div class="form-group">
     <label for="exampleFormControlInput1">Host</label>
     <select class="custom-select" style="width: 100%;" name="host_file">
-        <option value="0" selected>None</option>
+        <option selected>Select the Host</option>
         {% for host in host_list %}
         <option value="{{ host.id }}">{{ host.title }}</option>
         {% endfor %}
@@ -45,11 +45,14 @@
 <button class="btn btn-primary" type="submit" style="margin-top: 5px;">Confirm</button>
 </form>
 
+
 {% if output %}
+<hr>
 <h3 style="margin-top: 35px;">Output</h3>
 <pre>
     {{ output }}
 </pre>
+<hr>
 {% endif %}
 
 

@@ -4,7 +4,6 @@ import secrets
 def getAllApi():
     return ApiKey.objects.all()
 
-
 def getApi(id):
     return ApiKey.objects.get(id=int(id))
 

@@ -58,15 +58,15 @@
 
                 <tbody>
                     {% for key in keys %}
-                    <tr data-toggle="collapse" data-target="#demo{{user.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i></button></td>
+                    <tr data-toggle="collapse" data-target="#demo{{key.id}}" class="accordion-toggle">
+                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i> Show access key</button></td>
                         <td>{{ key.id }}</td>
                         <td>{{ key.title }}</td>
                         <td><a href="{% url 'keyDelete' key.pk %}">Delete</a></td>
                     </tr>
                     <tr>
                         <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="demo{{user.id}}" style="width: 100%;"> 
+                            <div class="accordian-body collapse" id="demo{{key.id}}" style="width: 100%;"> 
                                 <table class="table table-striped">
                                     <thead>
                                         <tr class="info">
@@ -96,15 +96,9 @@
         import requests
 
         def run_request():
-            url = 'http://127.0.0.1:8000/api/v1/'
+            url = 'http://127.0.0.1:8000/api/v3/playbook'
             data = {
-                'key': 'testekeypass',
-                'switch': 'huawei',
-                'ansible_level': 'Standard',
-                'host': '10.0.0.0',
-                'username': 'testeuser',
-                'password': 'testepass',
-                'command': 'display vlan',
+                'key': 'Teste Key',
             }
 
             response = requests.post(url, data=data)

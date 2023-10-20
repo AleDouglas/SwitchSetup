@@ -19,11 +19,10 @@
 </div>
 {% endif %}
 
+
+<h3><a href="{% url 'ansible' %}">Back to Ansible Menu</a></h3>
+
 {{ form.errors }}
-
-
-
-
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 

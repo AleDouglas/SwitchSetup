@@ -317,4 +317,3 @@ class AnsibleCustomView(LoginRequiredMixin, TemplateView):
         output=output,
         )
         return self.render_to_response(self.get_context_data(output = output))
-

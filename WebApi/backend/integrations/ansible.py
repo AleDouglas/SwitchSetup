@@ -40,7 +40,7 @@ class AnsibleSwitchConnector:
     def write_ansible_playbook(self, string, switch):
         command_list = string.split('\n')
         if len(command_list) == 1:
-            command_str = f'        commands: {command_list[0]}\n'
+            command_str = f'        commands: "{command_list[0]} "\n'
 
         else:
             command_str = '        commands: |\n'
@@ -95,6 +95,27 @@ class AnsibleSwitchConnector:
             return output
         except subprocess.CalledProcessError as e:
             return e.output
+
+    # Serve para executar um Host padrão e um Playbook customizável
+    def run_ansible_device(self, path_host, playbook_command, ansible_level, switch):
+        self.write_ansible_playbook(playbook_command, switch)
+        path_host = path_host[1:]
+        try:
+            if int(ansible_level) == 0:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', path_host, '-e', self.ansibleCFG]
+            elif int(ansible_level) == 1:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', path_host, '-e', self.ansibleCFG, '-v']
+            elif int(ansible_level) == 2:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', path_host, '-e', self.ansibleCFG, '-vvv']
+            else:
+                command = ['ansible-playbook', self.ansiblePlaybook, '-i', path_host, '-e', self.ansibleCFG, '-vvvvv']
+            output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
+            self.clear_data()
+            return output
+        except subprocess.CalledProcessError as e:
+            self.clear_data()
+            return e.output
+
 
     def clear_data(self):
         playbook_file = open(self.ansiblePlaybook, 'w')

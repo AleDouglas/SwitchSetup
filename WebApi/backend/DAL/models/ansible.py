@@ -11,18 +11,22 @@ def unique_filename(instance, filename):
         return f"backend/integrations/communs/custom/{filename}"
 
 class PlaybookCustom(models.Model):
-    title = models.CharField("Title", max_length=30)
+    title = models.CharField("Title", max_length=150)
     about = models.TextField("About")
     playbook_file = models.FileField(upload_to=unique_filename)
+    device = models.TextField("Device", default='None')
+    switch = models.TextField("Switch", default='None')
 
     def __str__(self):
         return self.title
 
 
 class HostCustom(models.Model):
-    title = models.CharField("Title", max_length=30)
+    title = models.CharField("Title", max_length=150)
     about = models.TextField("About")
     host_file = models.FileField(upload_to=unique_filename)
+    device = models.TextField("Device", default='None')
+    switch = models.TextField("Switch", default='None')
 
     def __str__(self):
         return self.title

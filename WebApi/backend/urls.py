@@ -34,8 +34,14 @@ urlpatterns = [
     path('user/create/', CreateUserView.as_view(), name='userCreate'),
     path('user/<int:pk>/edit/', UpdateUserView.as_view(), name='userEdit'),
     path('user/<int:pk>/delete/', DeleteUserView.as_view(), name='userDelete'),
+
+    #Api Area
     path('api/', ApiPageView.as_view(), name='apiKey'),
     path('api/v1/', ApiResponseView.as_view(), name='apiResponse'),
+    path('api/v2/', ApiCustomResponseView.as_view(), name='apiCustomResponse'),
+    path('api/v2/host', ApiHostDefault.as_view(), name='ApiHostDefault'),
+    path('api/v3/playbook', ApiGetPlaybook.as_view(), name='apiGetPlaybook'),
+    path('api/v3/host', ApiGetHost.as_view(), name='apiGetHost'),
     path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
 
     #Security Area

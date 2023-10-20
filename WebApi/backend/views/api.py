@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from backend.views.utils import AdminRequired
 from backend.DAL.DAO.apiDAO import *
 from backend.DAL.DAO.logDAO import *
+from backend.DAL.DAO.ansibleDAO import *
 from backend.DAL.models.api import ApiKey
 from backend.integrations.ansible import *
 from datetime import datetime
@@ -38,6 +39,7 @@ class ApiPageView(AdminRequired, TemplateView):
         )
         return self.render_to_response(self.get_context_data(result = result))
 
+
 class ApiDeleteView(AdminRequired, DeleteView):
     template_name = 'api.html'
     model = ApiKey
@@ -51,6 +53,7 @@ class ApiDeleteView(AdminRequired, DeleteView):
 
 
 class ApiResponseView(APIView):
+    ansible = AnsibleSwitchConnector()
 
     def execute_command(self, playbook, host, switch, username, password, ansible_level):
         # Adicionar verificações de segurança aqui
@@ -69,6 +72,7 @@ class ApiResponseView(APIView):
             return Response("Key not found, access denied")
         try:
             output = execute_command(playbook = data['command'], host = data['host'], switch = data['switch'], username = data['username'], password = data['password'], ansible_level = data['ansible_level'])
+            
             createLog(
             user=f"Api Key",
             date=datetime.now().strftime("%d-%m-%Y"),
@@ -81,3 +85,105 @@ class ApiResponseView(APIView):
             return Response(output)
         except:
             return Response("Please verify the variables used, remembering that the following fields are required: key, command, host, switch, username, password.")
+
+
+# Endpoint Ansible Custom #
+class ApiCustomResponseView(APIView):
+    ansible = AnsibleSwitchConnector()
+
+    def execute_command(self, path_playbook, path_host, ansible_level):
+        output = self.ansible.run_ansible_custom(path_playbook=path_playbook, path_host=path_host, ansible_level=ansible_level)
+        return output
+
+    def post(self, request, format=None):
+        data = request.data
+        try:
+            key = searchApi(data['key'])
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+        if key == False:
+            return Response("Key not found, access denied")
+        try:            
+            output = self.execute_command(path_playbook= str(data['playbook']), path_host= str(data['host']), ansible_level= data['ansible_level'])
+            return Response(output)
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+
+
+class ApiHostDefault(APIView):
+    ansible = AnsibleSwitchConnector()
+
+    def execute_command(self, command, path_host, ansible_level, switch = "Cisco"):
+        output = self.ansible.run_ansible_device(playbook_command=command, path_host=path_host, ansible_level=ansible_level, switch=switch)
+        return output
+
+    def post(self, request, format=None):
+        data = request.data
+        try:
+            key = searchApi(data['key'])
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+        if key == False:
+            return Response("Key not found, access denied")
+        try:            
+            output = self.execute_command(command= str(data['command']), path_host= str(data['host']), ansible_level= data['ansible_level'])
+            return Response(output)
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+
+
+
+class ApiGetPlaybook(APIView):
+    def post(self, request, format=None):
+        data = request.data
+        key = False
+        try:
+            key = searchApi(data['key'])
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+        if key == False:
+            return Response("Key not found, access denied")
+        try:    
+            jsonFormat = []     
+            queryset = getAllPlaybook()
+            for playbook in queryset:
+                tmp = {
+                    "id": playbook.id,
+                    "device": playbook.device,
+                    "switch": playbook.switch,
+                    "title": playbook.title,
+                    "about": playbook.about,
+                    "url": playbook.playbook_file.url
+                }
+                jsonFormat.append(tmp)
+            return Response(jsonFormat)
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+
+class ApiGetHost(APIView):
+    def post(self, request, format=None):
+        data = request.data
+        key = False
+        try:
+            key = searchApi(data['key'])
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+        if key == False:
+            return Response("Key not found, access denied")
+        try:            
+            jsonFormat = []     
+            queryset = getAllHost()
+            for host in queryset:
+                tmp = {
+                    "id": host.id,
+                    "device": host.device,
+                    "switch": host.switch,
+                    "title": host.title,
+                    "about": host.about,
+                    "url": host.host_file.url
+                }
+                jsonFormat.append(tmp)
+            return Response(jsonFormat)
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+    
