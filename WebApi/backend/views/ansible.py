@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from backend.DAL.DAO.logDAO import *
 from backend.DAL.DAO.deviceDAO import *
+from backend.DAL.DAO.ansibleDAO import *
 from backend.integrations.ansible import *
 from backend.DAL.models.ansible import *
 from django.urls import reverse_lazy
@@ -49,9 +50,10 @@ class AnsibleDefaultView(LoginRequiredMixin, TemplateView):
             output = self.execute_command(playbook, host, switch, credential.username, credential.password, ansible_level)
         createLog(
             user=f"{self.request.user}",
-            date=datetime.now().strftime("%d-%m-%Y"),
+            service=f"Execute Ansible with Custom Playbook and Host",
+            description=f"The user attempted to run a fully customized playbook, manually inputting the commands to execute on the system.",
+            data=datetime.now().strftime("%%d/%m/%Y"),
             hour=datetime.now().strftime("%H:%M:%S"),
-            switch=switch,
             playbook=playbook,
             host=host,
             output=output,
@@ -62,7 +64,7 @@ class AnsibleDefaultView(LoginRequiredMixin, TemplateView):
 class PlaybookCustomView(AdminRequired, CreateView):
     template_name = 'ansibleForms.html'
     model = PlaybookCustom
-    fields = ['title', 'about', 'playbook_file']
+    fields = ['title', 'about', 'switch', 'playbook_file']
     success_url = reverse_lazy("playbookCustom")
 
     def get_context_data(self, **kwargs):
@@ -82,11 +84,12 @@ class PlaybookCustomView(AdminRequired, CreateView):
         form.save()
         createLog(
         user=f"{self.request.user}",
-        date=datetime.now().strftime("%d-%m-%Y"),
+        service=f"Inserting New Playbook File",
+        description=f"A new playbook file was added in the accepted YAML format by the system.",
+        data=datetime.now().strftime("%d/%m/%Y"),
         hour=datetime.now().strftime("%H:%M:%S"),
-        switch="None",
         playbook=str(playbook_title),
-        host="None",
+        host="Unused Service",
         output="Successful upload playbook",
         )
         context = self.get_context_data(form=form, result="Successful uploading files")
@@ -100,7 +103,7 @@ class PlaybookCustomView(AdminRequired, CreateView):
 class PlaybookCustomEditView(AdminRequired, UpdateView):
     template_name = 'ansibleForms.html'
     model = PlaybookCustom
-    fields = ['title', 'about', 'playbook_file']
+    fields = ['title', 'about', 'switch','playbook_file']
     success_url = reverse_lazy("playbookCustomList")
 
     def get_context_data(self, **kwargs):
@@ -132,12 +135,13 @@ class PlaybookCustomEditView(AdminRequired, UpdateView):
         form.save()
         createLog(
         user=f"{self.request.user}",
-        date=datetime.now().strftime("%d-%m-%Y"),
+        service=f"Edit Playbook File",
+        description=f"Sent a new playbook file, overwriting a previously saved one.",
+        data=datetime.now().strftime("%d/%m/%Y"),
         hour=datetime.now().strftime("%H:%M:%S"),
-        switch="None",
         playbook=str(playbook_title),
-        host="None",
-        output="Successful update playbook",
+        host="Unused Service",
+        output="Successful upload playbook",
         )
         context = self.get_context_data(form=form, result="Successful uploading files")
         return self.render_to_response(context)
@@ -151,6 +155,83 @@ class PlaybookCustomDeleteView(AdminRequired, DeleteView):
     template_name = 'ansibleForms.html'
     model = PlaybookCustom
     success_url = reverse_lazy("playbookCustomList")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['type_page'] = 'delete'
+        return context
+
+class CommandLineView(AdminRequired, CreateView):
+    template_name = 'ansibleForms.html'
+    model = Command
+    fields = ['title', 'description', 'command','switch']
+    success_url = reverse_lazy("commandLine")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['commandLine'] = 'commandLine'
+        context['edit'] = 0
+        context['commandList'] = getAllCommand()
+        return context
+
+    def form_valid(self, form):
+        command = form.cleaned_data['command'] 
+        form.save()
+        createLog(
+        user=f"{self.request.user}",
+        service=f"Add a new command line",
+        description=f"Add a new command line",
+        data=datetime.now().strftime("%d/%m/%Y"),
+        hour=datetime.now().strftime("%H:%M:%S"),
+        playbook=str(command),
+        host="Unused Service",
+        output="Success in adding new command lines",
+        )
+        context = self.get_context_data(form=form, result="Success in adding new command lines.")
+        return self.render_to_response(context)
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form, result="Failed in adding new command lines.")
+        return self.render_to_response(context)
+
+class CommandLineEditView(AdminRequired, UpdateView):
+    template_name = 'ansibleForms.html'
+    model = Command
+    fields = ['title', 'description', 'command','switch']
+    success_url = reverse_lazy("commandLine")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['commandLine'] = 'commandLine'
+        context['edit'] = 1
+        context['commandList'] = getAllCommand()
+        return context
+
+    def form_valid(self, form):
+        command = form.cleaned_data['command'] 
+        form.save()
+        createLog(
+        user=f"{self.request.user}",
+        service=f"Edit a command line",
+        description=f"Edit a command line",
+        data=datetime.now().strftime("%d/%m/%Y"),
+        hour=datetime.now().strftime("%H:%M:%S"),
+        playbook=str(command),
+        host="Unused Service",
+        output="Success in editing the command lines",
+        )
+        context = self.get_context_data(form=form, result="Success in editing the command lines.")
+        return self.render_to_response(context)
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form, result="Failed to upload files")
+        return self.render_to_response(context)
+
+class CommandLineDeleteView(AdminRequired, DeleteView):
+    template_name = 'ansibleForms.html'
+    model = Command
+    success_url = reverse_lazy("commandLine")
+    command_id = ''
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -171,7 +252,7 @@ class PlaybookCustomListView(AdminRequired, ListView):
 class HostCustomView(AdminRequired, CreateView):
     template_name = 'ansibleForms.html'
     model = HostCustom
-    fields = ['title', 'about', 'host_file']
+    fields = ['title', 'about', 'device','switch','host_file']
     success_url = reverse_lazy("hostCustom")
 
     def get_context_data(self, **kwargs):
@@ -191,10 +272,11 @@ class HostCustomView(AdminRequired, CreateView):
         form.save()
         createLog(
         user=f"{self.request.user}",
-        date=datetime.now().strftime("%d-%m-%Y"),
+        service=f"Inserting New Host File",
+        description=f"A new Host file was added in the accepted YAML format by the system.",
+        data=datetime.now().strftime("%d/%m/%Y"),
         hour=datetime.now().strftime("%H:%M:%S"),
-        switch="None",
-        playbook="None",
+        playbook="Unused Service",
         host=str(host_title),
         output="Successful uploading host",
         )
@@ -209,7 +291,7 @@ class HostCustomView(AdminRequired, CreateView):
 class HostCustomEditView(AdminRequired, UpdateView):
     template_name = 'ansibleForms.html'
     model = HostCustom
-    fields = ['title', 'about', 'host_file']
+    fields = ['title', 'about', 'device','switch', 'host_file']
     success_url = reverse_lazy("hostCustomList")
 
     def get_context_data(self, **kwargs):
@@ -242,10 +324,11 @@ class HostCustomEditView(AdminRequired, UpdateView):
         
         createLog(
         user=f"{self.request.user}",
-        date=datetime.now().strftime("%d-%m-%Y"),
+        service=f"Edit Host File",
+        description=f"Sent a new Host file, overwriting a previously saved one.",
+        data=datetime.now().strftime("%d/%m/%Y"),
         hour=datetime.now().strftime("%H:%M:%S"),
-        switch="None",
-        playbook="None",
+        playbook="Unused Service",
         host=str(host_title),
         output="Successful update host",
         )
@@ -309,9 +392,10 @@ class AnsibleCustomView(LoginRequiredMixin, TemplateView):
         output = self.execute_command(path_playbook=str(path_playbook.playbook_file.url), path_host=str(path_host.host_file.url), ansible_level=ansible_level)
         createLog(
         user=f"{self.request.user}",
-        date=datetime.now().strftime("%d-%m-%Y"),
+        service=f"Execute Ansible with Predefined Playbook and Host in the System",
+        description=f"The user attempted to run a playbook already saved in the system.",
+        data=datetime.now().strftime("%d/%m/%Y"),
         hour=datetime.now().strftime("%H:%M:%S"),
-        switch="None",
         playbook=str(path_playbook.title),
         host=str(path_playbook.title),
         output=output,

@@ -2,116 +2,75 @@
 {% block title %}SwitchSetup{% endblock %}
 {% block content %}
 
-<h1>Activity Log</h1>
-
-<form method="post">
-{% csrf_token %}
-<label class="form-label">Date</label>
-<div class="input-group">
-<div class="form-outline">
-<input type="search" class="form-control" placeholder="Day/Month/Year" name="date">
-
-</div>
-<button type="submit" class="btn btn-primary">
-    <i class='bx bx-search-alt'></i>
-    Search
-</button>
-</div>
-<small class="form-text text-muted">
-    Search in the format: Day/Month/Year
-</small>
-<details>
-    <summary>Advanced Filters</summary>
-    <label class="form-label">Ticket Identifier</label>
-    <div class="input-group">
-        <div class="form-outline">
-        <input type="search" class="form-control" placeholder="Ex: 1" name="id">
-        </div>
-    </div>
-    <label class="form-label">Username</label>
-    <div class="input-group">
-        <div class="form-outline">
-        <input type="search"class="form-control" placeholder="Ex: Admin" name="username">
-        </div>
-    </div>
-</details>
-
-</form>
-
-
-{% if search %}
-<h3 style="margin-top: 35px;">Search Result</h3>
-
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Activity Table
-        </div>
-        <div class="panel-body ">
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                    <th></th>
-                    <th>Ticket Identifier</th>
-                    <th>Username</th>
-                    <th>Date | Hour</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for log in logs %}
-                    <tr data-toggle="collapse" data-target="#demo{{log.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bxl-trip-advisor'></i></button></td>
-                        <td>{{ log.id }}</td>
-                        <td>{{ log.user }}</td>
-                        <td>{{ log.date }} {{ log.hour }}</td>
-                    </tr>
-
-                    <tr>
-                    <td colspan="12" class="hiddenRow">
-                        <div class="accordian-body collapse" id="demo{{log.id}}" style="width: 100%;"> 
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr class="info">
-                                    <th>File</th>
-                                    <th>Was Sent</th>
-                                    </tr>
-                                </thead>	
-                                <tbody>
-                                    <tr data-toggle="collapse"  class="accordion-toggle">
-                                    <td>Host</td>
-                                    <td>{{ log.host }}</td>
-                                    </tr>						
-                                    <tr>
-                                    <td>Playbook</td>
-                                    <td>{{ log.playbook }}</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Output</td>
-                                    <td>{{ log.output }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> 
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div> 
-</div>
-{% endif %}
-
-
 <style>
-.hiddenRow {
-    padding: 0 !important;
-}
+    .hiddenRow {
+        padding: 0 !important;
+    }
+
+    input{
+        background-color: white !important;
+    }
+    select{
+        background-color: white !important;
+    }
 </style>
 
+<h3>Activity Log</h3>
+<hr>
+<table id="logAct" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Utilized Service</th>
+            <th>Data</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in log_list %}
+        <tr>
+            <td>{{ log.id }}</td>
+            <td>{{ log.user }}</td>
+            <td>{{ log.service }}</td>
+            <td>{{ log.data }}</td>
+            <td>{{ log.hour }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Utilized Service</th>
+            <th>Data</th>
+            <th>Time</th>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>$(document).ready(function () {
+    $.noConflict();
+    var table = $('#logAct').DataTable();
+});</script>
+
+
 <script>
+
+
     var navLinks = document.getElementsByClassName("nav_link");
     navLinks[2].classList.add("active");
 </script>
+
+
+
 {% endblock content %}

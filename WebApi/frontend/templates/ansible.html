@@ -1,53 +1,82 @@
 {% extends '_base.html' %}
+{% load static %}
 {% block title %}SwitchSetup{% endblock %}
 {% block content %}
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card h-100 cardselect">
-        <div class="card-body">
-            <h3 class="card-title text-center">Ansible</h3>
-            <hr>
-            <ol>
-                <li><a class="linkselect" href="{% url 'ansibleDefault' %}">Run default Ansible</a></li>
-                <li><a class="linkselect" href="{% url 'ansibleCustom' %}">Run custom Ansible</a></li>
-            </ol>
-        </div>
-      </div>
-    </div>
 
-    {% if user.is_staff %}
-    <div class="col">
-        <div class="card h-100 cardselect">
-            <div class="card-body ">
-                <h3 class="card-title text-center">Playbook Settings</h3>
-                <hr>
-                <ol>
-                    <!-- Aqui ficará a lista dos playbooks customizados-->
-                    <li><a class="linkselect" href="{% url 'playbookCustom' %}">Customize a new Playbook file</a></li>
-                    <li><a class="linkselect" href="{% url 'playbookCustomList' %}">List of all Playbooks</a></li>
-                </ol>
+
+<link rel="stylesheet" href="{% static 'css/ansibleService.css' %}">
+
+<style>
+
+    .btnMenu{transition: all 0.5s ease-out;}
+
+    .btnMenu:hover{
+        padding: 10px;
+        background: purple;
+        border-radius: 10px;
+        color: white;
+        font-weight: 800;
+        margin-top: 5px;
+        transition: all 0.5s ease-out;
+    }
+</style>
+<div class='container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
+    <div class="hd" style="font-size: 32px;">Services</div>
+    <p><small class="text-muted">Management of Ansible Operation</small></p>
+    <div class="row" style="justify-content: center">
+        <div class="card col-md-3 col-12">
+            <div class="card-content">
+                <div class="card-body"> <img class="img" src="https://i.imgur.com/v6OnUqu.png" />
+                    <div class="shadow"></div>
+                    <div class="card-title"> Ansible Services </div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'ansibleDefault' %}">Execute Ansible with customizable commands and hosts</a></small> </p>
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'ansibleCustom' %}">Execute Ansible with predefined commands and hosts</a></small> </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-
-    <div class="col">
-        <div class="card h-100 cardselect">
-            <div class="card-body">
-                <h3 class="card-title text-center">Host Settings</h3>
-                <hr>
-                <ol>
-                    <!-- Aqui ficará a lista dos playbooks customizados-->
-                    <li><a class="linkselect" href="{% url 'hostCustom' %}">Customize a new Host file</a></li>
-                    <li><a class="linkselect" href="{% url 'hostCustomList' %}">List of all Hosts</a></li>
-                </ol>
+        {% if user.is_staff %}
+        <div class="card col-md-3 col-12 ml-2">
+            <div class="card-content">
+                <div class="card-body"> <img class="img" src="https://i.imgur.com/6NKPrhO.png" />
+                    <div class="card-title"> Playbook Services  <br><small class="text-muted" style="color: red !important;">Administration Area</small></div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'playbookCustom' %}">Insert a new Playbook file</a></small> </p>
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'commandLine' %}">Custom command management</a></small> </p>
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'playbookCustomList' %}">List of all playbooks</a></small> </p>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="card col-md-3 col-12 ml-2">
+            <div class="card-content">
+                <div class="card-body"> <img class="img" src="https://i.imgur.com/VzjZw9M.png" />
+                    <div class="card-title"> Host Services <br><small class="text-muted" style="color: red !important;">Administration Area</small></div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'hostCustom' %}">Insert a new Host file</a></small> </p>
+                        <p> <small class="text-muted"><a class="btnMenu" href="{% url 'hostCustomList' %}">List of all Hosts</a></small> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-
-    {% endif %}
-
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <style>

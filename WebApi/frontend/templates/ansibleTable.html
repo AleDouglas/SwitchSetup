@@ -6,116 +6,88 @@
 
 
 {% if page == '1' %}
-<h1>Playbook's</h1>
+<h1>Playbook List</h1>
+<table id="logAct" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for playbook in object_list %}
+        <tr>
+            <td>{{ playbook.id }}</td>
+            <td>{{ playbook.title }}</td>
+            <td>{{ playbook.about }}</td>
+            <td><a href="{% url 'playbookCustomEdit' playbook.pk %}">Edit</a> | <a href="{% url 'playbookCustomDelete' playbook.pk %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Option</th>
+        </tr>
+    </tfoot>
+</table>
 
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            
-        </div>
-        <div class="panel-body">
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                    <th></th>
-                    <th>Playbook ID</th>
-                    <th>Title</th>
-                    <th>Option</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for playbook in object_list %}
-                    <tr data-toggle="collapse" data-target="#demo{{playbook.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i></button></td>
-                        <td>{{ playbook.id }}</td>
-                        <td>{{ playbook.title }}</td>
-                        <td><a href="{% url 'playbookCustomEdit' playbook.pk %}">Edit</a> | <a href="{% url 'playbookCustomDelete' playbook.pk %}">Delete</a></td>
-                    </tr>
-                    <tr>
-                        <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="demo{{playbook.id}}" style="width: 100%;"> 
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class="info">
-                                        <th>Description</th>
-                                        </tr>
-                                    </thead>	
-                                    <tbody>
-                                        <tr data-toggle="collapse"  class="accordion-toggle">
-                                        <td>{{ playbook.about }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> 
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div> 
-</div>
 {% else %}
 <h1>Host's</h1>
-
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            
-        </div>
-        <div class="panel-body">
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                    <th></th>
-                    <th>Host ID</th>
-                    <th>Title</th>
-                    <th>Option</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for host in object_list %}
-                    <tr data-toggle="collapse" data-target="#demo{{host.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i></button></td>
-                        <td>{{ host.id }}</td>
-                        <td>{{ host.title }}</td>
-                        <td><a href="{% url 'hostCustomEdit' host.pk %}">Edit</a> | <a href="{% url 'hostCustomDelete' host.pk %}">Delete</a></td>
-                    </tr>
-                    <tr>
-                        <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="demo{{host.id}}" style="width: 100%;"> 
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class="info">
-                                        <th>Description</th>
-                                        </tr>
-                                    </thead>	
-                                    <tbody>
-                                        <tr data-toggle="collapse"  class="accordion-toggle">
-                                        <td>{{ host.about }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> 
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div> 
-</div>
+<table id="logAct" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for host in object_list %}
+        <tr>
+            <td>{{ host.id }}</td>
+            <td>{{ host.title }}</td>
+            <td>{{ host.about }}</td>
+            <td><a href="{% url 'hostCustomEdit' host.pk %}">Edit</a> | <a href="{% url 'hostCustomDelete' host.pk %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Option</th>
+        </tr>
+    </tfoot>
+</table>
 
 {% endif %}
 
 <style>
-.hiddenRow {
-    padding: 0 !important;
-}
+    .hiddenRow {
+        padding: 0 !important;
+    }
+    input{
+            background-color: white !important;
+        }
+    select{
+        background-color: white !important;
+    }
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>$(document).ready(function () {
+    $.noConflict();
+    var table = $('#logAct').DataTable();
+});</script>
 <script>
     var navLinks = document.getElementsByClassName("nav_link");
     navLinks[6].classList.add("active");

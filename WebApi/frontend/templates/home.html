@@ -15,7 +15,7 @@
 {% if user.is_staff %}
 <h3 id="#security" style="color: rgb(134, 13, 13);">Security</h3>
 <p>For your security, we recommend creating a new user as an administrator and removing the default admin from the system.</p>
-<p>To do this, simply <a href="{% url 'userCreate' %}">access the link</a> and check the administrator option.</p>
+<p>To do this, simply <a href="{% url 'userList' %}">access the link</a> and check the administrator option.</p>
 {% endif %}
 <h1>How we build this</h1>
 <p>The SwitchSetup was developed using the Django Framework and ansible libraries, 

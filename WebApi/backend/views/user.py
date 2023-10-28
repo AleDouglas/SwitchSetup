@@ -16,51 +16,43 @@ class UserPageView(AdminRequired, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['form'] = CustomUserCreationForm()
         users = CustomUser.objects.all()
         context['users'] = users
         return context
 
     def post(self, request ,*args, **kwargs):
-        username = request.POST['username']
-        users = CustomUser.objects.filter(Q(username__icontains=username))
-        return render(request, self.template_name, {'users': users})
-
-
-class CreateUserView(AdminRequired, TemplateView):
-    template_name = 'addUser.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = CustomUserCreationForm()
-        return context
-
-    def post(self, request ,*args, **kwargs):
         form = CustomUserCreationForm(request.POST)
+        context = self.get_context_data()
         if form.is_valid():
             user = form.save()
             result = "Success in creating user"
             createLog(
             user=f"{request.user}",
-            date=datetime.now().strftime("%d-%m-%Y"),
+            service=f"A new user has been added to the system",
+            description=f"A new user has been added to the system",
+            data=datetime.now().strftime("%d/%m/%Y"),
             hour=datetime.now().strftime("%H:%M:%S"),
-            switch="Unused function",
             playbook="Unused function",
             host="Unused function",
             output="A new user has been created",
             )
-            return render(request, self.template_name, {'result': result})
+            context['result'] = result
+            return render(request, self.template_name, context)
         else:
             result = "Error in creating user"
             createLog(
             user=f"{request.user}",
-            date=datetime.now().strftime("%d-%m-%Y"),
+            service=f"Attempt to add a new user",
+            description=f"Attempt to add a new user",
+            data=datetime.now().strftime("%d/%m/%Y"),
             hour=datetime.now().strftime("%H:%M:%S"),
-            switch="Unused function",
             playbook="Unused function",
             host="Unused function",
             output="Attempted to generate a new user, but an error occurred.",
             )
-            return render(request, self.template_name, {'result': result})
+            context['result'] = result
+            return render(request, self.template_name, context)
 
 
 class UpdateUserView(AdminRequired, UpdateView):

@@ -1,25 +1,3 @@
-{% extends '_base.html' %}
-{% block title %}SwitchSetup{% endblock %}
-{% block content %}
-
-{% if result %}
-<div class="toast-container position-static">
-    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
-        <strong class="me-auto">System Alert</strong>
-        <small class="text-body-secondary"></small>
-        <a href="{% url 'userList' %}"><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" action></button></a>
-      </div>
-      <div class="toast-body">
-        {{result}}
-      </div>
-    </div>
-</div>
-{% else %}
-
-<h1>Create a new user</h1>
-
 <form method="POST">
     {% csrf_token %}
 
@@ -79,12 +57,3 @@
         <button type="submit" class="btn btn-primary px-5 mb-5 w-100">Confirm</button>
     </div>
 </form>
-{% endif %}
-
-
-
-<script>
-    var navLinks = document.getElementsByClassName("nav_link");
-    navLinks[7].classList.add("active");
-</script>
-{% endblock content %}

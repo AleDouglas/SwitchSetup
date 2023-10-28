@@ -4,89 +4,111 @@
 
 <h1>Manage User</h1>
 
-<form method="post">
-{% csrf_token %}
-<label class="form-label">Username</label>
-<div class="input-group">
-<div class="form-outline">
-<input type="search" class="form-control" placeholder="Username" name="username">
 
+{% if result %}
+<div class="toast-container position-static">
+    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+        <strong class="me-auto">System Alert</strong>
+        <small class="text-body-secondary"></small>
+        <a href="{% url 'userList' %}"><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" action></button></a>
+      </div>
+      <div class="toast-body">
+        {{result}}
+      </div>
+    </div>
 </div>
-<button type="submit" class="btn btn-primary">
-    <i class='bx bx-search-alt'></i>
-    Search
+{% endif %}
+
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 25px;">
+    Create a new user
 </button>
-</div>
-</form>
-
-
-
-
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Create a user</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% include '_userform.html' %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="panel-body">
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                    <th></th>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>User Type</th>
-                    <th>Option</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for user in users %}
-                    <tr data-toggle="collapse" data-target="#demo{{user.id}}" class="accordion-toggle">
-                        <td><button class="btn btn-default btn-xs"><i class='bx bx-plus-circle'></i></button></td>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.username }}</td>
-                        {% if user.is_staff %}
-                        <td>Admin</td>
-                        {% else %}
-                        <td>User</td>
-                        {% endif %}
-                        <td><a href="{% url 'userEdit' user.pk %}">Edit</a> | <a href="{% url 'userDelete' user.pk %}">Delete</a></td>
-                    </tr>
-                    <tr>
-                        <td colspan="12" class="hiddenRow">
-                            <div class="accordian-body collapse" id="demo{{user.id}}" style="width: 100%;"> 
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr class="info">
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        </tr>
-                                    </thead>	
-                                    <tbody>
-                                        <tr data-toggle="collapse"  class="accordion-toggle">
-                                        <td>{{ user.first_name }}</td>
-                                        <td>{{ user.last_name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> 
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div> 
+    </div>
 </div>
+<table id="logAct" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>User Type</th>
+            {% if user.is_staff %}
+            <th>Option</th>
+            {% endif %}
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for x in users %}
+        <tr>
+            <td>{{ x.id }}</td>
+            <td>{{ x.username }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.first_name }} {{ x.last_name }}</td>
+            {% if x.is_staff %}
+            <td>Admin</td>
+            {% else %}
+            <td>Normal User</td>
+            {% endif %}
+            {% if user.is_staff %}
+            <td><a href="{% url 'userEdit' x.pk %}">Edit</a> | <a href="{% url 'userDelete' x.pk %}">Delete</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Utilized Service</th>
+            <th>Data</th>
+            <th>User Type</th>
+            {% if user.is_staff %}
+            <th>Option</th>
+            {% endif %}
+        </tr>
+    </tfoot>
+</table>
+
 
 
 <style>
 .hiddenRow {
     padding: 0 !important;
 }
+input{
+        background-color: white !important;
+    }
+select{
+    background-color: white !important;
+}
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>$(document).ready(function () {
+    $.noConflict();
+    var table = $('#logAct').DataTable();
+});</script>
+
 
 <script>
     var navLinks = document.getElementsByClassName("nav_link");

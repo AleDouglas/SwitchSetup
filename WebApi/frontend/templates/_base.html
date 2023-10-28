@@ -34,7 +34,6 @@
                 <a href="{% url 'apiKey' %}" class="nav_link"> <i class='bx bx-key nav_icon'></i> <span class="nav_name">ApiKey</span> </a> 
                 <a href="{% url 'credentialList' %}" class="nav_link"> <i class='bx bx-poll nav_icon'></i> <span class="nav_name">Credentials List</span> </a> 
                 <a href="{% url 'userList' %}" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Manage Users</span> </a> 
-                <a href="{% url 'userCreate' %}" class="nav_link"> <i class='bx bx-user-plus nav_icon'></i> <span class="nav_name">Create User</span> </a> 
                 {% endif %}
                 <a href="{% url 'account_logout' %}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span></a>
 
@@ -42,7 +41,7 @@
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="height-100 bg-light">
+    <div class="height-100">
         {% block content %}
         {% endblock content %}
     </div>

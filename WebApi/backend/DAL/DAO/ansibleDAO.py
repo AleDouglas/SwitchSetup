@@ -4,6 +4,9 @@ from backend.DAL.models.ansible import *
 def getAllPlaybook():
     return PlaybookCustom.objects.all()
 
+def getAllCommand():
+    return Command.objects.all()
+
 def getAllHost():
     return HostCustom.objects.all()
 

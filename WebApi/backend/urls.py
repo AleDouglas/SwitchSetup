@@ -21,6 +21,11 @@ urlpatterns = [
     path('ansible/custom/playbook/<int:pk>/edit/', PlaybookCustomEditView.as_view(), name='playbookCustomEdit'),
     path('ansible/custom/playbook/<int:pk>/delete/', PlaybookCustomDeleteView.as_view(), name='playbookCustomDelete'),
 
+    path('ansible/custom/playbook/commandline/', CommandLineView.as_view(), name='commandLine'),
+    path('ansible/custom/playbook/commandline/<int:pk>/edit/', CommandLineEditView.as_view(), name='commandLineEdit'),
+    path('ansible/custom/playbook/commandline/<int:pk>/delete', CommandLineDeleteView.as_view(), name='commandLineDelete'),
+
+
     path('ansible/custom/host/list/', HostCustomListView.as_view(), name='hostCustomList'),
     path('ansible/custom/host/<int:pk>/edit/', HostCustomEditView.as_view(), name='hostCustomEdit'),
     path('ansible/custom/host/<int:pk>/delete/', HostCustomDeleteView.as_view(), name='hostCustomDelete'),
@@ -31,7 +36,6 @@ urlpatterns = [
     path('ansible/credential/<int:pk>/delete/', DeleteCredentialView.as_view(), name='credentialDelete'),
     path('log/', LogView.as_view(), name='log'),
     path('user/list/', UserPageView.as_view(), name='userList'),
-    path('user/create/', CreateUserView.as_view(), name='userCreate'),
     path('user/<int:pk>/edit/', UpdateUserView.as_view(), name='userEdit'),
     path('user/<int:pk>/delete/', DeleteUserView.as_view(), name='userDelete'),
 
@@ -41,6 +45,7 @@ urlpatterns = [
     path('api/v2/', ApiCustomResponseView.as_view(), name='apiCustomResponse'),
     path('api/v2/host', ApiHostDefault.as_view(), name='ApiHostDefault'),
     path('api/v3/playbook', ApiGetPlaybook.as_view(), name='apiGetPlaybook'),
+    path('api/v3/command', ApiGetCommandLine.as_view(), name='apiGetCommand'),
     path('api/v3/host', ApiGetHost.as_view(), name='apiGetHost'),
     path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
 

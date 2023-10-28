@@ -12,7 +12,6 @@ from backend.integrations.ansible import *
 from datetime import datetime
 
 
-
 class ApiPageView(AdminRequired, TemplateView):
     template_name = 'api.html'
 
@@ -30,11 +29,12 @@ class ApiPageView(AdminRequired, TemplateView):
         result = "The key have been successfully upgraded."
         createLog(
             user=f"{request.user}",
-            date=datetime.now().strftime("%d-%m-%Y"),
+            service=f"A new API access key was generated",
+            description=f"Generated key provides access with permissions for additional API functions using POST methods.",
+            data=datetime.now().strftime("%d/%m/%Y"),
             hour=datetime.now().strftime("%H:%M:%S"),
-            switch="Unused function",
-            playbook="Unused function",
-            host="Unused function",
+            playbook="Unused Service",
+            host="Unused Service",
             output="The user generated an API access key.",
         )
         return self.render_to_response(self.get_context_data(result = result))
@@ -75,9 +75,10 @@ class ApiResponseView(APIView):
             
             createLog(
             user=f"Api Key",
-            date=datetime.now().strftime("%d-%m-%Y"),
+            service=f"API-Based Service System",
+            description=f"The user, represented by the key in the system, utilized access key services to execute Ansible with customizable playbook and host.",
+            data=datetime.now().strftime("%d/%m/%Y"),
             hour=datetime.now().strftime("%H:%M:%S"),
-            switch=f"{data['switch']}",
             playbook=f"{data['command']}",
             host=f"{data['host']}",
             output=output,
@@ -87,7 +88,7 @@ class ApiResponseView(APIView):
             return Response("Please verify the variables used, remembering that the following fields are required: key, command, host, switch, username, password.")
 
 
-# Endpoint Ansible Custom #
+# Objetivo: Executar um playbook e um host já configurados no sistema
 class ApiCustomResponseView(APIView):
     ansible = AnsibleSwitchConnector()
 
@@ -105,11 +106,22 @@ class ApiCustomResponseView(APIView):
             return Response("Key not found, access denied")
         try:            
             output = self.execute_command(path_playbook= str(data['playbook']), path_host= str(data['host']), ansible_level= data['ansible_level'])
+            createLog(
+            user=f"Api Key",
+            service=f"API-Based Service System",
+            description=f"The user, represented by the key in the system, utilized access key services to execute Ansible with predefined playbook and host settings.",
+            data=datetime.now().strftime("%d/%m/%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            playbook=f"{data['playbook']}",
+            host=f"{data['host']}",
+            output=output,
+            )
             return Response(output)
         except Exception as e:
             return Response(f"Error: {str(e)}")
 
 
+# Objetivo: Executar comandos customizáveis para um Host já configurado
 class ApiHostDefault(APIView):
     ansible = AnsibleSwitchConnector()
 
@@ -127,6 +139,16 @@ class ApiHostDefault(APIView):
             return Response("Key not found, access denied")
         try:            
             output = self.execute_command(command= str(data['command']), path_host= str(data['host']), ansible_level= data['ansible_level'])
+            createLog(
+            user=f"Api Key",
+            service=f"API-Based Service System",
+            description=f"The user, represented by the key in the system, utilized access key services to execute Ansible with a predefined host in the system, while the playbook was fully customizable.",
+            data=datetime.now().strftime("%d/%m/%Y"),
+            hour=datetime.now().strftime("%H:%M:%S"),
+            playbook=f"{data['command']}",
+            host=f"{data['host']}",
+            output=output,
+            )
             return Response(output)
         except Exception as e:
             return Response(f"Error: {str(e)}")
@@ -181,6 +203,32 @@ class ApiGetHost(APIView):
                     "title": host.title,
                     "about": host.about,
                     "url": host.host_file.url
+                }
+                jsonFormat.append(tmp)
+            return Response(jsonFormat)
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+
+class ApiGetCommandLine(APIView):
+    def post(self, request, format=None):
+        data = request.data
+        key = False
+        try:
+            key = searchApi(data['key'])
+        except Exception as e:
+            return Response(f"Error: {str(e)}")
+        if key == False:
+            return Response("Key not found, access denied")
+        try:    
+            jsonFormat = []     
+            queryset = getAllCommand()
+            for command in queryset:
+                tmp = {
+                    "id": command.id,
+                    "title": command.title,
+                    "description": command.description,
+                    "command": command.command,
+                    "switch": command.switch,
                 }
                 jsonFormat.append(tmp)
             return Response(jsonFormat)

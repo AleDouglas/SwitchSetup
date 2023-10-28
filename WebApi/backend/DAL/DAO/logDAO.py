@@ -2,31 +2,19 @@ from backend.DAL.models.log import AnsibleLog
 from django.db.models import Q
 
 
-def createLog(user, date, hour, switch, playbook, host, output):
+def getLog():
+    return AnsibleLog.objects.all()
+
+def createLog(user, service, description, data, hour, playbook, host, output):
     log = AnsibleLog(
         user=user,
-        date=date,
+        service = service,
+        description = description,
+        data=data,
         hour=hour,
-        switch=switch,
         playbook=playbook,
         host=host,
         output=output,
     )
     log.save()
     return True
-
-def filterLog(user, date, id):
-    if (id=='' and user=='' and date==''):
-        log = AnsibleLog.objects.all()
-        return log
-
-    filters = Q()
-    if id != '':
-        filters &= Q(id=int(id))
-    if user != '':
-        filters &= Q(user=user)
-    if date != '':
-        filters &= Q(date=date)
-
-    log = AnsibleLog.objects.filter(filters)
-    return log
