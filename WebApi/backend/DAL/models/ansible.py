@@ -49,3 +49,12 @@ class HostCustom(models.Model):
 
     def __str__(self):
         return self.title
+
+class Task(models.Model):
+    title = models.CharField("Title", max_length=150,blank=False, null=False)
+    about = models.TextField("About", default="Default about text") 
+    host = models.ForeignKey(HostCustom, on_delete=models.CASCADE, blank=False, null=False) 
+    playbook = models.ForeignKey(PlaybookCustom, on_delete=models.CASCADE, blank=False, null=False) 
+
+    def __str__(self):
+        return self.title

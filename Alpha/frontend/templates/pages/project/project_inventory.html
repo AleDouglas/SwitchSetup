@@ -1,0 +1,134 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .btn-inventory{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+    .btn-newinventory{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newinventory:hover{
+        background-color: rgba(128, 128, 128, 0.671);
+
+    }
+    .btn-createInventory{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 15px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-createInventory:hover{
+        background-color: rgba(162, 226, 119, 0.671);
+
+    }
+    .tb-height td{
+        height: 75px;
+        vertical-align: middle;
+    }
+    .tb-height th{
+        color: grey;
+        font-weight: 900;
+    }
+    .btn-delete{
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-delete:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+
+    .welcomePage{
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+
+
+
+
+
+<div class="welcomePage">
+    <h1>Inventory</h1>
+    <button class="btn-newinventory" data-bs-toggle="modal" data-bs-target="#createInventoryModal">NEW INVENTORY</button>
+
+</div>
+<div id="result" style="color: green;"></div>
+
+
+<table id="logAct" class="table" style="width:100%;">
+    <thead>
+        <tr class="tb-height">
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>Created</th>
+            <th>OPTIONS</th>
+        </tr>
+    </thead>
+    <tbody id="inventoryTable">
+        {% for inventory in project_inventories.all %}
+        <tr class="tb-height" id="inventoryID{{inventory.id}}">
+            <td>{{ inventory.title }} <span style="color: grey;">#{{ inventory.id }}</span></td>
+            <td>{{ inventory.description }}</td>
+            <td>{{ inventory.date_time }}</td>
+            <td><i class='bx bxs-x-circle btn-delete' onclick="delete_inventory('{{ project_id }}','{{ inventory.id }}')"></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+<!-- Modal for create Inventory -->
+<div class="modal fade" id="createInventoryModal" tabindex="-1" aria-labelledby="createInventoryModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createInventoryModalLabel">New Inventory</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createInventoryForm">
+                    <div class="card" style="border: none;">
+                        {% csrf_token %}
+                        <input type="hidden" id="projectId" name="project_id" value="{{ project_id }}">
+                        <label for="">Inventory name:</label>
+                        <input type="text" id="inventoryTitle" name="title" required>
+                        <label for="">Inventory description:</label>
+                        <textarea id="inventoryDescription" name="description"></textarea>
+                        <label for="">Inventory file: ( Only .yml files )</label>
+                        <input type="file" id="inventoryFile" name="inventory_file" accept=".yml" required>
+                    </div>
+                    <button type="submit" class="btn-createInventory" style="margin-top: 15px;">Create Inventory</button>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{% static 'javascript/inventory.js' %}"></script>
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[2].classList.add("active");
+</script>
+{% endblock content %}

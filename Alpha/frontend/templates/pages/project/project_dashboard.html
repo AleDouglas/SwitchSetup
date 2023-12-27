@@ -1,0 +1,54 @@
+{% extends 'pages/_base.html' %}
+
+
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+
+
+
+
+
+<table id="logAct" class="table" style="width:100%;">
+    <thead>
+        <tr class="tb-height">
+            <th>ID</th>
+            <th>TIME</th>
+            <th>DESCRIPTION</th>
+        </tr>
+    </thead>
+    <tbody id="playbookTable">
+        {% for activity in project_activity.all %}
+        <tr class="tb-height">
+            <td>{{ activity.id }}</td>
+            <td>{{ activity.date_time }}</td>
+            <td>{{ activity.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+    $.noConflict();
+    var table = $('#logAct').DataTable({
+            "order": [[0, 'desc']]  // Substitua 0 pelo índice da coluna do ID
+        });
+  });
+</script>
+
+
+    
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[0].classList.add("active");
+</script>
+
+
+  
+
+{% endblock content %}

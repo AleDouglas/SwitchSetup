@@ -48,7 +48,7 @@ urlpatterns = [
     path('api/v3/command', ApiGetCommandLine.as_view(), name='apiGetCommand'),
     path('api/v3/host', ApiGetHost.as_view(), name='apiGetHost'),
     path('api/key/<int:pk>/delete/', ApiDeleteView.as_view(), name='keyDelete'),
-
+    
     #Security Area
     path('backend/integrations/communs/custom/<str:path>', media_access, name='media'),
 ]

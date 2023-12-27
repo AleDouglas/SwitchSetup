@@ -1,0 +1,134 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .btn-Playbook{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+    .btn-newplaybook{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newplaybook:hover{
+        background-color: rgba(128, 128, 128, 0.671);
+
+    }
+    .btn-createPlaybook{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 15px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-createPlaybook:hover{
+        background-color: rgba(162, 226, 119, 0.671);
+
+    }
+    .tb-height td{
+        height: 75px;
+        vertical-align: middle;
+    }
+    .tb-height th{
+        color: grey;
+        font-weight: 900;
+    }
+    .btn-delete{
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-delete:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+
+    .welcomePage{
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+
+
+
+
+<div class="welcomePage">
+    <h1>Playbook</h1>
+    <button class="btn-newplaybook" data-bs-toggle="modal" data-bs-target="#createPlaybookModal">NEW PLAYBOOK</button>
+
+</div>
+<div id="result" style="color: green;"></div>
+
+
+<table id="logAct" class="table" style="width:100%;">
+    <thead>
+        <tr class="tb-height">
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>Created</th>
+            <th>OPTIONS</th>
+        </tr>
+    </thead>
+    <tbody id="playbookTable">
+        {% for Playbook in project_playbooks.all %}
+        <tr class="tb-height" id="playbookID{{Playbook.id}}">
+            <td>{{ Playbook.title }} <span style="color: grey;">#{{ Playbook.id }}</span></td>
+            <td>{{ Playbook.description }}</td>
+            <td>{{ Playbook.date_time }}</td>
+            <td><i class='bx bxs-x-circle btn-delete' onclick="delete_playbook('{{ project_id }}','{{ Playbook.id }}')"></i></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+<!-- Modal for create Playbook -->
+<div class="modal fade" id="createPlaybookModal" tabindex="-1" aria-labelledby="createPlaybookModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createPlaybookModalLabel">New Playbook</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createPlaybookForm">
+                    <div class="card" style="border: none;">
+                        {% csrf_token %}
+                        <input type="hidden" id="projectId" name="project_id" value="{{ project_id }}">
+                        <label for="">Playbook name:</label>
+                        <input type="text" id="playbookTitle" name="title" required>
+                        <label for="">Playbook description:</label>
+                        <textarea id="playbookDescription" name="description"></textarea>
+                        <label for="">Playbook file: ( Only .yml files )</label>
+                        <input type="file" id="playbookFile" name="playbook_file" accept=".yml" required>
+                    </div>
+                    <button type="submit" class="btn-createPlaybook" style="margin-top: 15px;">Create Playbook</button>
+
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{% static 'javascript/playbook.js' %}"></script>
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[3].classList.add("active");
+</script>
+{% endblock content %}

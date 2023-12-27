@@ -1,0 +1,227 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    
+    .btn-Template{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+    .btn-newtemplate{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newtemplate:hover{
+        background-color: rgba(128, 128, 128, 0.671);
+
+    }
+    .btn-createTemplate{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 15px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-createTemplate:hover{
+        background-color: rgba(162, 226, 119, 0.671);
+
+    }
+    .tb-height td{
+        height: 75px;
+        vertical-align: middle;
+    }
+    .tb-height th{
+        color: grey;
+        font-weight: 900;
+    }
+    .btn-delete{
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-delete:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+
+    .btn-modal{
+        background-color: transparent;
+        border: 0px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-modal:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+    
+    .welcomePage{
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-label {
+	position: relative;
+	left: -12px;
+	display: inline-block;
+	padding: 6px 12px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px 0 0 3px;
+    }
+
+    .btn-labeled {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+    }
+
+    .terminal-info{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .info-title{
+        font-size: 18px;
+        margin: 0;
+        font-weight: 900;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    .info-content{
+        font-size: 14px;
+        margin: 0;
+        color: grey;
+    }
+    
+    .terminal{
+        margin-top: 20px;
+        padding: 10px;
+        overflow: auto;
+    }
+    .terminal p{
+        margin: 0;
+        font-size: 13px;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+    }
+    pre{
+        color: white;
+        font-size: 12px;
+        overflow: initial;
+        margin: 0 !important;
+    }
+    .div_output{
+        display: flex;
+    }
+    .hour_output{
+        font-size: 12px;
+        color: white;
+        font-weight: 900;
+    }
+    @media (min-width: 992px){
+    .modal-lg, .modal-xl {
+        --bs-modal-width: 1200px;
+    }}
+</style>
+
+<div class="welcomePage">
+    <h1>Task [{{template.title}}] > #{{template.id}}</h1>
+    <button class="btn-newtemplate" data-bs-toggle="modal" data-bs-target="#createTemplateModal">RUN TASK</button>
+</div>
+
+<!-- Task List -->
+
+<table id="logAct" class="table" style="width:100%;">
+    <thead>
+        <tr class="tb-height">
+            <th>NAME</th>
+            <th>AUTHOR</th>
+            <th>STATUS</th>
+            <th>HOUR</th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody id="templateTable" style="vertical-align: middle;">
+        {% for task in task_list %}
+        <tr class="tb-height" id="taskID{{task.id}}">
+            <td>{{task.title}}</td>
+            <td>{{task.author.first_name}} {{task.author.last_name}}</td>
+            {% if task.status == '0' %}
+            <td><button type="button" class="btn btn-labeled btn-success"><span class="btn-label"><i class="bx bx-check"></i></span>Success</button></td>
+            {% elif task.status == '2' %}
+            <td><button type="button" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="bx bxs-x-circle"></i></span>Failed</button></td>
+            {% elif task.status == '4' %}
+            <td><button type="button" class="btn btn-labeled btn-danger"><span class="btn-label"><i class="bx bxs-x-circle"></i></span>Unreachable</button></td>
+            {% endif %}
+            <td>{{task.hour}}</td>
+            <td>
+                <button class="bx bx-file-find btn-modal" data-bs-toggle="modal" data-bs-target="#executeTaskModal" onclick="get_task('{{ task.id }}')"></button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<div class="modal fade" id="executeTaskModal" tabindex="-1" aria-labelledby="executeTaskModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="executeTaskModalLabel">Nome tarefa > Task #ID_TASK</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="terminal-info" id="terminal-info">
+                    <div id="terminal-status">
+                        <button type="button" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="bx bx-play"></i></span>Running</button>
+                    </div>
+                    <div>
+                        <p class="info-title">Autor</p>
+                        <p class="info-content" id="terminal-author">Alexandre Douglas</p>
+                    </div>
+                    <div>
+                        <p class="info-title">Criado em:</p>
+                        <p class="info-content" id="terminal-create">10/10/2010 23:43 am</p>
+                    </div>
+                    <div>
+                        <p class="info-title">Tempo de execução:</p>
+                        <p class="info-content">XX:XX:XX</p>
+                    </div>
+                </div>
+                <div class="card terminal" style="background-color: black;height: 600px;" id="terminal">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'javascript/task.js' %}"></script>
+
+<script>
+
+
+
+
+
+
+
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[1].classList.add("active");
+</script>
+{% endblock content %}

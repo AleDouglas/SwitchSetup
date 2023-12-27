@@ -1,0 +1,27 @@
+
+
+
+
+@media (max-width: 992px){
+    table{
+        font-size: 12px;
+        overflow: auto;
+        max-height: 600px;
+    }
+
+    .btn-newtemplate{
+        font-size: 12px;
+        padding: 0px 10px 0px 10px!important;
+    }
+
+    .btn{
+        font-size: 12px;
+        min-width: 93px;
+        width: 93px;
+    }
+    .btn-label{
+        padding: 3px 6px !important;
+        font-size: 12px;
+
+    }
+}

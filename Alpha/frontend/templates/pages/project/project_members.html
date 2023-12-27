@@ -1,0 +1,192 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto&display=swap');
+</style>
+<style>
+    
+    .btn-Member{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+    .btn-newMember{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newMember:hover{
+        background-color: rgba(128, 128, 128, 0.671);
+
+    }
+    .btn-newMember{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 15px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newMember:hover{
+        background-color: rgba(162, 226, 119, 0.671);
+
+    }
+    .tb-height td{
+        height: 75px;
+        vertical-align: middle;
+    }
+    .tb-height th{
+        color: grey;
+        font-weight: 900;
+    }
+    .btn-delete{
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-delete:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+
+    .btn-modal{
+        background-color: transparent;
+        border: 0px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-modal:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+    
+    .welcomePage{
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-label {
+	position: relative;
+	left: -12px;
+	display: inline-block;
+	padding: 6px 12px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px 0 0 3px;
+    }
+
+    .btn-labeled {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+    }
+    @media (min-width: 992px){
+    .modal-lg, .modal-xl {
+        --bs-modal-width: 1200px;
+    }}
+</style>
+
+
+<div class="welcomePage">
+    <h1>Project members</h1>
+    <button class="btn-newMember" data-bs-toggle="modal" data-bs-target="#newMemberModal">ADD NEW MEMBER</button>
+</div>
+
+
+<table id="logAct" class="table" style="width:100%;margin-top: 15px;">
+    <thead>
+        <tr class="tb-height">
+            <th>NAME</th>
+            <th>USERNAME</th>
+            <th>EMAIL</th>
+            <th>ADMIN</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody id="MemberTable">
+        {% for member in project_members.all %}
+        <tr class="tb-height" id="MemberID{{member.id}}">
+            <td>{{ member.first_name }} {{member.last_name}}</td>
+            <td>{{ member.username }}</td>
+            <td>{{ member.email }}</td>
+            <td style="color: red;">Development</td>
+            <td>
+                <i class="bx bxs-x-circle btn-delete" onclick="delete_member('{{project_id}}', '{{member.id}}')"></i>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+<!-- Modal for add new member -->
+<div class="modal fade" id="newMemberModal" tabindex="-1" aria-labelledby="newMemberModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newMemberModalLabel">New Member</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newMemberForm">
+                    {% csrf_token %}
+                    <div class="card" style="border: none;">
+                        <div id="result" style="color: green;"></div>
+                        <input type="hidden" id="project_id" name="project_id" value="{{ project_id }}">
+                        <label for="">Enter user ID</label>
+                        <input type="text" name="user_id" id="user_id" required> <!---->
+                    </div>
+                    <button type="submit" class="btn-newMember" style="margin-top: 15px;">ADD MEMBER</button>
+                </form>
+                <table id="userList" class="table table-borderless datatable datatable-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>USERNAME</th>
+                            <th>NAME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for get_user in user_list %}
+                        <tr id="tableUser{{get_user.id}}">
+                            <td style="color: grey;">#{{ get_user.id }}</td>
+                            <td>{{ get_user.username }}</td>
+                            <td>{{ get_user.first_name }} {{ get_user.last_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'javascript/member.js' %}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+    $.noConflict();
+    var table = $('#userList').DataTable();
+    });
+</script>
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[5].classList.add("active");
+</script>
+{% endblock content %}

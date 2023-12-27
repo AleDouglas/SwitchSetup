@@ -11,10 +11,10 @@ RUN pip install ansible ansible-core ncclient jxmlease xmltodict ansible-pylibss
 # Install Docker and dependencies
 RUN pip install django django-allauth django-compat django-environ Pillow psycopg2-binary djangorestframework
 # Copy files
-COPY /WebApi /WebApi
+COPY /Alpha /Alpha
 COPY /sshkeys /root/.ssh
 # Set working directory
-WORKDIR /WebApi
+WORKDIR /Alpha
 
 # Set entrypoint
 ENTRYPOINT ["python3","manage.py","runserver", "0.0.0.0:8000"]

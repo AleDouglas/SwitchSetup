@@ -167,7 +167,7 @@ class ApiGetPlaybook(APIView):
             return Response("Key not found, access denied")
         try:    
             jsonFormat = []     
-            queryset = getAllPlaybook()
+            queryset = GetPlaybook.all()
             for playbook in queryset:
                 tmp = {
                     "id": playbook.id,

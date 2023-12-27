@@ -24,6 +24,7 @@ class AnsibleDefaultView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         credentials = getAllDeviceCredential()
         context['credentials'] = credentials
+
         return context
 
     def execute_command(self, playbook, host, switch, username, password, ansible_level):
@@ -161,6 +162,7 @@ class PlaybookCustomDeleteView(AdminRequired, DeleteView):
         context['type_page'] = 'delete'
         return context
 
+
 class CommandLineView(AdminRequired, CreateView):
     template_name = 'ansibleForms.html'
     model = Command
@@ -194,6 +196,7 @@ class CommandLineView(AdminRequired, CreateView):
         context = self.get_context_data(form=form, result="Failed in adding new command lines.")
         return self.render_to_response(context)
 
+
 class CommandLineEditView(AdminRequired, UpdateView):
     template_name = 'ansibleForms.html'
     model = Command
@@ -226,6 +229,7 @@ class CommandLineEditView(AdminRequired, UpdateView):
     def form_invalid(self, form):
         context = self.get_context_data(form=form, result="Failed to upload files")
         return self.render_to_response(context)
+
 
 class CommandLineDeleteView(AdminRequired, DeleteView):
     template_name = 'ansibleForms.html'
@@ -369,6 +373,7 @@ class AnsibleCustomView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         playbook = PlaybookCustom.objects.all()
         host = HostCustom.objects.all()
+        user_key = self.request.user.user_key
         context['playbook_list'] = playbook
         context['host_list'] = host
         return context
@@ -401,3 +406,7 @@ class AnsibleCustomView(LoginRequiredMixin, TemplateView):
         output=output,
         )
         return self.render_to_response(self.get_context_data(output = output))
+
+
+class ExecuteAnsibleView(LoginRequiredMixin, TemplateView):
+    pass

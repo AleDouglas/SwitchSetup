@@ -1,0 +1,274 @@
+{% extends 'pages/_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto&display=swap');
+</style>
+<style>
+    
+    .btn-Template{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+    .btn-newtemplate{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-newtemplate:hover{
+        background-color: rgba(128, 128, 128, 0.671);
+
+    }
+    .btn-createTemplate{
+        background-color: rgba(128, 128, 128, 0.301);
+        border: 0px;
+        border-radius: 15px;
+        padding: 10px 20px 10px 20px;
+        font-weight: 900;
+    }
+    .btn-createTemplate:hover{
+        background-color: rgba(162, 226, 119, 0.671);
+
+    }
+    .tb-height td{
+        height: 75px;
+        vertical-align: middle;
+    }
+    .tb-height th{
+        color: grey;
+        font-weight: 900;
+    }
+    .btn-delete{
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-delete:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+
+    .btn-modal{
+        background-color: transparent;
+        border: 0px;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-modal:hover{
+        background-color: rgba(107, 107, 107, 0.301);
+    }
+    
+    .welcomePage{
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-label {
+	position: relative;
+	left: -12px;
+	display: inline-block;
+	padding: 6px 12px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px 0 0 3px;
+    }
+
+    .btn-labeled {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+    }
+
+    .terminal-info{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .info-title{
+        font-size: 18px;
+        margin: 0;
+        font-weight: 900;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    .info-content{
+        font-size: 14px;
+        margin: 0;
+        color: grey;
+    }
+    
+    .terminal{
+        margin-top: 20px;
+        padding: 10px;
+        overflow: auto;
+    }
+    .terminal p{
+        margin: 0;
+        font-size: 13px;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+    }
+    pre{
+        color: white;
+        font-size: 12px;
+        overflow: initial;
+        margin: 0 !important;
+    }
+    .div_output{
+        display: flex;
+    }
+    .hour_output{
+        font-size: 12px;
+        color: white;
+        font-weight: 900;
+    }
+    @media (min-width: 992px){
+    .modal-lg, .modal-xl {
+        --bs-modal-width: 1200px;
+    }}
+</style>
+
+
+
+
+
+<div class="welcomePage">
+    <h1>Task Template</h1>
+    <button class="btn-newtemplate" data-bs-toggle="modal" data-bs-target="#createTemplateModal">NEW TEMPLATE</button>
+
+</div>
+<div id="result" style="color: green;"></div>
+
+<table id="logAct" class="table" style="width:100%;">
+    <thead>
+        <tr class="tb-height">
+            <th>NAME</th>
+            <th>VERSION</th>
+            <th>PLAYBOOK</th>
+            <th>INVENTORY</th>
+            <th>ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody id="templateTable">
+        {% for template in project_templates.all %}
+        <tr class="tb-height" id="templateID{{template.id}}">
+            <td><a href="{% url 'task' project_id template.id %}">{{ template.title }} <span style="color: grey;">#{{ template.id }}</span></a></td>
+            {% if template.version %}
+            <td>{{ template.version }}</td>
+            {% else %}
+            <td>-------</td>
+            {% endif %}
+            <td>{{ template.playbook.title }}</td>
+            <td>{{ template.inventory.title }}</td>
+            <td>
+                <button class="bx bx-play-circle btn-modal" data-bs-toggle="modal" data-bs-target="#executeTaskModal" onclick="new_task('{{ template.title }}','{{ template.author.first_name }}','{{ template.author.last_name }}','{{ template.status }}','{{ template.date_time }}');execute_template('{{ project_id }}','{{ template.id }}')"></button>
+                <i class="bx bxs-cog btn-delete"></i>
+                <i class='bx bxs-x-circle btn-delete' onclick="delete_template('{{ project_id }}','{{ template.id }}')"></i>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+<!-- Modal for create Template -->
+<div class="modal fade" id="createTemplateModal" tabindex="-1" aria-labelledby="createTemplateModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createTemplateModalLabel">New Template</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createTemplateForm">
+                    <div class="card" style="border: none;">
+                        {% csrf_token %}
+                        <input type="hidden" id="projectId" name="project_id" value="{{ project_id }}">
+                        <label for="">Template name:</label>
+                        <input type="text" id="templateTitle" name="title" required> <!---->
+                        <label for="">Template version:</label>
+                        <textarea id="templateVersion" name="version"></textarea>
+                        <label for="">Select Playbook:</label>
+                        <select name="playbook" id="playbookSelect" required>
+                            {% for playbook in project_playbooks.all %}
+                            <option value="{{playbook.id}}">{{playbook.title}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="">Select Inventory:</label>
+                        <select name="inventory" id="inventorySelect" required>
+                            {% for inventory in project_inventories.all %}
+                            <option value="{{inventory.id}}">{{inventory.title}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-createTemplate" style="margin-top: 15px;">Create Template</button>
+
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for execute a task -->
+<div class="modal fade" id="executeTaskModal" tabindex="-1" aria-labelledby="executeTaskModalLabel" aria-hidden="true" style="width: 100% !important;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="executeTaskModalLabel">Nome tarefa > Task #ID_TASK</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="terminal-info" id="terminal-info">
+                    <div id="template-status">
+                        <button type="button" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="bx bx-play"></i></span>Running</button>
+                    </div>
+                    <div>
+                        <p class="info-title">Autor</p>
+                        <p class="info-content" id="template-author">Alexandre Douglas</p>
+                    </div>
+                    <div>
+                        <p class="info-title">Criado em:</p>
+                        <p class="info-content" id="template-create">10/10/2010 23:43 am</p>
+                    </div>
+                    <div>
+                        <p class="info-title">Tempo de execução:</p>
+                        <p class="info-content">XX:XX:XX</p>
+                    </div>
+                </div>
+                <div class="card terminal" style="background-color: black;height: 600px;" id="terminal">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'javascript/template.js' %}"></script>
+
+<script>
+    var navLinks = document.getElementsByClassName("nav_link");
+    navLinks[1].classList.add("active");
+</script>
+{% endblock content %}

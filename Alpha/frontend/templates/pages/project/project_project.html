@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwitchSetup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+
+    <style>
+        .card-principal{
+            padding: 25px;
+            display: flex;
+            border-bottom: 1px solid rgba(139, 139, 139, 0.534);
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-principal:hover{
+            background-color: rgba(128, 128, 128, 0.301);
+        }
+        .project-info{
+            display: flex;
+            align-items: center;
+        }
+        .project-icon{
+            font-size: 28px;
+            margin-right: 10px;
+        }
+        .project-info a{
+            margin: 0;
+            text-decoration: none;
+        }
+
+        .btn-project{
+            margin-top: 45px;
+            text-align-last: center;
+        }
+
+        .btn-newproject{
+            background-color: rgba(128, 128, 128, 0.301);
+            border: 0px;
+            border-radius: 15px;
+            padding: 10px 20px 10px 20px;
+            font-weight: 900;
+        }
+        .btn-newproject:hover{
+            background-color: rgba(128, 128, 128, 0.671);
+
+        }
+        .btn-createproject{
+            background-color: rgba(128, 128, 128, 0.301);
+            border: 0px;
+            border-radius: 15px;
+            padding: 10px 20px 10px 20px;
+            font-weight: 900;
+        }
+        .btn-createproject:hover{
+            background-color: rgba(162, 226, 119, 0.671);
+
+        }
+        .btn-delete{
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .btn-delete:hover{
+            background-color: rgba(107, 107, 107, 0.301);
+        }
+
+        #createProjectForm{
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #createProjectForm input{
+            outline-color: rgba(0, 0, 255, 0.308);;
+            height: 50px;
+            border: 0;
+            padding: 3px;
+        }
+
+        
+        
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 class="text-center mt-5" style="color: #4723D9"><i class='bx bxs-coffee'></i> Welcome</h2>
+                {% if user.is_staff %}
+                <p class="text-center" style="color: #4723D9"><a href="{% url 'admin_area' %}"><i class='bx bx-paper-plane'></i> Access Admin Area</a></p>
+                {% endif %}
+                <p class="text-center" style="color: #d92323"><a href="{% url 'account_logout' %}"><i class='bx bx-log-out'></i>Logout</a></p>
+
+                <div class="my-5">
+                    <h3>Recent projects</h3>
+                    
+                    <!-- Project List-->
+                    <!-- Resultado da criação do projeto -->
+                    <div id="result"></div>
+                    <div class="card">
+                        {% for project in project_list %}
+                        <div class="card-principal" id="card-id{{project.id}}">
+                            <div class="project-info">
+                                <i class='bx bxs-archive project-icon'></i>
+                                <a href="/project/dashboard/{{ project.id }}/">{{ project.title }}</a>
+                            </div>
+                            <i class='bx bxs-x-circle btn-delete' onclick="delete_project('{{ project.id }}')"></i>
+                        </div>
+                        {% endfor %}
+
+                        <div class="card-new" id="card-new">
+                        </div>
+                    </div>
+                    <!-- Button = Create new Project -->
+                    <div class="btn-project">
+                        <button class="btn-newproject" data-bs-toggle="modal" data-bs-target="#createProjectModal">New Project</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for create project -->
+    <div class="modal fade" id="createProjectModal" tabindex="-1" aria-labelledby="createProjectModalLabel" aria-hidden="true" style="width: 100% !important;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createProjectModalLabel">New Project</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createProjectForm">
+                        <div class="card">
+                            {% csrf_token %}
+                            <input type="text" id="title" name="title" placeholder="Título do projecto" style="border-bottom: 1px solid rgba(139, 139, 139, 0.534);" required>
+                            <input type="password" id="password" name="password" placeholder="Senha do projecto ( Opcional )">
+                        </div>
+                        <button type="submit" class="btn-createproject" style="margin-top: 15px;" data-bs-dismiss="modal" aria-label="Close" >Create Project</button>
+
+                    </form>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN AREA -->
+
+    
+    
+
+    <script src="{% static 'javascript/project.js' %}"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -59,13 +59,7 @@ DEBUG=True
 Be mindful that you can generate a new key whenever necessary. 
 However, it is crucial to remember that if you are using our project, you should not disclose the key to anyone.
 
-## Run SwitchSetup
 
-Use for login:
-```
-Username: admin
-Password: 123
-```
 
 #### Terminal Local:
 
@@ -84,7 +78,13 @@ cd ..
 docker build -t image_name .
 docker run -p 8000:8000 imagename
 ```
+## Login SwitchSetup
 
+Use for login:
+```
+Username: admin
+Password: 123
+```
 
 ## Database
 
@@ -131,6 +131,7 @@ to the MIDDLEWARE list in the settings.py file.
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
+| Alpha V.1.0 |    Added an Alpha version with a new, more attractive and functional look, this version for attribution via API is not yet ready   |   27/12/2023 |
 | 1.6.1 | Fixing and Update system for customized playbooks and hosts | 13/09/2023
 | 1.6 | Added a system for customized playbooks and hosts ( TEST ) | 13/09/2023
 | 1.5.3 | Resolved Datetime Import and finish tests | 18/08/2023
@@ -142,6 +143,7 @@ to the MIDDLEWARE list in the settings.py file.
 | 1.2 |  User Options | 14/07/2023 |
 | 1.1 |  Fixed login form | 14/07/2023 |
 | 1.0 |    Up version 1.0   |   14/07/2023 |
+
 
 
 ## Videos

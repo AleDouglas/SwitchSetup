@@ -10,3 +10,9 @@ class HostCustomAdmin(admin.ModelAdmin):
     list_display = ('id','title', 'device')
 
 admin.site.register(HostCustom, HostCustomAdmin)
+
+
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('id','title')
+
+admin.site.register(Task, TaskAdmin)
