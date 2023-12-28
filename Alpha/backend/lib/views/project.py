@@ -40,7 +40,9 @@ def delete_project(request, project_id):
     try:
         project = GetProject.owner(id=project_id, owner=request.user)
         activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete project #{project_id}')
-        project.delete()
+        members = project.members.all()
+        for x in members:
+            project.members.remove(x)
         return JsonResponse({'success': True, 'message': 'Project deleted successfully.'})
     except Project.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Project not found or you do not have permission to delete it.'})

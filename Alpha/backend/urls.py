@@ -1,4 +1,5 @@
 from django.urls import path, include
+from backend.lib.views.home import CustomLogoutView
 from backend.lib.views.project import ProjectView, create_project, delete_project
 from backend.lib.views.dashboard import DashboardView
 from backend.lib.views.inventory import InventoryView, create_inventory, delete_inventory
@@ -7,8 +8,11 @@ from backend.lib.views.template import TaskTemplateView, create_template, delete
 from backend.lib.views.members import MembersView, create_member, delete_member
 from backend.lib.views.task import TaskView, get_task
 from backend.lib.views.admin_area import AdminAreaView, delete_user
+
+
 urlpatterns = [
     path('', ProjectView.as_view(), name='home'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('create_project/', create_project, name='create_project'),
     path('delete_project/<int:project_id>/', delete_project, name='delete_project'),
 

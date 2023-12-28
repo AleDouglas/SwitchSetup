@@ -21,19 +21,18 @@ class PlaybookView(LoginRequiredMixin, TemplateView):
         project_id = self.kwargs.get('project_id')
         try:
             if self.request.user.is_staff == True:
-                project_data = GetProject.filter_id(id=project_id)
+                project_data = GetProject.only(id=project_id)
             else:
                 project_data = GetProject.member(id=project_id, user=self.request.user)
-            context['project_data'] = len(project_data)
-            for data in project_data:
-                context['project_id'] = data.id
-                context['project_title'] = data.title
-                context['project_password'] = data.password
-                context['project_owner'] = data.owner
-                context['project_members'] = data.members
-                context['project_playbooks'] = data.playbooks
-                context['project_inventories'] = data.inventories
-                context['project_templates'] = data.templates
+            context['project_data'] = project_data
+            context['project_id'] = project_data.id
+            context['project_title'] = project_data.title
+            context['project_password'] = project_data.password
+            context['project_owner'] = project_data.owner
+            context['project_members'] = project_data.members
+            context['project_playbooks'] = project_data.playbooks
+            context['project_inventories'] = project_data.inventories
+            context['project_templates'] = project_data.templates
 
         except Exception as e:
             print(f"Acesso negado: {e}")
@@ -57,12 +56,9 @@ def create_playbook(request):
 
     if project_id:
         try:
-            # Verifica se o usuário é o proprietário do projeto
             project_data = GetProject.owner(id=project_id, owner=request.user)
             playbook = GetProject.create_playbook(title=title, description=description, playbook_file=playbook_file)
-            for project in project_data:
-                project.playbooks.add(playbook)
-            # REGISTER ACTIVITY
+            project_data.playbooks.add(playbook)
             activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new playbook #{playbook.id}')
             return JsonResponse(
                     {
@@ -75,7 +71,7 @@ def create_playbook(request):
                 )
             
         except Project.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Projeto não encontrado ou você não tem permissão para excluí-lo.'})
+            return JsonResponse({'success': False, 'message': 'Playbook not found.'})
 
 
 @csrf_exempt
@@ -83,16 +79,15 @@ def create_playbook(request):
 @login_required
 def delete_playbook(request, project_id, playbook_id):
     try:
-        # Verifica se o usuário é o proprietário do projeto
-        playbook = GetProject.only_playbook(project_id=project_id, owner=request.user, playbook_id=playbook_id)
+        project = GetProject.owner(id=project_id, owner=request.user)
+        playbook = project.playbooks.get(id=playbook_id)
         if playbook == False:
-            return JsonResponse({'success': False, 'message': 'Inventário não encontrado ou você não tem permissão para excluí-lo.'})
-        # REGISTER ACTIVITY
+            return JsonResponse({'success': False, 'message': 'Playbook not found.'})
         activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete playbook #{playbook_id}')
-        playbook.delete()
-        return JsonResponse({'success': True, 'message': 'Inventário excluído com sucesso.'})
+        project.playbooks.remove(playbook)
+        return JsonResponse({'success': True, 'message': 'Playbook deleted successfuly'})
     except Project.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Inventário não encontrado ou você não tem permissão para excluí-lo.'})
+        return JsonResponse({'success': False, 'message': 'Playbook not found.'})
 
 
 

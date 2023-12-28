@@ -21,20 +21,19 @@ class MembersView(LoginRequiredMixin, TemplateView):
         project_id = self.kwargs.get('project_id')
         try:
             if self.request.user.is_staff == True:
-                project_data = GetProject.filter_id(id=project_id)
+                project_data = GetProject.only(id=project_id)
             else:
                 project_data = GetProject.member(id=project_id, user=self.request.user)
-            context['project_data'] = len(project_data)
-            for data in project_data:
-                context['project_id'] = data.id
-                context['project_title'] = data.title
-                context['project_password'] = data.password
-                context['project_owner'] = data.owner
-                context['project_members'] = data.members
-                context['project_playbooks'] = data.playbooks
-                context['project_inventories'] = data.inventories
-                context['project_templates'] = data.templates
-                context['user_list'] = CustomUser.objects.all()
+            context['project_data'] = project_data
+            context['project_id'] = project_data.id
+            context['project_title'] = project_data.title
+            context['project_password'] = project_data.password
+            context['project_owner'] = project_data.owner
+            context['project_members'] = project_data.members
+            context['project_playbooks'] = project_data.playbooks
+            context['project_inventories'] = project_data.inventories
+            context['project_templates'] = project_data.templates
+            context['user_list'] = CustomUser.objects.all()
 
         except Exception as e:
             print(f"Acesso negado: {e}")
@@ -55,7 +54,7 @@ def create_member(request):
     if project_id:
         try: 
             if request.user.is_staff:
-                project = Project.objects.filter(id=project_id)
+                project = Project.objects.get(id=project_id)
             else:
                 project = GetProject.owner(id=project_id, owner=request.user)
             activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new member to Project #{project_id}')

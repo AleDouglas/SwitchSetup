@@ -21,19 +21,18 @@ class InventoryView(LoginRequiredMixin, TemplateView):
         project_id = self.kwargs.get('project_id')
         try:
             if self.request.user.is_staff == True:
-                project_data = GetProject.filter_id(id=project_id)
+                project_data = GetProject.only(id=project_id)
             else:
                 project_data = GetProject.member(id=project_id, user=self.request.user)
-            context['project_data'] = len(project_data)
-            for data in project_data:
-                context['project_id'] = data.id
-                context['project_title'] = data.title
-                context['project_password'] = data.password
-                context['project_owner'] = data.owner
-                context['project_members'] = data.members
-                context['project_playbooks'] = data.playbooks
-                context['project_inventories'] = data.inventories
-                context['project_templates'] = data.templates
+            context['project_data'] = project_data
+            context['project_id'] = project_data.id
+            context['project_title'] = project_data.title
+            context['project_password'] = project_data.password
+            context['project_owner'] = project_data.owner
+            context['project_members'] = project_data.members
+            context['project_playbooks'] = project_data.playbooks
+            context['project_inventories'] = project_data.inventories
+            context['project_templates'] = project_data.templates
 
         except Exception as e:
             print(f"Acesso negado: {e}")
@@ -61,8 +60,7 @@ def create_inventory(request):
             # Verifica se o usuário é o proprietário do projeto
             project_data = GetProject.owner(id=project_id, owner=request.user)
             inventory = GetProject.create_inventory(title=title, description=description, inventory_file=inventory_file)
-            for project in project_data:
-                project.inventories.add(inventory)
+            project_data.inventories.add(inventory)
             # REGISTER ACTIVITY
             activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new inventory #{inventory.id}')
             return JsonResponse(
@@ -75,8 +73,8 @@ def create_inventory(request):
                     }
                 )
             
-        except Project.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'Projeto não encontrado ou você não tem permissão para excluí-lo.'})
+        except:
+            return JsonResponse({'success': False, 'message': 'Inventory or proejct not found.'})
 
 
 @csrf_exempt
@@ -84,16 +82,15 @@ def create_inventory(request):
 @login_required
 def delete_inventory(request, project_id, inventory_id):
     try:
-        # Verifica se o usuário é o proprietário do projeto
-        inventory = GetProject.only_inventory(project_id=project_id, owner=request.user, inventory_id=inventory_id)
+        project = GetProject.owner(id=project_id, owner=request.user)
+        inventory = project.inventories.get(id=inventory_id)
         if inventory == False:
-            return JsonResponse({'success': False, 'message': 'Inventário não encontrado ou você não tem permissão para excluí-lo.'})
-        # REGISTER ACTIVITY
+            return JsonResponse({'success': False, 'message': 'Inventory not found'})
         activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete inventory #{inventory.id}')
-        inventory.delete()
-        return JsonResponse({'success': True, 'message': 'Inventário excluído com sucesso.'})
-    except Project.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Inventário não encontrado ou você não tem permissão para excluí-lo.'})
+        project.inventories.remove(inventory)
+        return JsonResponse({'success': True, 'message': 'Inventory delete successfully'})
+    except:
+        return JsonResponse({'success': False, 'message': 'Inventory or project not found'})
 
 
 

@@ -64,7 +64,7 @@ However, it is crucial to remember that if you are using our project, you should
 #### Terminal Local:
 
 ```
-cd WebApi
+cd Alpha
 python manage.py migrate
 python manage.py runserver
 ```
@@ -72,7 +72,7 @@ python manage.py runserver
 #### Dockerfile:
 
 ```
-cd WebApi
+cd Alpha
 python manage.py migrate
 cd ..
 docker build -t image_name .
@@ -94,7 +94,7 @@ Use [Django's](https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-D
 
 If you lose the database file or decide to switch to a different one, you will need to follow these steps:
 
-1. Migration ( **Inside the WebApi file** )
+1. Migration ( **Inside the Alpha file** )
 
 
 ```

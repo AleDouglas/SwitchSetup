@@ -26,7 +26,6 @@ class AdminAreaView(LoginRequiredMixin, TemplateView):
         context['project_list'] = GetProject.all()
         context['task_list'] = GetProject.all_task()
         context['activity_list'] = Activity.objects.order_by('-id')
-
         context['user_len'] = len(context['user_list'])
         context['project_len'] = len(context['project_list'])
         context['task_len'] = len(context['task_list'])

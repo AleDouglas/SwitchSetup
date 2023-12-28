@@ -23,22 +23,21 @@ class TaskView(LoginRequiredMixin, TemplateView):
         template_id = self.kwargs.get('template_id')
         try:
             if self.request.user.is_staff == True:
-                project_data = GetProject.filter_id(id=project_id)
+                project_data = GetProject.only(id=project_id)
             else:
                 project_data = GetProject.member(id=project_id, user=self.request.user)
-            context['project_data'] = len(project_data)
-            for data in project_data:
-                context['project_id'] = data.id
-                context['project_title'] = data.title
-                context['project_password'] = data.password
-                context['project_owner'] = data.owner
-                context['project_members'] = data.members
-                context['project_playbooks'] = data.playbooks
-                context['project_inventories'] = data.inventories
-                context['project_templates'] = data.templates
+            context['project_data'] = project_data
+            context['project_id'] = project_data.id
+            context['project_title'] = project_data.title
+            context['project_password'] = project_data.password
+            context['project_owner'] = project_data.owner
+            context['project_members'] = project_data.members
+            context['project_playbooks'] = project_data.playbooks
+            context['project_inventories'] = project_data.inventories
+            context['project_templates'] = project_data.templates
 
             # GET TASK INFORMATIONS
-            template = data.templates.get(id=int(template_id))
+            template = project_data.templates.get(id=int(template_id))
             context['template'] = template
             context['task_list'] = template.tasks.all()
 

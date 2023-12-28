@@ -24,19 +24,18 @@ class TaskTemplateView(LoginRequiredMixin, TemplateView):
         project_id = self.kwargs.get('project_id')
         try:
             if self.request.user.is_staff == True:
-                project_data = GetProject.filter_id(id=project_id)
+                project_data = GetProject.only(id=project_id)
             else:
                 project_data = GetProject.member(id=project_id, user=self.request.user)
-            context['project_data'] = len(project_data)
-            for data in project_data:
-                context['project_id'] = data.id
-                context['project_title'] = data.title
-                context['project_password'] = data.password
-                context['project_owner'] = data.owner
-                context['project_members'] = data.members
-                context['project_playbooks'] = data.playbooks
-                context['project_inventories'] = data.inventories
-                context['project_templates'] = data.templates
+            context['project_data'] = project_data
+            context['project_id'] = project_data.id
+            context['project_title'] = project_data.title
+            context['project_password'] = project_data.password
+            context['project_owner'] = project_data.owner
+            context['project_members'] = project_data.members
+            context['project_playbooks'] = project_data.playbooks
+            context['project_inventories'] = project_data.inventories
+            context['project_templates'] = project_data.templates
 
         except Exception as e:
             print(f"Acesso negado: {e}")
@@ -69,7 +68,7 @@ def create_template(request):
             get_playbook = GetProject.only_playbook(project_id=project_id, owner=request.user, playbook_id=playbook)
             get_inventory = GetProject.only_inventory(project_id=project_id, owner=request.user, inventory_id=inventory)
 
-            template = GetProject.create_template(author=request.user,projeto = project_data, title=title, version=version, playbook=get_playbook, inventory= get_inventory)
+            template = GetProject.create_template(author=request.user,project = project_data, title=title, version=version, playbook=get_playbook, inventory= get_inventory)
             activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'User #{request.user.id} added a new template ID #{template.id}')
             # Activity register
             return JsonResponse(
@@ -94,13 +93,13 @@ def create_template(request):
 @login_required
 def delete_template(request, project_id, template_id):
     try:
-        # Verifica se o usuário é o proprietário do projeto
-        template = GetProject.only_template(project_id=project_id, owner=request.user, template_id=template_id)
+        project = GetProject.owner(id=project_id, owner=request.user)
+        template = project.templates.get(id=int(template_id))
         if template == False:
             return JsonResponse({'success': False, 'result': 'Template not found'})
         # REGISTER ACTIVITY
         activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete template #{template.id}')
-        template.delete()
+        project.templates.remove(template)
         return JsonResponse({'success': True, 'result': 'Template delete successfully'})
     except Template.DoesNotExist:
         return JsonResponse({'success': False, 'result': 'Template not found'})

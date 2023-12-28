@@ -29,6 +29,18 @@
         font-size: 24px;
         justify-content: space-between;
     }
+
+    .btn-Logout{
+            background-color: rgba(128, 128, 128, 0.301);
+            border: 0px;
+            border-radius: 15px;
+            padding: 10px 20px 10px 20px;
+            font-weight: 900;
+        }
+    .btn-Logout:hover{
+        background-color: rgba(228, 12, 12, 0.671);
+
+    }
 </style>
 <body id="body-pd" class="body-pd">
 
@@ -63,7 +75,7 @@
             <div>
                 {% if user.is_staff %}
                 {% endif %}
-                <a href="{% url 'account_logout' %}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span></a>
+                <a href="#" class="nav_link" data-bs-toggle="modal" data-bs-target="#LogoutModal"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span></a>
             </div>
         </nav>
     </div>
@@ -74,7 +86,31 @@
     </div>
     <!--Container Main end-->
 
-
+        <!-- Modal for Logout -->
+        <div class="modal fade" id="LogoutModal" tabindex="-1" aria-labelledby="LogoutModalLabel" aria-hidden="true" style="width: 100% !important;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="LogoutModalLabel">Logout</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{% url 'logout' %}">
+                            <div>
+                                {% csrf_token %}
+                                <p style="color: red;">Are you sure you want to log out of your account?</p>
+                            </div>
+                            <button type="submit" class="btn-Logout" style="margin-top: 15px;" data-bs-dismiss="modal" aria-label="Close" >Logout</button>
+    
+                        </form>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     <!-- JavaScript IMPORT-->

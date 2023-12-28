@@ -14,50 +14,56 @@ class GetProject():
     def only(id):
         return Project.objects.get(id=int(id))
 
-    def filter_id(id):
-        return Project.objects.filter(id=int(id))
+    def get_inventory(id):
+        return Inventory.objects.get(id=int(id))
+    
+    def get_task(id):
+        return Task.objects.get(id=int(id))
+    
+    def get_playbook(id):
+        return Playbook.objects.get(id=int(id))
+
+    def get_activity(id):
+        return Activity.objects.get(id=int(id))
+
+    def get_template(id):
+        return Template.objects.get(id=int(id))
+    
+    def get_user(id):
+        return CustomUser.objects.get(id=int(id))
 
     def filter(user):
         return Project.objects.filter(owner=user)
 
-    def owner(id, owner):
-        return Project.objects.filter(id=int(id),owner=owner)
-
-    def member(id, user):
-        return Project.objects.filter(id=int(id),members=user)
-
     def filter_member(user):
         return Project.objects.filter(members=user)
+
+    def owner(id, owner):
+        return Project.objects.get(id=int(id),owner=owner)
+
+    def member(id, user):
+        return Project.objects.get(id=int(id),members=user)
 
     def create(title, password, owner):
         return Project.objects.create(title=title, password=password, owner=owner)
 
     def add_member(id, user):
-        project = Project.objects.get(id=int(id))
-        return project.members.add(user)
+        return Project.objects.get(id=int(id)).members.add(user)
 
     def create_activity(project_id = None, user = None, description = ''):
         activity = Activity.objects.create(description = description, user = user)
         if project_id == None:
             return activity
-        project = Project.objects.get(id=int(project_id))
-        project.activity.add(activity)
-        return activity
-
-    def create_user(username, first_name, last_name, email, password):
-        return CustomUser.objects.create(username=username, first_name=first_name, last_name=last_name, email=email, password=password)
+        return Project.objects.get(id=int(project_id)).activity.add(activity)
 
     def create_inventory(title, description, inventory_file):
         return Inventory.objects.create(title=title, description=description, inventory_file=inventory_file)
 
     def only_inventory(project_id, owner, inventory_id):
         try:
-            project = Project.objects.filter(id=int(project_id),owner=owner)
-            for inventory in project:
-                return inventory.inventories.get(id=inventory_id)
-
+            return Project.objects.get(id=int(project_id),owner=owner).inventories.get(id=inventory_id)
         except Exception as e:
-            print(f"Acesso negado: {e}")
+            print(f"Error: {e}")
             return False
     
     def create_playbook(title, description, playbook_file):
@@ -65,28 +71,21 @@ class GetProject():
 
     def only_playbook(project_id, owner, playbook_id):
         try:
-            project = Project.objects.filter(id=int(project_id),owner=owner)
-            for playbook in project:
-                return playbook.playbooks.get(id=playbook_id)
-
+            return Project.objects.get(id=int(project_id),owner=owner).playbooks.get(id=playbook_id)
         except Exception as e:
-            print(f"Acesso negado: {e}")
+            print(f"Error: {e}")
             return False
 
-    def create_template(author, projeto, title, version, playbook, inventory):
+    def create_template(author, project, title, version, playbook, inventory):
         template = Template.objects.create(author=author, title=title, version=version, playbook=playbook, inventory=inventory)
-        for x in projeto:
-            projeto = x.templates.add(template)
+        project = project.templates.add(template)
         return template
 
     def only_template(project_id, owner, template_id):
         try:
-            project = Project.objects.filter(id=int(project_id),owner=owner)
-            for template in project:
-                return template.templates.get(id=template_id)
-
+            return Project.objects.get(id=int(project_id),owner=owner).templates.get(id=template_id)
         except Exception as e:
-            print(f"Acesso negado: {e}")
+            print(f"Error: {e}")
             return False
     
     def all_task():
@@ -94,24 +93,18 @@ class GetProject():
 
     def get_task(id):
         return Task.objects.get(id=int(id))
-
-    def only_task(template_id):
-        template = Template.objects.get(id=int(id))
-        return template.tasks
     
     def create_task(title, author, status, output, template_id):
-        task= Task.objects.create(title=title, author=author, status=status, output=output)
-        template = Template.objects.get(id=int(template_id))
-        template = template.tasks.add(task)
+        task = Task.objects.create(title=title, author=author, status=status, output=output)
+        template = Template.objects.get(id=int(template_id)).tasks.add(task)
         return task
 
     def addMember(project_id, user_id):
         try:
-            project = Project.objects.get(id=int(project_id))
             user = CustomUser.objects.get(id=int(user_id))
-            project.members.add(user)
+            project = Project.objects.get(id=int(project_id)).members.add(user)
             return user
         except Exception as e:
-            print(f"Failed: {e}")
+            print(f"Error: {e}")
             return False
 
