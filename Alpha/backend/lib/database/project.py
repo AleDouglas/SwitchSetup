@@ -4,6 +4,7 @@ from backend.lib.database.playbook import Playbook
 from backend.lib.database.inventory import Inventory
 from backend.lib.database.template import Template
 from backend.lib.database.dashboard import Activity
+from backend.lib.database.key import Key
 
 
 class Project(models.Model):
@@ -15,6 +16,8 @@ class Project(models.Model):
     inventories = models.ManyToManyField(Inventory, related_name='inventory_project')
     templates = models.ManyToManyField(Template, related_name='template_project')
     activity = models.ManyToManyField(Activity, related_name='activity_project')
+    key = models.ManyToManyField(Key, related_name='project_key')
+
 
     def __str__(self):
         return self.title

@@ -1,8 +1,4 @@
 from django.db import models
-from backend.lib.database import user
-from backend.lib.database import inventory
-from backend.lib.database import playbook
-from backend.lib.database import template
-from backend.lib.database import dashboard
-from backend.lib.database import project
+from backend.lib.database.user import CustomUser
+from backend.lib.database.project import Project
 

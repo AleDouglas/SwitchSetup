@@ -67,7 +67,7 @@
                     <a href="{% url 'template' project_id%}" class="nav_link"> <i class='bx bx-task' ></i> <span class="nav_name">Task Templates</span> </a> 
                     <a href="{% url 'inventory' project_id%}" class="nav_link"> <i class='bx bx-desktop' ></i> <span class="nav_name">Inventory</span> </a> 
                     <a href="{% url 'playbook' project_id%}" class="nav_link"> <i class='bx bxs-terminal' ></i> <span class="nav_name">Playbook</span> </a> 
-                    <a href="#" class="nav_link"> <i class='bx bxs-key' ></i><span class="nav_name">Key Store</span> </a> 
+                    <a href="{% url 'key' project_id%}" class="nav_link"> <i class='bx bxs-key' ></i><span class="nav_name">Key Store</span> </a> 
                     <a href="{% url 'members' project_id%}" class="nav_link"> <i class='bx bxs-user-account'></i><span class="nav_name">Members</span> </a> 
                     </a>
                 </div>

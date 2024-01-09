@@ -37,6 +37,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             context['project_activity'] = project_data.activity
 
         except Exception as e:
+            context['project_data'] = False
             print(f"Acesso negado: {e}")
         return context
 
