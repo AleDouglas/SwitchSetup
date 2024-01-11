@@ -45,3 +45,30 @@ document.getElementById('newKeyForm').addEventListener('submit', function(event)
     };
     xhr.send(formData);
 });
+
+function delete_key(project_id, key_id) {
+    project_id = parseInt(project_id, 10);
+    key_id = parseInt(key_id, 10);
+    fetch(`/delete_key/${project_id}/${key_id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',  
+        },
+        credentials: 'same-origin',  
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Key deleted successfully.');
+            var table_id = 'KeyID' + key_id;
+            var delete_table = document.getElementById(table_id);
+            if (delete_table) {
+                delete_table.parentNode.removeChild(delete_table);
+            }
+        } else {
+            console.error(data.message);
+        }
+    })
+    .catch(error => console.error('Erro ao excluir o projeto:', error));
+}

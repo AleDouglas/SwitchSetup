@@ -90,7 +90,6 @@ def delete_member(request, project_id, user_id):
             project = GetProject.owner(id=project_id, owner=request.user)
         if project == False:
             return JsonResponse({'success': False, 'message': 'Without permission'})
-        # REGISTER ACTIVITY
         try:
             user = CustomUser.objects.get(id=int(user_id))
         except:

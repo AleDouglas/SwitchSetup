@@ -123,3 +123,11 @@ class GetProject():
         except Exception as e:
             print(f"Error: {e}")
             return False
+
+    def delete_key(project, key):
+        try:
+            project.key.remove(key)
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False

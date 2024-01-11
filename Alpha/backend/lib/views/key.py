@@ -84,3 +84,25 @@ def create_key(request):
             return JsonResponse({'success': False, 'message': 'Error to create Key'})
     else:
         return JsonResponse({'sucess': False, 'message': 'Error to create Key'})
+
+
+
+@csrf_exempt
+@require_POST
+@login_required
+def delete_key(request, project_id, key_id):
+    try:
+        if request.user.is_staff:
+            project = Project.objects.get(id=project_id)
+            key = project.key.get(id=int(key_id))
+        else:
+            project = GetProject.owner(id=project_id, owner=request.user)
+            key = project.key.get(id=int(key_id))
+        if (project == False) or (key == False ):
+            return JsonResponse({'success': False, 'message': 'Project or key not found or you do not have permission to delete it.'})
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} delete key #{key_id}')
+        key = GetProject.delete_key(project = project, key = key)
+        return JsonResponse({'success': True, 'message': 'Key deleted successfully.'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'success': False, 'message': 'Project not found or you do not have permission to delete it.'})

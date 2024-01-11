@@ -123,7 +123,7 @@
             <td style="color: red;">{{key.add_playbook}}</td> <!-- ADD PLAYBOOK -->
             <td style="color: red;">{{key.add_template}}</td> <!-- ADD TEMPLATE -->
             <td style="color: red;">{{key.remove_itens}}</td> <!-- EDIT ITEMS -->
-            <td><i class="bx bxs-x-circle btn-delete"></i></td>
+            <td><i class="bx bxs-x-circle btn-delete" onclick="delete_key('{{project_id}}','{{key.id}}')"></i></td>
         </tr>
         {% endfor %}
     </tbody>

@@ -8,7 +8,7 @@ from backend.lib.views.template import TaskTemplateView, create_template, delete
 from backend.lib.views.members import MembersView, create_member, delete_member
 from backend.lib.views.task import TaskView, get_task
 from backend.lib.views.admin_area import AdminAreaView, delete_user
-from backend.lib.views.key import KeyView, create_key
+from backend.lib.views.key import KeyView, create_key, delete_key
 
 
 urlpatterns = [
@@ -37,6 +37,7 @@ urlpatterns = [
 
     path('project/key/<int:project_id>/', KeyView.as_view(), name='key'),
     path('create_key/', create_key, name='create_key'),
+    path('delete_key/<int:project_id>/<int:key_id>', delete_key, name='delete_key'),
 
 
     path('project/members/<int:project_id>/', MembersView.as_view(), name='members'),
