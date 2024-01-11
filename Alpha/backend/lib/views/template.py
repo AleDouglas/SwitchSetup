@@ -138,7 +138,7 @@ def execute_template(request, project_id, template_id):
         return JsonResponse({'success': True, 'status': status,'result': 'Template was execute successfully', 'ansible':ansible_task, 'terminal_output':get_terminal_output, 'task_id': task.id, 'template_title':template.title })
     except Exception as e:
         print(e)
-        return JsonResponse({'success': False, 'result': 'Template not found', 'status': 0})
+        return JsonResponse({'success': False, 'result': 'Template not found', 'status': 2})
 
 
 
