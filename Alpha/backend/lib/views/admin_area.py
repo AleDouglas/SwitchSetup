@@ -58,8 +58,8 @@ class AdminAreaView(LoginRequiredMixin, TemplateView):
 def delete_user(request, user_id):
     try:
         if request.user.is_staff:
-            user = CustomUser.objects.get(id=int(user_id))
-            if len(CustomUser.objects.filter(is_staff=True)) < 2:
+            user = CustomUser.objects.get(id=int(user_id)) # Get user
+            if (len(CustomUser.objects.filter(is_staff=True)) < 2) and (user.is_staff == True):
                 return JsonResponse({'success': False, 'result_user': 'Problem deleting user: Make sure there is more than one admin account on the system'})
             activity = GetProject.create_activity(user=request.user, description=f'Admin #{request.user.id} delete user ID #{user_id}')
             user.delete()

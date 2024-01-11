@@ -94,7 +94,6 @@ def delete_member(request, project_id, user_id):
             user = CustomUser.objects.get(id=int(user_id))
         except:
             return JsonResponse({'success': False, 'message': 'User not found'})
-        #print(user.username)
         project.members.remove(user)
         activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} remove a member ID #{user_id} from project #{project_id}')
         return JsonResponse({'success': True, 'message': 'Member deleted.'})
