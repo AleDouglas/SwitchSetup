@@ -131,7 +131,8 @@ to the MIDDLEWARE list in the settings.py file.
 
 | Version   |            |  Date |
 |----------|:-------------:|------:|
-| Alpha V.1.0 |    Added an Alpha version with a new, more attractive and functional look, this version for attribution via API is not yet ready   |   27/12/2023 |
+| Alpha V.1.1 | Added key system and resolve responsive bugs, this version for attribution via API is not yet ready   |   11/01/2024 |
+| Alpha V.1.0 | Added an Alpha version with a new, more attractive and functional look, this version for attribution via API is not yet ready   |   27/12/2023 |
 | 1.6.1 | Fixing and Update system for customized playbooks and hosts | 13/09/2023
 | 1.6 | Added a system for customized playbooks and hosts ( TEST ) | 13/09/2023
 | 1.5.3 | Resolved Datetime Import and finish tests | 18/08/2023
