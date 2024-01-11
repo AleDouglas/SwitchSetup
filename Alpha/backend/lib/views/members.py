@@ -57,8 +57,8 @@ def create_member(request):
                 project = Project.objects.get(id=project_id)
             else:
                 project = GetProject.owner(id=project_id, owner=request.user)
-            activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new member to Project #{project_id}')
-            member = GetProject.addMember(project_id = project_id, user_id=user_id)
+            activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} added a new member to Project #{project_id}')
+            member = GetProject.addMember(project = project, user_id=user_id)
             if member == False:
                 return JsonResponse({'success': False, 'message': 'User not found'})
             return JsonResponse(
@@ -79,13 +79,13 @@ def create_member(request):
 @require_POST
 @login_required
 def delete_member(request, project_id, user_id):
-    print(project_id)
+    #print(project_id)
     project_id = int(project_id)
     user_id = int(user_id)
     try:
         # Verifica se o usuário é o proprietário do projeto
         if request.user.is_staff:
-            project = Project.objects.filter(id=project_id)
+            project = Project.objects.get(id=project_id)
         else:
             project = GetProject.owner(id=project_id, owner=request.user)
         if project == False:
@@ -95,10 +95,9 @@ def delete_member(request, project_id, user_id):
             user = CustomUser.objects.get(id=int(user_id))
         except:
             return JsonResponse({'success': False, 'message': 'User not found'})
-        print(user.username)
-        project[0].members.remove(user)
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} remove a member ID #{user_id} from project #{project_id}')
-
+        #print(user.username)
+        project.members.remove(user)
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} remove a member ID #{user_id} from project #{project_id}')
         return JsonResponse({'success': True, 'message': 'Member deleted.'})
     except Project.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Project not found'})

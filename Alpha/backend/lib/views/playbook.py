@@ -56,10 +56,10 @@ def create_playbook(request):
 
     if project_id:
         try:
-            project_data = GetProject.owner(id=project_id, owner=request.user)
+            project = GetProject.owner(id=project_id, owner=request.user)
             playbook = GetProject.create_playbook(title=title, description=description, playbook_file=playbook_file)
-            project_data.playbooks.add(playbook)
-            activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new playbook #{playbook.id}')
+            project.playbooks.add(playbook)
+            activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} added a new playbook #{playbook.id}')
             return JsonResponse(
                     {
                         'success': True, 
@@ -83,7 +83,7 @@ def delete_playbook(request, project_id, playbook_id):
         playbook = project.playbooks.get(id=playbook_id)
         if playbook == False:
             return JsonResponse({'success': False, 'message': 'Playbook not found.'})
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete playbook #{playbook_id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} delete playbook #{playbook_id}')
         project.playbooks.remove(playbook)
         return JsonResponse({'success': True, 'message': 'Playbook deleted successfuly'})
     except Project.DoesNotExist:

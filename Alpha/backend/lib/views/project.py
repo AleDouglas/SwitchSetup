@@ -30,7 +30,7 @@ def create_project(request):
     project = GetProject.create(title=title, password=password, owner=request.user)
     project.members.add(request.user)
     # ACTIVITY REGISTER
-    activity = GetProject.create_activity(project_id = project.id, user=request.user, description=f'USER #{request.user.id} created a new project #{project.id}')
+    activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} created a new project #{project.id}')
     return JsonResponse({'success': True, 'project_id': project.id, 'project_title': project.title})
 
 @csrf_exempt
@@ -39,7 +39,7 @@ def create_project(request):
 def delete_project(request, project_id):
     try:
         project = GetProject.owner(id=project_id, owner=request.user)
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete project #{project_id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} delete project #{project_id}')
         members = project.members.all()
         for x in members:
             project.members.remove(x)

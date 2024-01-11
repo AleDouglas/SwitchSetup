@@ -102,7 +102,7 @@
     <button class="btn-newKey" data-bs-toggle="modal" data-bs-target="#newKeyModal">Generate a new key</button>
 </div>
 
-
+<hr>
 <table id="keyList" class="table" style="width:100%;margin-top: 15px;">
     <thead>
         <tr class="tb-height">
@@ -111,18 +111,20 @@
             <th>ADD INVENTORY</th>
             <th>ADD PLAYBOOK</th>
             <th>ADD TEMPLATE</th>
-            <th>RUN TEMPLATE</th>
+            <th>EDIT ITEMS</th>
+            <th>OPTION</th>
 
         </tr>
     </thead>
     <tbody id="KeyTable">
         {% for x in project_key.all %}
         <tr class="tb-height" id="KeyID{{project_key.id}}">
-            <td>{{project_key.id}}</td>
-            <td>{{project_key.id}}</td>
-            <td>{{project_key.id}}</td>
-            <td style="color: red;">{{project_key.id}}</td>
-            <td style="color: red;">{{project_key.id}}</td>
+            <td>{{project_key.id}}</td> <!-- TITLE -->
+            <td>{{project_key.id}}</td> <!-- KEY -->
+            <td style="color: red;">{{project_key.id}}</td> <!-- ADD INVENTORY -->
+            <td style="color: red;">{{project_key.id}}</td> <!-- ADD PLAYBOOK -->
+            <td style="color: red;">{{project_key.id}}</td> <!-- ADD TEMPLATE -->
+            <td style="color: red;">{{project_key.id}}</td> <!-- EDIT ITEMS -->
             <td>
                 <i class="bx bxs-x-circle btn-delete"></i>
             </td>
@@ -154,28 +156,22 @@
                         <hr>
                         <label for="" style="font-weight: 900;font-size: 18px;margin-top: 5px;">Key Options</label>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_inventory">
                             <label for="">Allow you to add new Inventory</label>
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1">
-                            <label for="">Allow you to add new Inventory</label>
-
-                        </div>
-                        <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_playbook">
                             <label for="">Allow you to add new Playbooks</label>
 
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_template">
                             <label for="">Allow you to add new Templates</label>
 
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="remove_items">
                             <label for="">Allow you to remove items</label>
-
                         </div>
                     </div>
                     <button type="submit" class="btn-newKey" style="margin-top: 15px;">GENERATE KEY</button>

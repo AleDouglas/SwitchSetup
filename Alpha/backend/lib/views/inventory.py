@@ -58,11 +58,11 @@ def create_inventory(request):
     if project_id:
         try:
             # Verifica se o usuário é o proprietário do projeto
-            project_data = GetProject.owner(id=project_id, owner=request.user)
+            project = GetProject.owner(id=project_id, owner=request.user)
             inventory = GetProject.create_inventory(title=title, description=description, inventory_file=inventory_file)
-            project_data.inventories.add(inventory)
+            project.inventories.add(inventory)
             # REGISTER ACTIVITY
-            activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} added a new inventory #{inventory.id}')
+            activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} added a new inventory #{inventory.id}')
             return JsonResponse(
                     {
                         'success': True, 
@@ -86,7 +86,7 @@ def delete_inventory(request, project_id, inventory_id):
         inventory = project.inventories.get(id=inventory_id)
         if inventory == False:
             return JsonResponse({'success': False, 'message': 'Inventory not found'})
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete inventory #{inventory.id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} delete inventory #{inventory.id}')
         project.inventories.remove(inventory)
         return JsonResponse({'success': True, 'message': 'Inventory delete successfully'})
     except:

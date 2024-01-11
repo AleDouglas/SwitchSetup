@@ -88,9 +88,23 @@
         margin-bottom: 10px;
     }
     @media (min-width: 992px){
-    .modal-lg, .modal-xl {
-        --bs-modal-width: 1200px;
-    }}
+        .modal-dialog{
+            max-width: none;
+            margin-right: 0;
+            margin-left: 0;
+        }
+        .modal-lg, .modal-xl {
+            --bs-modal-width: 1200px;
+        }
+    }
+
+    @media (min-width: 576px){
+        .modal-dialog{
+            max-width: none;
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
 </style>
 
 

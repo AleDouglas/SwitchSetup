@@ -63,13 +63,13 @@ def create_template(request):
     if project_id:
         try:
             # Verifica se o usuário é o proprietário do projeto
-            project_data = GetProject.owner(id=project_id, owner=request.user)
+            project = GetProject.owner(id=project_id, owner=request.user)
             # Pegando Playbook e Inventário
-            get_playbook = GetProject.only_playbook(project_id=project_id, owner=request.user, playbook_id=playbook)
-            get_inventory = GetProject.only_inventory(project_id=project_id, owner=request.user, inventory_id=inventory)
+            get_playbook = GetProject.only_playbook(project=project, owner=request.user, playbook_id=playbook)
+            get_inventory = GetProject.only_inventory(project=project, owner=request.user, inventory_id=inventory)
 
-            template = GetProject.create_template(author=request.user,project = project_data, title=title, version=version, playbook=get_playbook, inventory= get_inventory)
-            activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'User #{request.user.id} added a new template ID #{template.id}')
+            template = GetProject.create_template(author=request.user,project = project, title=title, version=version, playbook=get_playbook, inventory= get_inventory)
+            activity = GetProject.create_activity(project = project, user=request.user, description=f'User #{request.user.id} added a new template ID #{template.id}')
             # Activity register
             return JsonResponse(
                     {
@@ -98,7 +98,7 @@ def delete_template(request, project_id, template_id):
         if template == False:
             return JsonResponse({'success': False, 'result': 'Template not found'})
         # REGISTER ACTIVITY
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} delete template #{template.id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} delete template #{template.id}')
         project.templates.remove(template)
         return JsonResponse({'success': True, 'result': 'Template delete successfully'})
     except Template.DoesNotExist:
@@ -110,7 +110,11 @@ def delete_template(request, project_id, template_id):
 @login_required
 def execute_template(request, project_id, template_id):
     try:
-        template = GetProject.only_template(project_id=project_id, owner=request.user, template_id=template_id)
+        if request.user.is_staff:
+            project = GetProject.only(id=project_id)
+        else:
+            project = GetProject.member(id=project_id, user=request.user)
+        template = GetProject.only_template(project=project, owner=request.user, template_id=template_id)
         if template == False:
             return JsonResponse({'success': False, 'result': 'Template not found'})
 
@@ -129,12 +133,12 @@ def execute_template(request, project_id, template_id):
         # GENERATE A NEW TASK
         task = GetProject.create_task(title=f'USER #{request.user.id} run a template ID #{template_id}', author=request.user, status=status, output=task_output, template_id=template_id)
         # ACTIVITY REGISTER
-        activity = GetProject.create_activity(project_id = project_id, user=request.user, description=f'USER #{request.user.id} run a template ID #{template_id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} run a template ID #{template_id}')
 
         return JsonResponse({'success': True, 'status': status,'result': 'Template was execute successfully', 'ansible':ansible_task, 'terminal_output':get_terminal_output, 'task_id': task.id, 'template_title':template.title })
-    except Template.DoesNotExist as e:
+    except Exception as e:
         print(e)
-        return JsonResponse({'success': False, 'result': 'Template not found'})
+        return JsonResponse({'success': False, 'result': 'Template not found', 'status': 0})
 
 
 

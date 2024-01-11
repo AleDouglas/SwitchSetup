@@ -7,6 +7,6 @@ class Key(models.Model):
     add_inventory = models.BooleanField(default=False)
     add_playbook = models.BooleanField(default=False)
     add_template = models.BooleanField(default=False)
-    execute_template = models.BooleanField(default=False)
+    execute_template = models.BooleanField(default=True)
     remove_itens = models.BooleanField(default=False)
 
