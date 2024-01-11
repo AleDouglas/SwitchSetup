@@ -28,7 +28,7 @@ class KeyView(LoginRequiredMixin, TemplateView):
             context['project_data'] = project_data
             context['project_id'] = project_data.id
             context['project_title'] = project_data.title
-            context['project_key'] = project_data.key
+            context['project_key'] = project_data.key.all
         except Exception as e:
             print(f"Acesso negado: {e}")
         return context
@@ -45,10 +45,18 @@ class KeyView(LoginRequiredMixin, TemplateView):
 def create_key(request):
     project_id = request.POST.get('project_id', '')
     title = request.POST.get('title', '')
-    add_inventory = request.POST.get('add_inventory', '')
-    add_playbook = request.POST.get('add_playbook', '')
-    add_template = request.POST.get('add_template', '')
-    remove_items = request.POST.get('remove_items', '')
+    add_inventory = request.POST.get('add_inventory', '').lower()
+    add_playbook = request.POST.get('add_playbook', '').lower()
+    add_template = request.POST.get('add_template', '').lower()
+    remove_items = request.POST.get('remove_items', '').lower()
+
+
+
+    add_inventory = add_inventory == 'true'
+    add_playbook = add_playbook == 'true'
+    add_template = add_template == 'true'
+    remove_items = remove_items == 'true'
+
     if project_id:
         try: 
             if request.user.is_staff:
@@ -62,8 +70,17 @@ def create_key(request):
             return JsonResponse(
                     {
                         'success': True,
+                        'key_id': key.id,
+                        'key': key.key,
+                        'key_title': key.name,
+                        'key_inventory': key.add_inventory,
+                        'key_playbook': key.add_playbook,
+                        'key_template': key.add_template,
+                        'key_remove': key.remove_itens,
                     }
                 )
             
         except:
             return JsonResponse({'success': False, 'message': 'Error to create Key'})
+    else:
+        return JsonResponse({'sucess': False, 'message': 'Error to create Key'})

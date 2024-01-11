@@ -107,7 +107,6 @@
     <thead>
         <tr class="tb-height">
             <th>KEY NAME</th>
-            <th>KEY</th>
             <th>ADD INVENTORY</th>
             <th>ADD PLAYBOOK</th>
             <th>ADD TEMPLATE</th>
@@ -117,17 +116,14 @@
         </tr>
     </thead>
     <tbody id="KeyTable">
-        {% for x in project_key.all %}
-        <tr class="tb-height" id="KeyID{{project_key.id}}">
-            <td>{{project_key.id}}</td> <!-- TITLE -->
-            <td>{{project_key.id}}</td> <!-- KEY -->
-            <td style="color: red;">{{project_key.id}}</td> <!-- ADD INVENTORY -->
-            <td style="color: red;">{{project_key.id}}</td> <!-- ADD PLAYBOOK -->
-            <td style="color: red;">{{project_key.id}}</td> <!-- ADD TEMPLATE -->
-            <td style="color: red;">{{project_key.id}}</td> <!-- EDIT ITEMS -->
-            <td>
-                <i class="bx bxs-x-circle btn-delete"></i>
-            </td>
+        {% for key in project_key %}
+        <tr class="tb-height" id="KeyID{{key.id}}">
+            <td>{{ key.name }} #{{key.id}}</td> <!-- TITLE -->
+            <td style="color: red;">{{key.add_inventory}}</td> <!-- ADD INVENTORY -->
+            <td style="color: red;">{{key.add_playbook}}</td> <!-- ADD PLAYBOOK -->
+            <td style="color: red;">{{key.add_template}}</td> <!-- ADD TEMPLATE -->
+            <td style="color: red;">{{key.remove_itens}}</td> <!-- EDIT ITEMS -->
+            <td><i class="bx bxs-x-circle btn-delete"></i></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -156,21 +152,21 @@
                         <hr>
                         <label for="" style="font-weight: 900;font-size: 18px;margin-top: 5px;">Key Options</label>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_inventory">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="add_inventory" name="add_inventory">
                             <label for="">Allow you to add new Inventory</label>
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_playbook">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="add_playbook" name="add_playbook">
                             <label for="">Allow you to add new Playbooks</label>
 
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="add_template">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="add_template" name="add_template">
                             <label for="">Allow you to add new Templates</label>
 
                         </div>
                         <div class="key_option">
-                            <input class="form-check-input option-input" type="checkbox" value="" id="check1" name="remove_items">
+                            <input class="form-check-input option-input" type="checkbox" value="" id="remove_items" name="remove_items">
                             <label for="">Allow you to remove items</label>
                         </div>
                     </div>
@@ -178,13 +174,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close_modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="{% static 'javascript/member.js' %}"></script>
+<script src="{% static 'javascript/key.js' %}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>

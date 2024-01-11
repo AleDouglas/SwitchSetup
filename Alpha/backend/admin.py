@@ -8,6 +8,7 @@ from backend.lib.database import template
 from backend.lib.database import dashboard
 from backend.lib.database import project
 from backend.lib.database import task
+from backend.lib.database import key
 
 CustomUser = get_user_model()
 
@@ -44,9 +45,13 @@ class TemplateAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
 	list_display = ('id','title')
 
+class KeyAdmin(admin.ModelAdmin):
+	list_display = ('id','name')
+
 admin.site.register(inventory.Inventory, InventoryAdmin)
 admin.site.register(playbook.Playbook, PlaybookAdmin)
 admin.site.register(project.Project, ProjectAdmin)
 admin.site.register(dashboard.Activity, ActivityAdmin)
 admin.site.register(template.Template, TemplateAdmin)
 admin.site.register(task.Task, TaskAdmin)
+admin.site.register(key.Key, KeyAdmin)
