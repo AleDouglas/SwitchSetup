@@ -20,7 +20,7 @@ document.getElementById('newMemberForm').addEventListener('submit', function(eve
             var td_2 = '<td>' + response.member_username +'</td>';
             var td_3 = '<td>' +  response.member_email +'</td>';
             var td_4 = '<td>' +  'Development' +'</td>'; 
-            var td_5 = '<td>' +  '<i class="bx bxs-x-circle btn-delete" onclick="delete_member('+ project_id + ','+ response.member_id + ')"></i>' +'</td></tr>';
+            var td_5 = '<td>' +  '<i class="bx bxs-x-circle btn-delete" data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('+ project_id + ','+ response.member_id + ')"></i>' +'</td></tr>';
             new_table += td_1 + td_2 + td_3 + td_4 + td_5;
             get_table.innerHTML += new_table;
         } else {

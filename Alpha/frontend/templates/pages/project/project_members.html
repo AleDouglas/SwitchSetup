@@ -128,7 +128,7 @@
             <td>{{ member.email }}</td>
             <td style="color: red;">Development</td>
             <td>
-                <i class="bx bxs-x-circle btn-delete" onclick="delete_member('{{project_id}}', '{{member.id}}')"></i>
+                <i class="bx bxs-x-circle btn-delete" data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('{{project_id}}', '{{member.id}}')"></i>
             </td>
         </tr>
         {% endfor %}
@@ -196,9 +196,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 <script>
-    function delete_modal(projectID){
+    function delete_modal(projectID, memberID){
         var insert_button = document.getElementById('buttonDelete');
-        insert_button.innerHTML = '<button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" onclick="delete_project('+ projectID +')">Delete</button>';
+        insert_button.innerHTML = '<button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" onclick="delete_member('+ projectID +','+ memberID +')">Delete</button>';
     }
 
     $(document).ready(function () {
