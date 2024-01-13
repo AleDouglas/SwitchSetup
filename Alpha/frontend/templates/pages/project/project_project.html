@@ -123,7 +123,7 @@
                                 <i class='bx bxs-archive project-icon'></i>
                                 <a href="/project/dashboard/{{ project.id }}/">{{ project.title }}</a>
                             </div>
-                            <i class='bx bxs-x-circle btn-delete' onclick="delete_project('{{ project.id }}')"></i>
+                            <i class='bx bxs-x-circle btn-delete' data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('{{ project.id }}')"></i>
                         </div>
                         {% endfor %}
 
@@ -192,6 +192,8 @@
         </div>
     </div>
 
+
+    {% include 'components/modals/delete.html' %}
     
     
 

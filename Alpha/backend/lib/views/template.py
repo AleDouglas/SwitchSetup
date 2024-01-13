@@ -133,7 +133,7 @@ def execute_template(request, project_id, template_id):
         # GENERATE A NEW TASK
         task = GetProject.create_task(title=f'USER #{request.user.id} run a template ID #{template_id}', author=request.user, status=status, output=task_output, template_id=template_id)
         # ACTIVITY REGISTER
-        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} run a template ID #{template_id}')
+        activity = GetProject.create_activity(project = project, user=request.user, description=f'USER #{request.user.id} run a template ID #{template_id} from project ID #{project_id}')
 
         return JsonResponse({'success': True, 'status': status,'result': 'Template was execute successfully', 'ansible':ansible_task, 'terminal_output':get_terminal_output, 'task_id': task.id, 'template_title':template.title })
     except Exception as e:

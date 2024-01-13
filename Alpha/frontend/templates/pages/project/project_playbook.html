@@ -82,7 +82,7 @@
             <td>{{ Playbook.title }} <span style="color: grey;">#{{ Playbook.id }}</span></td>
             <td>{{ Playbook.description }}</td>
             <td>{{ Playbook.date_time }}</td>
-            <td><i class='bx bxs-x-circle btn-delete' onclick="delete_playbook('{{ project_id }}','{{ Playbook.id }}')"></i></td>
+            <td><i class='bx bxs-x-circle btn-delete' data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('{{ project_id }}','{{ Playbook.id }}')"></i></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -123,11 +123,17 @@
     </div>
 </div>
 
+{% include 'components/modals/delete.html' %}
 
 
 <script src="{% static 'javascript/playbook.js' %}"></script>
 
 <script>
+    function delete_modal(projectID, playbookID){
+        var insert_button = document.getElementById('buttonDelete');
+        insert_button.innerHTML = '<button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" onclick="delete_playbook('+ projectID +','+ playbookID +')">Delete</button>';
+    }
+
     var navLinks = document.getElementsByClassName("nav_link");
     navLinks[3].classList.add("active");
 </script>

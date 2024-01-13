@@ -31,7 +31,7 @@ document.getElementById('createInventoryForm').addEventListener('submit', functi
                 hour12: true,
             };
             const date_time = new Intl.DateTimeFormat('en-US', options).format(data);
-            var new_table = '<tr class="tb-height" id="inventoryID'+ response.inventory_id +'"><td>' +  response.inventory_title + '<span style="color: grey;"> #' + response.inventory_id + '</span></td><td>' + response.inventory_description + '</td><td>' + date_time + '<td><i class="bx bxs-x-circle btn-delete" onclick="delete_inventory(' + projectId + ',' + response.inventory_id + ')"></i></td></tr>';
+            var new_table = '<tr class="tb-height" id="inventoryID'+ response.inventory_id +'"><td>' +  response.inventory_title + '<span style="color: grey;"> #' + response.inventory_id + '</span></td><td>' + response.inventory_description + '</td><td>' + date_time + '<td><i class="bx bxs-x-circle btn-delete" data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal(' + projectId + ',' + response.inventory_id + ')"></i></td></tr>';
             get_table.innerHTML += new_table;
 
             //Clear form

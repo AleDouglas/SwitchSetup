@@ -16,7 +16,7 @@ document.getElementById('createProjectForm').addEventListener('submit', function
         var response = JSON.parse(xhr.responseText);
         if (response.success) {
             var get_card = document.getElementById('card-new');
-            var new_card = '<div class="card-principal" id="card-id' + response.project_id +'"><div class="project-info"><i class="bx bxs-archive project-icon"></i><a href=/project/dashboard/'+ response.project_id + '/>' + response.project_title + '</a></div><i class="bx bxs-x-circle btn-delete" onclick="delete_project('+ response.project_id +')"></i></div>';
+            var new_card = '<div class="card-principal" id="card-id' + response.project_id +'"><div class="project-info"><i class="bx bxs-archive project-icon"></i><a href=/project/dashboard/'+ response.project_id + '/>' + response.project_title + '</a></div><i class="bx bxs-x-circle btn-delete" data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('+ response.project_id +')"></i></div>';
             get_card.innerHTML += new_card;
             document.getElementById('result').innerHTML = 'Project created successfully! Project ID: ' + response.project_id;
         } else {
@@ -50,4 +50,10 @@ function delete_project(projectId) {
         }
     })
     .catch(error => console.error('Error deleting project:', error));
+}
+
+
+function delete_modal(projectID){
+    var insert_button = document.getElementById('buttonDelete');
+    insert_button.innerHTML = '<button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" onclick="delete_project('+ projectID +')">Delete</button>';
 }

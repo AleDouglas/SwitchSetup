@@ -88,17 +88,13 @@
         margin-bottom: 10px;
     }
     @media (min-width: 992px){
-        .modal-dialog{
-            max-width: none;
-            margin-right: 0;
-            margin-left: 0;
-        }
         .modal-lg, .modal-xl {
             --bs-modal-width: 1200px;
         }
     }
 
-    @media (min-width: 576px){
+    
+    @media (max-width: 992px){
         .modal-dialog{
             max-width: none;
             margin-right: 0;
@@ -161,6 +157,7 @@
                     </div>
                     <button type="submit" class="btn-newMember" style="margin-top: 15px;">ADD MEMBER</button>
                 </form>
+                <hr>
                 <table id="userList" class="table table-borderless datatable datatable-table">
                     <thead>
                         <tr>
@@ -188,11 +185,22 @@
     </div>
 </div>
 
+
+
+{% include 'components/modals/delete.html' %}
+
+
+
 <script src="{% static 'javascript/member.js' %}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 <script>
+    function delete_modal(projectID){
+        var insert_button = document.getElementById('buttonDelete');
+        insert_button.innerHTML = '<button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" onclick="delete_project('+ projectID +')">Delete</button>';
+    }
+
     $(document).ready(function () {
     $.noConflict();
     var table = $('#userList').DataTable();
