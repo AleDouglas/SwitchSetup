@@ -33,7 +33,7 @@ document.getElementById('newKeyForm').addEventListener('submit', function(event)
             new_table += '<td style="color: red;">' + response.key_playbook +'</td>';
             new_table += '<td style="color: red;">' + response.key_template +'</td>';
             new_table += '<td style="color: red;">' + response.key_remove +'</td>';
-            new_table += '<td><i' + ' onclick="delete_key('+ project_id +','+ response.key_id +')"'+ 'class="bx bxs-x-circle btn-delete"></i></td></tr>';
+            new_table += '<td><i' + ' data-bs-toggle="modal" data-bs-target="#RemoveModal" onclick="delete_modal('+ project_id +','+ response.key_id +')"'+ 'class="bx bxs-x-circle btn-delete"></i></td></tr>';
             get_table.innerHTML += new_table;
 
             //Clear form
