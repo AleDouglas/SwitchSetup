@@ -13,14 +13,6 @@
             margin-top: 45px;
             text-align-last: center;
         }
-
-    .btn-newKey{
-        background-color: rgba(128, 128, 128, 0.301);
-        border: 0px;
-        border-radius: 5px;
-        padding: 10px 20px 10px 20px;
-        font-weight: 900;
-    }
     .btn-newKey:hover{
         background-color: rgba(128, 128, 128, 0.671);
 
@@ -31,10 +23,6 @@
         border-radius: 15px;
         padding: 10px 20px 10px 20px;
         font-weight: 900;
-    }
-    .btn-newKey:hover{
-        background-color: rgba(162, 226, 119, 0.671);
-
     }
     .tb-height td{
         height: 75px;
@@ -99,7 +87,7 @@
 
 <div class="welcomePage">
     <h1>Project Key's</h1>
-    <button class="btn-newKey" data-bs-toggle="modal" data-bs-target="#newKeyModal">Generate a new key</button>
+    <button class="btn-newKey" data-bs-toggle="modal" data-bs-target="#newKeyModal">NEW KEY</button>
 </div>
 
 <hr>
@@ -118,7 +106,7 @@
     <tbody id="KeyTable">
         {% for key in project_key %}
         <tr class="tb-height" id="KeyID{{key.id}}">
-            <td>{{ key.name }} #{{key.id}}</td> <!-- TITLE -->
+            <td>{{ key.name }} <span style="color: grey;">#{{key.id}}</span></td> <!-- TITLE -->
             <td style="color: red;">{{key.add_inventory}}</td> <!-- ADD INVENTORY -->
             <td style="color: red;">{{key.add_playbook}}</td> <!-- ADD PLAYBOOK -->
             <td style="color: red;">{{key.add_template}}</td> <!-- ADD TEMPLATE -->

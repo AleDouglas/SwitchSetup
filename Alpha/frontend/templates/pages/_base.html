@@ -42,26 +42,24 @@
 
     }
 </style>
-<body id="body-pd" class="body-pd">
+<body id="body-pd">
 
 
-    <header class="header body-pd" id="header">
-        <div class="header_toggle"> <i class="bx bx-menu bx-x" id="header-toggle"></i></div>
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class="bx bx-menu" id="header-toggle"></i></div>
+        <div class="header_toggle"> <a href="#" data-bs-toggle="modal" data-bs-target="#LogoutModal"> <i class='bx bx-log-out nav_icon' style="color: red;"></i> <span class="nav_name" style="color: red;">SignOut</span></a></div>
+        
+
     </header>
-    <div class="l-navbar showNavBar" id="nav-bar">
+    <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div> 
-                <div class="btn-dropdown dropdown">
-                    <button class="btn-principal dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div><i class='bx bxs-archive' style="font-size: 20px; margin-left: 5px;"></i>
-                            <span class="nav_logo-name">{{project_title}}</span></div>
+                <a href="#" class="nav_logo">
+                    <i class='bx bxs-archive nav_logo-icon'></i>
+                    <span class="nav_logo-name">{{project_title}}</span>
+                </a>
                         
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="{% url 'home' %}">Project List</a></li>
 
-                    </ul>
-                  </div>
                 <div class="nav_list"> 
                     <a href="{% url 'dashboard' project_id%}" class="nav_link"> <i class='bx bxs-dashboard' ></i> <span class="nav_name">Dashboard</span> </a> 
                     <a href="{% url 'template' project_id%}" class="nav_link"> <i class='bx bx-task' ></i> <span class="nav_name">Task Templates</span> </a> 
@@ -75,7 +73,6 @@
             <div>
                 {% if user.is_staff %}
                 {% endif %}
-                <a href="#" class="nav_link" data-bs-toggle="modal" data-bs-target="#LogoutModal"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span></a>
             </div>
         </nav>
     </div>

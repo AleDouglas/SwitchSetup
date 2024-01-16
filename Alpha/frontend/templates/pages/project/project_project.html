@@ -115,7 +115,7 @@
                     
                     <!-- Project List-->
                     <!-- Resultado da criação do projeto -->
-                    <div id="result"></div>
+                    <div id="result" style="color: #517021;font-weight: 900;"></div>
                     <div class="card">
                         {% for project in project_list %}
                         <div class="card-principal" id="card-id{{project.id}}">
@@ -152,7 +152,7 @@
                         <div class="card">
                             {% csrf_token %}
                             <input type="text" id="title" name="title" placeholder="Título do projecto" style="border-bottom: 1px solid rgba(139, 139, 139, 0.534);" required>
-                            <input type="password" id="password" name="password" placeholder="Senha do projecto ( Opcional )">
+                            <input type="password" id="password" name="password" placeholder="Senha do projecto ( Opcional )" hidden>
                         </div>
                         <button type="submit" class="btn-createproject" style="margin-top: 15px;" data-bs-dismiss="modal" aria-label="Close" >Create Project</button>
 

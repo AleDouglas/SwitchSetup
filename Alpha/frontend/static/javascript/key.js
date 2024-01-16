@@ -28,7 +28,7 @@ document.getElementById('newKeyForm').addEventListener('submit', function(event)
             var get_table = document.getElementById('KeyTable');
 
             var new_table = '<tr class="tb-height" id="KeyID'+ response.key_id +'">';
-            new_table += '<td>' + response.key_title + '#' + response.key_id + '</td>';
+            new_table += '<td>' + response.key_title + ' <span style="color: grey">#' + response.key_id + '</span></td>';
             new_table += '<td style="color: red;">' + response.key_inventory +'</td>';
             new_table += '<td style="color: red;">' + response.key_playbook +'</td>';
             new_table += '<td style="color: red;">' + response.key_template +'</td>';
